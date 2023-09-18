@@ -3,16 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelurahan;
+use App\Models\Korhan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KelurahanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = DB::table('kelurahans')
+            ->select('kelurahans.nama_kelurahan as kelurahan', 'kelurahans.id', 
+            'kecamatan', 'dapil', 'kabkota', 'provinsi', 'kode_kel', 
+            DB::raw('COUNT(anggotas.id) as anggota_count'))
+            ->leftJoin('tpsrws', 'kelurahans.id', '=', 'tpsrws.kelurahan_id')
+            ->leftJoin('anggotas', 'tpsrws.id', '=', 'anggotas.tpsrw_id')
+            ->groupBy('kelurahans.id', 'kelurahans.nama_kelurahan');
+    
+        if ($request->has('kelurahan')) {
+            $search = $request->input('kelurahan');
+            $query->where('kelurahans.nama_kelurahan', 'like', '%' . $search . '%');
+        }
+
+        if ($request->has('kecamatan')) {
+            $search = $request->input('kecamatan');
+            $query->where('kelurahans.kecamatan', 'like', '%' . $search . '%');
+        }
+    
+        $kelurahan = $query->paginate(15);
+    
+        return view('Kelurahan.index', compact('kelurahan'));
+    }
+    
+    public function detail($id){
+        $korhan = Korhan::where('kelurahan_id',$id)->get();
+        $kelurahan = Kelurahan::find($id);
+        $jumlahKorhan = $korhan->count();
+
+        return view('kelurahan.detail', compact('korhan','kelurahan','jumlahKorhan'));
     }
 
     /**

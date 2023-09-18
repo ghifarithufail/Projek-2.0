@@ -142,7 +142,7 @@
                         <label class="form-label">Kelurahan</label>
                         <div class="form-group">
                             <select class="kelurahan_id form-select" name="kelurahan_id" id="kelurahan_id" aria-label="Default select example">
-                                <option selected>Pilih Kelurahan</option>
+                                {{-- <option selected>Pilih Kelurahan</option> --}}
 
                                 {{-- @foreach ($kelurahan as $data)
                                     <option value="{{ $data->id }}">{{ $data->nama_kelurahan }} - {{ $data->kecamatan }} - {{ $data->kabkota }}</option>
@@ -153,8 +153,8 @@
                     <div class="col-sm-6 mt-4">
                         <label for="nama_koordinator">Di tugaskan di TPS</label>
                         <div class="form-group">
-                            <select class="tps_id form-select" name="tps_id" id="tps_id" aria-label="Default select example">
-                                <option selected>Pilih TPS</option>
+                            <select class="tpsrw_id form-select" name="tpsrw_id[]" id="tpsrw_id" aria-label="Default select example" multiple="multiple">
+                                {{-- <option selected>Pilih TPS</option> --}}
                                 {{-- @foreach ($tps as $data)
                                     <option value="{{ $data->id }}">{{$data->tps}} {{ $data->kelurahans->nama_kelurahan }} - {{ $data->kelurahans->kecamatan }} - {{ $data->kelurahans->kabkota }}</option>
                                 @endforeach --}}
@@ -226,7 +226,7 @@
         });
 
         $(document).ready(function () {
-            $('#tps_id').select2({
+            $('#tpsrw_id').select2({
                 placeholder: 'Select',
                 allowClear: true,
                 ajax: {
@@ -245,7 +245,7 @@
                             results: $.map(data, function (item) {
                                 return {
                                     id: item.id,
-                                    text: item.tps  + ' - ' + item.kelurahans.nama_kelurahan + ' - ' + item.kelurahans.kecamatan + ' - ' + item.kelurahans.kabkota
+                                    text: item.tps  + ' - ' + item.kelurahans.nama_kelurahan 
                                 }
                             })
                         };

@@ -2,11 +2,39 @@
 @section('content')
     {{-- <h1 class="title text-center">Koordinator Kecamatan</h1> --}}
 
+    <style>
+ 
+
+    @media screen and (max-width: 768px) {
+    .data {
+        width: 100%; /* Adjust the width as needed for smaller screens */
+        overflow-x: scroll; /* Allow scrolling on smaller screens */
+    }
+}
+    </style>
 
     <div class="data">
         <div class="content-data">
-
             <h3 style="text-align: center;">Koordinator Kecamatan</h3>
+            <hr>
+            <form>
+                <div class="card-body d-flex justify-content-center">
+                    <div class="form-group row">
+                        <div class="col-sm-5 mt-2">
+                            {{-- <label for="date1">Kelurahan:</label> --}}
+                            <input type="text" style="height: 40px" class="form-control" placeholder="Nama" name="nama" id="search_kelurahan">
+                        </div>
+                        <div class="col-sm-6 mt-2">
+                            {{-- <label for="date1">Kecamatan:</label> --}}
+                            <input type="text" style="height: 40px" class="form-control" placeholder="kelurahan atau kecamatan" name="kelurahan" id="search_kecamatan">
+                        </div>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary rounded text-white mt-2 mr-2" style="height: 40px" id="search_btn" >Search</button>
+                        {{-- <button type="button" class="btn btn-warning rounded text-white" id="reset_btn" style="background-color: #d9d682; margin-left: 20px">Reset</button> --}}
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -16,7 +44,7 @@
 				<div class="menu d-flex justify-content-end">
 					<div class="row">
 						<div class="col">
-							<div class="text-right">
+							<div class="text-left">
                                 <a href="{{ route('korcam/create') }}">
 								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
                                 </a>
@@ -49,6 +77,7 @@
                             <th scope="col">Keterangan</th>
                             <th scope="col">Status</th>
                             <th scope="col">Dibuat</th>
+                            <th scope="col">TPS</th>
                             <th scope="col" class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -92,6 +121,12 @@
                                 @if ($item->user_id == '1')
                                     Ghifari
                                 @endif
+                            <td>
+                                @foreach ($item->tpsrws as $row)
+                                    {{$row->tps}} {{$row->kelurahans->nama_kelurahan}}
+                                @endforeach
+                            </td>
+                            {{-- <td>{{$item->korhans_count}}</td> --}}
                             <td class="text-center">
                                 <a href="{{ route('korcam/show', $item->id) }}"
                                     class="btn btn-warning edit m-1" style="width: 90px">Edit

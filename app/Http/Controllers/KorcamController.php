@@ -5,61 +5,144 @@ namespace App\Http\Controllers;
 use App\Models\Kabkota;
 use App\Models\Kelurahan;
 use App\Models\Korcam;
+use App\Models\Korhan;
 use App\Models\Tpsrw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class KorcamController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Korcam::orderBy('created_at', 'desc')->get();
+        $query = Korcam::orderBy('created_at', 'desc');
 
+        if ($request->has('nama')) {
+            $nama = $request->input('nama');
+            $query->where('nama_koordinator', 'like', '%' . $nama . '%');
+        }
+        if ($request->has('kelurahan')) {
+            $nama = $request->input('kelurahan');
+            $query->whereHas('kelurahans', function ($q) use ($nama) {
+                $q->where('nama_kelurahan', 'like', '%' . $nama . '%')
+                    ->orWhere('kecamatan', 'like', '%' . $nama . '%');
+            });
+        }
+
+        $data = $query->get();
 
         return view('korcam.index', compact('data'));
+    }
+
+    public function report(Request $request)
+    {
+        $query = Korcam::withCount('korhans')->orderBy('created_at', 'desc');
+
+        if ($request->has('nama')) {
+            $nama = $request->input('nama');
+            $query->where('nama_koordinator', 'like', '%' . $nama . '%');
+        }
+        if ($request->has('kelurahan')) {
+            $nama = $request->input('kelurahan');
+            $query->whereHas('kelurahans', function ($q) use ($nama) {
+                $q->where('nama_kelurahan', 'like', '%' . $nama . '%')
+                    ->orWhere('kecamatan', 'like', '%' . $nama . '%');
+            });
+        }
+        $data = $query->get();
+
+        return view('korcam.report', compact('data'));
+    }
+
+    public function detail(Request $request, $id)
+    {
+        $query = Korhan::where('korcam_id', $id)
+        ->with('kortps')
+        ->withCount(['kortps as anggota_count' => function ($query) {
+            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id');
+        }]);
+        $korcam = Korcam::find($id);
+
+        if ($request->has('nama')) {
+            $nama = $request->input('nama');
+            $query->where('nama_koordinator', 'like', '%' . $nama . '%');
+        }
+        if ($request->has('kelurahan')) {
+            $nama = $request->input('kelurahan');
+            $query->whereHas('kelurahans', function ($q) use ($nama) {
+                $q->where('nama_kelurahan', 'like', '%' . $nama . '%')
+                    ->orWhere('kecamatan', 'like', '%' . $nama . '%');
+            });
+        }
+        if ($request->has('korcam')) {
+            $nama = $request->input('korcam');
+            $query->whereHas('koordinators', function ($q) use ($nama) {
+                $q->where('nama_koordinator', 'like', '%' . $nama . '%');
+            });
+        }
+
+        $korhan = $query->paginate(15);
+
+
+        $jumlahKorhan = $korhan->count();
+        $jumlahKonstituante = $korhan->sum('anggota_count');
+
+        return view('korcam.detail', compact('korhan', 'korcam', 'jumlahKorhan', 'jumlahKonstituante'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
 
-     public function getKelurahan(Request $request){
-        $kelurahan=[];
-        if($search=$request->name){
+    public function getKelurahan(Request $request)
+    {
+        $kelurahan = [];
+        if ($search = $request->name) {
             $kelurahan = Kelurahan::where('nama_kelurahan', 'LIKE', "%$search%")->get();
         }
         return response()->json($kelurahan);
-     }
+    }
 
-     public function getTps(Request $request){
-        $tps=[];
+    public function getKorcam(Request $request)
+    {
+        $korcam = [];
+        if ($search = $request->name) {
+            $korcam = Korcam::where('nama_koordinator', 'LIKE', "%$search%")->get();
+        }
+        return response()->json($korcam);
+    }
 
-        $tps = Tpsrw::with('kelurahans')->whereHas('kelurahans', function($query) use ($request){
-            $query->where('nama_kelurahan', 'LIKE', "%{$request->name}%");
-        })->get();
-        
+    public function getKorhan(Request $request)
+    {
+        $korhan = [];
+        if ($search = $request->name) {
+            $korhan = Korhan::where('nama_koordinator', 'LIKE', "%$search%")->get();
+        }
+        return response()->json($korhan);
+    }
+
+    public function getTps(Request $request)
+    {
+        $tps = [];
+
+        if ($search = $request->name) {
+            $tps = Tpsrw::with('kelurahans')->whereHas('kelurahans', function ($query) use ($search) {
+                $query->where('nama_kelurahan', 'LIKE', "%$search%");
+            })->get();
+        }
+
+
         return response()->json($tps);
     }
 
     public function create()
     {
-        // Cek apakah data dropdown sudah ada di cache
-        $kelurahan = Cache::remember('kelurahan_dropdown', now()->addHours(1), function () {
-            return Kelurahan::orderBy('nama_kelurahan', 'asc')->get();
-        });
+        $kota = Kabkota::orderBy('nama_kabkota', 'asc')->get();
 
-        $tps = Cache::remember('tps_dropdown', now()->addHours(1), function () {
-            return Tpsrw::all();
-        });
-
-        $kota = Cache::remember('kota_dropdown', now()->addHours(1), function () {
-            return Kabkota::orderBy('nama_kabkota', 'asc')->get();
-        });
-
-        return view('korcam.create', compact('kelurahan', 'tps', 'kota'));
+        return view('korcam.create', compact('kota'));
     }
 
     /**
@@ -67,21 +150,28 @@ class KorcamController extends Controller
      */
     public function store(Request $request)
     {
-        Korcam::create([
-            'nama_koordinator' => $request->nama_koordinator,
-            'phone' => $request->phone,
-            'nik' => $request->nik,
-            'nokk' => $request->nokk,
-            'kabkota_id' => $request->kabkota_id,
-            'tgl_lahir' => $request->tgl_lahir,
-            'alamat' => $request->alamat,
-            'rt' => $request->rt,
-            'rw' => $request->rw,
-            'kelurahan_id' => $request->kelurahan_id,
-            'status' => $request->status,
-            'keterangan' => $request->keterangan,
-            'user_id' => '1',
+        $validatedData = $request->validate([
+            'nama_koordinator' => 'required',
+            'phone' => 'required',
+            'nik' => 'required',
+            'nokk' => 'required',
+            'kabkota_id' => 'required',
+            'tgl_lahir' => 'required',
+            'alamat' => 'required',
+            'rt' => 'required',
+            'rw' => 'required',
+            'kelurahan_id' => 'required',
+            'status' => 'required',
+            'keterangan' => 'required',
+            // 'user_id' => 'required',
+            'kelurahan_id' => 'required',
         ]);
+
+        $korcam = new Korcam($validatedData);
+        $korcam->save();
+
+        // Sinkronisasi mapel_id
+        $korcam->tpsrws()->sync($request->input('tpsrw_id', []));
 
         return redirect()->route('korcam');
     }
@@ -92,11 +182,10 @@ class KorcamController extends Controller
     public function show($id)
     {
         $data = Korcam::find($id);
-        $kelurahan = Kelurahan::all();
         $tps  = Tpsrw::all();
         $kota = Kabkota::all();
 
-        return view('korcam.edit', compact('kelurahan', 'tps', 'kota', 'data'));
+        return view('korcam.edit', compact('tps', 'kota', 'data'));
     }
 
     /**
@@ -104,8 +193,27 @@ class KorcamController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'nama_koordinator' => 'required',
+            'phone' => 'required',
+            'nik' => 'required',
+            'nokk' => 'required',
+            'kabkota_id' => 'required',
+            'tgl_lahir' => 'required',
+            'alamat' => 'required',
+            'rt' => 'required',
+            'rw' => 'required',
+            'kelurahan_id' => 'required',
+            'status' => 'required',
+            'keterangan' => 'required',
+            // 'user_id' => 'required',
+            'kelurahan_id' => 'required',
+        ]);
+
         $data = Korcam::find($id);
-        $data->update($request->all());
+        $data->update($validatedData);
+
+        $data->tpsrws()->sync($request->input('tpsrw_id', []));
 
         return redirect()->route('korcam');
     }
