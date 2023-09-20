@@ -11,6 +11,8 @@ use App\Models\Tpsrw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
+use PDF;
+
 
 class KorTpsController extends Controller
 {
@@ -179,6 +181,26 @@ class KorTpsController extends Controller
 
         // dd($korhan);
         return view('kortps.details', compact('anggota','kortps','jumlahAnggota'));
+    }
+
+    public function download($id){
+        $anggota = Anggota::where('koordinator_id',$id)->get();
+        $kortps = KorTps::find($id);
+        $jumlahAnggota = $anggota->count();
+
+        $data = [
+            'anggota' => $anggota,
+            'kortps' => $kortps,
+            'jumlahAnggota' => $jumlahAnggota,
+        ];
+
+        $pdf = PDF::loadView('kortps.download', $data);
+    
+        $pdf->setPaper('letter', 'landscape');
+        return $pdf->download('anggota.pdf');
+
+
+        // return view('kortps.download', compact('data'));
     }
 
 

@@ -106,6 +106,13 @@ class KorcamController extends Controller
         return response()->json($kelurahan);
     }
 
+    public function getKabkota(Request $request){
+        $kota = [];
+            $kota = Kabkota::where('nama_kabkota', 'LIKE', "%$request->name%")->get();
+            
+        return response()->json($kota);
+    }
+
     public function getKorcam(Request $request)
     {
         $korcam = [];

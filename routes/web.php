@@ -29,6 +29,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 //     return view('welcome');
 // });
 
+
 Route::get('/',[AdminController::class, 'index'])->name('home');
 Route::get('/chart',[DashboardController::class, 'index'])->name('chart');
 Route::get('/admin',[AdminController::class, 'admin'])->name('admin');
@@ -46,6 +47,7 @@ Route::post('/kelurahans', [KorcamController::class, 'getKelurahan'])->name('get
 Route::post('/tps', [KorcamController::class, 'getTps'])->name('get-tps');
 Route::post('/get-korcam', [KorcamController::class, 'getKorcam'])->name('getKorcam');
 Route::post('/get-korhan', [KorcamController::class, 'getKorhan'])->name('getKorhan');
+Route::post('/get-kabkota', [KorcamController::class, 'getKabkota'])->name('getKabkota');
 
 Route::get('anggota', [AnggotaController::class, 'index'])->name('anggota');
 Route::get('anggota/create', [AnggotaController::class, 'create'])->name('anggota/create');
@@ -105,9 +107,12 @@ Route::prefix('kortps')->group(function () {
     Route::get('/detail/{id}', [KorTpsController::class, 'detail'])->name('kortps/detail');
     Route::get('/details/{id}', [KorTpsController::class, 'details'])->name('kortps/details');
     Route::get('/report', [KorTpsController::class, 'report'])->name('kortps/report');
+    Route::get('/download/{id}', [KorTpsController::class, 'download'])->name('kortps/download');
 
     // Add more routes as needed
 });
+Route::get('/generate-pdf-mapel/{id}', [PdfController::class, 'pdf_mapel'])->name('pdf-mapel');
+
 
 
 

@@ -1,12 +1,32 @@
-@extends('layout.index')
-@section('content')
-    {{-- <h1 class="title text-center">Koordinator Kecamatan</h1> --}}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <div class="data">
+    <title>Ghifari</title>
+  </head>
+  <body>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        th, td {
+            border: 1px solid #000; /* Add a border style here */
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+
+    <div class="data mb-5">
         <div class="content-data">
-
-            <h3 style="text-align: center;">Koordinator {{$kortps->nama_koordinator}}</h3>
+            <h1 style="text-align: center; text-transform: uppercase;">KOORDINATOR TPS : {{$kortps->nama_koordinator}}</h1>
         </div>
     </div>
 
@@ -16,11 +36,13 @@
 				<div class="menu d-flex justify-content-end">
 					<div class="row">
 						<div class="col">
-							<div class="text-right">
-                                <a href="{{ route('kortps/download', ['id' => $kortps->id]) }}">
-								    <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
+							{{-- <div class="text-right">
+                                <a href="{{ route('anggota/create') }}">
+								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
+                                </a> <a href="{{ route('anggota/create') }}">
+								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
                                 </a>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 					{{-- <div class="head">
@@ -36,25 +58,17 @@
 				
             {{-- </div> --}}
             <div>
-                {{-- <div>
-                    <a href="{{ route('kortps/download', ['id' => $kortps->id]) }}">
-                        <button>
-                            pdf
-                        </button>
-                    </a>
-                </div> --}}
                 <div>
+                    <div class="mb-3" style="display: inline-block; margin-right: 20px;">
+                        <b>Korcam : {{$kortps->korhans->koordinators->nama_koordinator}}</b>
+                    </div>
                     <div class="mb-3" style="display: inline-block; margin-right: 20px;">
                         <b>Korhan : {{$kortps->korhans->nama_koordinator}}</b>
                     </div>
-                    <div style="display: inline-block; margin-right: 20px;">
-                        <b>Korcam : {{$kortps->korhans->koordinators->nama_koordinator}}</b>
-                    </div>
-                    <div style="display: inline-block;">
+                    <div class="mb-3" style="display: inline-block;">
                         <b>Konstituante : {{$jumlahAnggota}}</b>
                     </div>
                 </div>
-                
                 <table class="table" style="zoom: 0.7">
                     <thead>
                         <tr>
@@ -63,8 +77,9 @@
                             <th scope="col">Tempat/Tgl Lahir</th>
                             <th scope="col">Alamat</th>
                             <th scope="col">RT/RW</th>
-                            <th scope="col">Tps</th>
+                            <th scope="col" class="text-center">Tps</th>
                             {{-- <th scope="col">Bertugas</th>  --}}
+                            <th scope="col">Phone</th>
                             <th scope="col">Status</th>
                             <th scope="col">Keterangan</th>
                         </tr>
@@ -79,9 +94,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="https://cekdptonline.kpu.go.id/{{$data->nik}}" target="_blank">
                                     {{$data->nik}}
-                                    </a>
                                 </td>
                                 <td>
                                     <b>{{$data->kabkotas->nama_kabkota}}</b>
@@ -97,6 +110,7 @@
                                         <small>{{$data->tps->kelurahans->kecamatan}}</small>
                                     </div>
                                 </td>
+                                <td>{{$data->phone}}</td>
                                 <td>{{$data->status}}</td>
                                 <td>{{$data->keterangan}}</td>
                             </tr>
@@ -106,4 +120,8 @@
             </div>
         </div>
     </div>
-@endsection
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>
+    
