@@ -63,7 +63,7 @@
 				</div>
 				
             {{-- </div> --}}
-            contoh
+            
             <div>
                 <table class="table" style="zoom: 0.7">
                     <thead>
