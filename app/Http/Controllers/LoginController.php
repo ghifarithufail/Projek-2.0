@@ -52,4 +52,30 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
+
+    public function edit($id){
+        $user = User::find($id);
+
+        return view('user.edit', compact('user'));
+    }
+
+    public function update(Request $request, $id){
+        $validatedData = $request->validate([
+            'name' => 'required' ,
+            'email' => 'required' ,
+            'password' => 'required' ,
+            'username' => 'required' ,
+            'status' => 'required' ,
+            'role' => 'required' ,
+        ]);
+
+        $user = User::find($id);
+        if ($request->has('password')) {
+            $validatedData['password'] = bcrypt($validatedData['password']);
+        }
+    
+        $user->update($validatedData);
+
+        return redirect()->route('user');
+    }
 }

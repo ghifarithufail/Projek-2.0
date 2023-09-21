@@ -39,11 +39,13 @@ Route::get('/login',[LoginController::class, 'loginUser'])->name('login');
 Route::post('/login/store',[LoginController::class, 'login'])->name('login/store');
 
 Route::group(['middleware' => ['auth','hakakses:1']], function(){
-
+    
 Route::get('/user/create',[LoginController::class, 'create'])->name('user/create');
+Route::get('/user/edit/{id}',[LoginController::class, 'edit'])->name('user/edit');
 Route::get('/user',[LoginController::class, 'index'])->name('user');
 Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
 Route::post('/user/store',[LoginController::class, 'store'])->name('user/store');
+Route::post('/user/update/{id}',[LoginController::class, 'update'])->name('user/update');
 
 Route::get('/korcam', [KorcamController::class, 'index'])->name('korcam');
 Route::get('/korcam-report', [KorcamController::class, 'report'])->name('korcam/report');

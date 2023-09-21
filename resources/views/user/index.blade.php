@@ -57,6 +57,14 @@
                                 <td>{{$data->username}}</td>
                                 <td>{{$data->status}}</td>
                                 <td>{{$data->role}}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('user/edit', $data->id) }}"
+                                        class="btn btn-warning edit m-1" style="width: 90px">Edit
+                                    </a>
+                                        <a href="#"
+                                        class="btn btn-danger edit m-1" style="width: 90px">Delete
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
