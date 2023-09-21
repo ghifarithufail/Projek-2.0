@@ -9,6 +9,7 @@ use App\Http\Controllers\KelurahanController;
 use App\Http\Controllers\KorcamController;
 use App\Http\Controllers\KorhanController;
 use App\Http\Controllers\KorTpsController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PartaiController;
 use App\Http\Controllers\TpsrwController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,16 @@ Route::get('/',[AdminController::class, 'index'])->name('home');
 Route::get('/chart',[DashboardController::class, 'index'])->name('chart');
 Route::get('/admin',[AdminController::class, 'admin'])->name('admin');
 
+Route::get('/login',[LoginController::class, 'loginUser'])->name('login');
+Route::post('/login/store',[LoginController::class, 'login'])->name('login/store');
+
+Route::group(['middleware' => ['auth','hakakses:1']], function(){
+
+Route::get('/user/create',[LoginController::class, 'create'])->name('user/create');
+Route::get('/user',[LoginController::class, 'index'])->name('user');
+Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
+Route::post('/user/store',[LoginController::class, 'store'])->name('user/store');
+
 Route::get('/korcam', [KorcamController::class, 'index'])->name('korcam');
 Route::get('/korcam-report', [KorcamController::class, 'report'])->name('korcam/report');
 Route::get('korcam/create', [KorcamController::class, 'create'])->name('korcam/create');
@@ -43,6 +54,7 @@ Route::post('korcams/edit/{id}', [KorcamController::class, 'edit'])->name('korca
 Route::get('korcam/detail/{id}', [KorcamController::class, 'detail'])->name('korcam/detail');
 Route::get('korcam/download/{id}', [KorcamController::class, 'download'])->name('korcam/download');
 
+}) ;
 
 
 

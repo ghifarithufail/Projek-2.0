@@ -34,58 +34,6 @@
 
     <div class="data">
         <div class="content-data">
-            {{-- <div class="head"> --}}
-            {{-- <div class="menu d-flex justify-content-end">
-					<div class="row">
-						<div class="col">
-							<div class="text-right">
-								<button type="button" class="btn btn-success">Tambah +</button>
-							</div>
-						</div>
-					</div>
-					<div class="head">
-						<div class="menu">
-							<i class='bx bx-dots-horizontal-rounded icon'></i>
-							<ul class="menu-link">
-								<li><a href="#">PDF</a></li>
-								<li><a href="#">Excel</a></li>
-							</ul>
-						</div>
-					</div>
-				</div> --}}
-
-            {{-- </div> --}}
-            {{-- <div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div> --}}
             <form action="{{ route('korhan/store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -94,24 +42,36 @@
                         <div class="form-group">
                             <input id="nama_koordinator" name="nama_koordinator" type="text" value="{{ old('nama_koordinator') }}" class="form-control">
                         </div>
+                        @error('nama_koordinator')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6">
-                        <label for="nama_koordinator">Phone</label>
+                        <label for="phone">Phone</label>
                         <div class="form-group">
-                            <input id="nama_koordinator" name="phone" type="text" value="{{ old('phone') }}" class="form-control" minlength="2" required>
+                            <input id="phone" name="phone" type="number" value="{{ old('phone') }}" class="form-control" minlength="2" required>
                         </div>
+                        @error('phone')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
-                        <label for="nama_koordinator">Nomor KTP</label>
+                        <label for="nik">Nomor KTP</label>
                         <div class="form-group">
-                            <input id="nik" name="nik" type="text" value="{{ old('nik') }}" class="form-control">
+                            <input id="nik" name="nik" type="number" value="{{ old('nik') }}" class="form-control">
                         </div>
+                        @error('nik')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label for="nama_koordinator">Nomor KK</label>
                         <div class="form-group">
-                            <input id="nokk" name="nokk" type="text" value="{{ old('nokk') }}" class="form-control">
+                            <input id="nokk" name="nokk" type="number" value="{{ old('nokk') }}" class="form-control">
                         </div>
+                        @error('nokk')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label class="form-label">Tanggal Lahir</label>
@@ -119,24 +79,36 @@
                             <input id="tgl_lahir" name="tgl_lahir" type="date" value="{{ old('tgl_lahir') }}"
                             class="form-control" required>
                         </div>
+                        @error('tgl_lahir')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-4">
                         <label for="nama_koordinator">Alamat</label>
                         <div class="form-group">
                             <input id="alamat" name="alamat" type="text" value="{{ old('alamat') }}" class="form-control">
                         </div>
+                        @error('alamat')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label for="nama_koordinator">RT</label>
                         <div class="form-group">
-                            <input id="rt" name="rt" type="text" value="{{ old('rt') }}" class="form-control">
+                            <input id="rt" name="rt" type="number" value="{{ old('rt') }}" class="form-control">
                         </div>
+                        @error('rt')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label for="rw">RW</label>
                         <div class="form-group">
-                            <input id="rw" name="rw" type="text" value="{{ old('rw') }}" class="form-control">
+                            <input id="rw" name="rw" type="number" value="{{ old('rw') }}" class="form-control">
                         </div>
+                        @error('rw')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label class="form-label">Kelurahan</label>
@@ -149,9 +121,12 @@
                                 @endforeach --}}
                             </select>
                         </div>
+                        @error('kelurahan_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-4">
-                        <label for="nama_koordinator">Di tugaskan di TPS</label>
+                        <label for="tpshan_id">Di tugaskan di TPS</label>
                         <div class="form-group">
                             <select class="tpsrw_id form-select" name="tpshan_id[]" id="tps_id" aria-label="Default select example" multiple="multiple">
                                 {{-- <option selected>Pilih TPS</option> --}}
@@ -160,6 +135,9 @@
                                 @endforeach --}}
                             </select>
                         </div>
+                        @error('tpshan_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-4">
                         <label for="nama_koordinator">Koordinator Kecamatan</label>
@@ -171,6 +149,9 @@
                                 @endforeach --}}
                             </select>
                         </div>
+                        @error('korcam_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label class="form-label">Kota Lahir</label>
@@ -180,23 +161,32 @@
                                     <option value="{{ $data->id }}">{{ $data->nama_kabkota }} - {{ $data->prov }}</option>
                                 @endforeach
                         </select>
+                        @error('kabkota_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-4">
                         <label for="status">Status</label>
                         <div class="form-group">
                             <select class="form-select" name="status" aria-label="Default select example">
-                                <option selected>Pilih Status</option>
+                                <option value="">Pilih Status</option>
                                 <option value="0">Aktif</option>
                                 <option value="1">Non Aktif</option>
                                 <option value="2">Keluar</option>
                             </select>
                         </div>
+                        @error('status')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label for="nama_koordinator">Keterangan</label>
                         <div class="form-group">
                             <input id="Keterangan" name="keterangan" type="text" class="form-control">
                         </div>
+                        @error('keterangan')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
 
                     <div class="mt-4">

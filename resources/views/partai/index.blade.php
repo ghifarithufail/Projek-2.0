@@ -17,7 +17,7 @@
 					<div class="row">
 						<div class="col">
 							<div class="text-right">
-                                <a href="{{ route('anggota/create') }}">
+                                <a href="{{ route('partai/create') }}">
 								    <button type="button" class="btn btn-success" style="zoom: 0.9">Tambah +</button>
                                 {{-- </a> <a href="{{ route('anggota/create') }}">
 								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>

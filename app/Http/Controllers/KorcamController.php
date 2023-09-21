@@ -8,6 +8,7 @@ use App\Models\Korcam;
 use App\Models\Korhan;
 use App\Models\Tpsrw;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -199,7 +200,7 @@ class KorcamController extends Controller
         $validatedData = $request->validate([
             'nama_koordinator' => 'required',
             'phone' => 'required',
-            'nik' => 'required',
+            'nik' => 'required|unique:korcams,nik',
             'nokk' => 'required',
             'kabkota_id' => 'required',
             'tgl_lahir' => 'required',
@@ -209,11 +210,24 @@ class KorcamController extends Controller
             'kelurahan_id' => 'required',
             'status' => 'required',
             'keterangan' => 'required',
-            // 'user_id' => 'required',
-            'kelurahan_id' => 'required',
+        ],[
+            'nama_koordinator.required' => 'nama harus diisi',
+            'phone.required' => 'No Telpon harus diisi',
+            'nik.required' => 'NIK harus diisi',
+            'nik.unique' => 'NIK sudah terdaftar.',
+            'nokk.required' => 'KK harus diisi',
+            'kabkota_id.required' => 'KABKOTA harus diisi',
+            'tgl_lahir.required' => 'Tanggal Lahir harus diisi',
+            'rt.required' => 'RT harus diisi',
+            'rw.required' => 'RW harus diisi',
+            'kelurahan_id.required' => 'KELURAHAN harus diisi',
+            'status.required' => 'Status harus diisi',
+            'keterangan.required' => 'Keterangan harus diisi',
+            'alamat.required' => 'Alamat  harus diisi',
         ]);
 
         $korcam = new Korcam($validatedData);
+        $korcam->user_id = Auth::user()->id;
         $korcam->save();
 
         // Sinkronisasi mapel_id

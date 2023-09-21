@@ -9,6 +9,7 @@ use App\Models\Korhan;
 use App\Models\KorTps;
 use App\Models\Tpsrw;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use PDF;
 
@@ -167,7 +168,7 @@ class KorhanController extends Controller
         $validatedData = $request->validate([
             'nama_koordinator' => 'required',
             'phone' => 'required',
-            'nik' => 'required',
+            'nik' => 'required|unique:korhans,nik',
             'nokk' => 'required',
             'kabkota_id' => 'required',
             'tgl_lahir' => 'required',
@@ -178,17 +179,36 @@ class KorhanController extends Controller
             'status' => 'required',
             'keterangan' => 'required',
             // 'user_id' => 'required',
-            'kelurahan_id' => 'required',
             'korcam_id' => 'required',
+            'tpshan_id' => 'required',
+        ],
+        [
+            'nama_koordinator.required' => 'nama harus diisi',
+            'phone.required' => 'No Telpon harus diisi',
+            'nik.required' => 'NIK harus diisi',
+            'nik.unique' => 'NIK sudah terdaftar.',
+            'nokk.required' => 'KK harus diisi',
+            'kabkota_id.required' => 'KABKOTA harus diisi',
+            'tgl_lahir.required' => 'Tanggal Lahir harus diisi',
+            'rt.required' => 'RT harus diisi',
+            'rw.required' => 'RW harus diisi',
+            'kelurahan_id.required' => 'KELURAHAN harus diisi',
+            'status.required' => 'Status harus diisi',
+            'keterangan.required' => 'Keterangan harus diisi',
+            'alamat.required' => 'Alamat  harus diisi',
+            'korcam_id.required' => 'Korcam  harus diisi',
+            'tpshan_id.required' => 'TPS  harus diisi',
         ]);
 
         $korhan = new Korhan($validatedData);
+        $korhan->user_id = Auth::user()->id;
+
         $korhan->save();
 
         // Sinkronisasi mapel_id
         $korhan->pivot_korhans()->sync($request->input('tpshan_id',[]));
 
-        return redirect()->back();
+        return redirect()->route('korhan');
     }
 
     /**

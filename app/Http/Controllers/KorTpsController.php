@@ -67,7 +67,7 @@ class KorTpsController extends Controller
         $validatedData = $request->validate([
             'nama_koordinator' => 'required',
             'phone' => 'required',
-            'nik' => 'required',
+            'nik' => 'required|unique:kor_tps,nik',
             'nokk' => 'required',
             'kabkota_id' => 'required',
             'tgl_lahir' => 'required',
@@ -80,9 +80,27 @@ class KorTpsController extends Controller
             // 'user_id' => 'required',
             'kelurahan_id' => 'required',
             'korhan_id' => 'required',
+            'tps_id' => 'required',
+        ], [
+            'nama_koordinator.required' => 'nama harus diisi',
+            'phone.required' => 'No Telpon harus diisi',
+            'nik.required' => 'NIK harus diisi',
+            'nik.unique' => 'NIK sudah terdaftar.',
+            'nokk.required' => 'KK harus diisi',
+            'kabkota_id.required' => 'KABKOTA harus diisi',
+            'tgl_lahir.required' => 'Tanggal Lahir harus diisi',
+            'rt.required' => 'RT harus diisi',
+            'rw.required' => 'RW harus diisi',
+            'kelurahan_id.required' => 'KELURAHAN harus diisi',
+            'status.required' => 'Status harus diisi',
+            'keterangan.required' => 'Keterangan harus diisi',
+            'alamat.required' => 'Alamat  harus diisi',
+            'korhan_id.required' => 'korhan  harus diisi',
+            'tps_id.required' => 'TPS  harus diisi',
         ]);
 
         $kortps = new KorTps($validatedData);
+        $kortps->user_id = Auth::user()->id;
         $kortps->save();
 
         // Sinkronisasi mapel_id
@@ -151,7 +169,9 @@ class KorTpsController extends Controller
     }
 
     public function report(Request $request){
-        $query = KorTps::withCount('anggotas');
+        $query = KorTps::withCount(['anggotas' => function ($q) {
+            $q->where('status', 0);
+        }]);
 
         if ($request->has('nama')) {
             $nama = $request->input('nama');
@@ -172,14 +192,13 @@ class KorTpsController extends Controller
         }
 
         $kortps = $query->get();
-
-        // dd($kortps);
         return view('kortps.report', compact('kortps'));
     }
+
     public function details($id){
         $anggota = Anggota::where('koordinator_id', $id)->paginate(15);
         $kortps = KorTps::find($id);
-        $jumlahAnggota = $anggota->total(); // Use the total method to get the total count
+        $jumlahAnggota = $anggota->total(); 
     
         return view('kortps.details', compact('anggota', 'kortps', 'jumlahAnggota'));
     }

@@ -22,6 +22,9 @@
 			</li> --}}
 			<li class="divider" data-text="Data">Data</li>
 			<li>
+				<a href="{{ route('logout') }}"><i class='bx bxs-widget icon' ></i> Log Out</a>
+			</li>
+			<li>
 				<a href="{{ route('anggota') }}"><i class='bx bxs-widget icon' ></i> Anggota</a>
 			</li>
 			<li>

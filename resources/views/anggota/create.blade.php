@@ -34,58 +34,6 @@
 
     <div class="data">
         <div class="content-data">
-            {{-- <div class="head"> --}}
-            {{-- <div class="menu d-flex justify-content-end">
-					<div class="row">
-						<div class="col">
-							<div class="text-right">
-								<button type="button" class="btn btn-success">Tambah +</button>
-							</div>
-						</div>
-					</div>
-					<div class="head">
-						<div class="menu">
-							<i class='bx bx-dots-horizontal-rounded icon'></i>
-							<ul class="menu-link">
-								<li><a href="#">PDF</a></li>
-								<li><a href="#">Excel</a></li>
-							</ul>
-						</div>
-					</div>
-				</div> --}}
-
-            {{-- </div> --}}
-            {{-- <div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div> --}}
             <form action="{{ route('anggota/store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -94,24 +42,36 @@
                         <div class="form-group">
                             <input id="nama_koordinator" name="nama_anggota" type="text" value="{{ old('nama_anggota') }}" class="form-control">
                         </div>
+                        @error('nama_anggota')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6">
                         <label for="nama_koordinator">Phone</label>
                         <div class="form-group">
-                            <input id="nama_koordinator" name="phone" type="text" value="{{ old('phone') }}" class="form-control" minlength="2" required>
+                            <input id="nama_koordinator" name="phone" type="number" value="{{ old('phone') }}" class="form-control" minlength="2" required>
                         </div>
+                        @error('phone')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label for="nama_koordinator">Nomor KTP</label>
                         <div class="form-group">
-                            <input id="nik" name="nik" type="text" value="{{ old('nik') }}" class="form-control">
+                            <input id="nik" name="nik" type="number" value="{{ old('nik') }}" class="form-control">
                         </div>
+                        @error('nik')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label for="nama_koordinator">Nomor KK</label>
                         <div class="form-group">
-                            <input id="nokk" name="nokk" type="text" value="{{ old('nokk') }}" class="form-control">
+                            <input id="nokk" name="nokk" type="number" value="{{ old('nokk') }}" class="form-control">
                         </div>
+                        @error('nokk')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label class="form-label">Tempat Lahir</label>
@@ -121,6 +81,9 @@
                                     <option value="{{ $data->id }}">{{ $data->nama_kabkota }} - {{ $data->prov }}</option>
                                 @endforeach
                         </select>
+                        @error('kabkota_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label class="form-label">Tanggal Lahir</label>
@@ -128,6 +91,9 @@
                             <input id="tgl_lahir" name="tgl_lahir" type="date" value="{{ old('tgl_lahir') }}"
                             class="form-control" required>
                         </div>
+                        @error('tgl_lahir')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     
                     <div class="col-sm-6 mt-4">
@@ -135,18 +101,27 @@
                         <div class="form-group">
                             <input id="alamat" name="alamat" type="text" value="{{ old('alamat') }}" class="form-control">
                         </div>
+                        @error('alamat')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-4">
                         <label for="nama_koordinator">RT</label>
                         <div class="form-group">
                             <input id="rt" name="rt" type="text" value="{{ old('rt') }}" class="form-control">
                         </div>
+                        @error('rt')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label for="rw">RW</label>
                         <div class="form-group">
                             <input id="rw" name="rw" type="text" value="{{ old('rw') }}" class="form-control">
                         </div>
+                        @error('rw')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-4">
                         <label for="nama_koordinator">Nyoblos di TPS</label>
@@ -158,6 +133,9 @@
                                 @endforeach --}}
                             </select>
                         </div>
+                        @error('tpsrw_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     
                     <div class="col-sm-6 mt-3">
@@ -168,6 +146,9 @@
                                     <option value="{{ $data->id }}">{{ $data->nama_koordinator }}</option>
                                 @endforeach
                         </select>
+                        @error('koordinator_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-4">
                         <label for="status">Status</label>
@@ -179,12 +160,18 @@
                                 <option value="2">Keluar</option>
                             </select>
                         </div>
+                        @error('status')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label for="nama_koordinator">Keterangan</label>
                         <div class="form-group">
                             <input id="Keterangan" name="keterangan" type="text" class="form-control">
                         </div>
+                        @error('keterangan')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     </div>
 
                     <div class="mt-4">

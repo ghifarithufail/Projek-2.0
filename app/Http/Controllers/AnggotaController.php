@@ -47,7 +47,7 @@ class AnggotaController extends Controller
     {
         $validatedData = $request->validate([
         'nokk'=> 'required',
-        'nik'=> 'required',
+        'nik'=> 'required|unique:anggotas,nik',
         'nama_anggota'=> 'required',
         'kabkota_id'=> 'required',
         'tgl_lahir'=> 'required',
@@ -59,6 +59,22 @@ class AnggotaController extends Controller
         'status'=> 'required',
         'keterangan'=> 'required',
         'koordinator_id'=> 'required',
+        ], [
+            'nama_anggota.required' => 'nama harus diisi',
+            'phone.required' => 'No Telpon harus diisi',
+            'nik.required' => 'NIK harus diisi',
+            'nik.unique' => 'NIK sudah terdaftar.',
+            'nokk.required' => 'KK harus diisi',
+            'kabkota_id.required' => 'KABKOTA harus diisi',
+            'tgl_lahir.required' => 'Tanggal Lahir harus diisi',
+            'rt.required' => 'RT harus diisi',
+            'rw.required' => 'RW harus diisi',
+            'kelurahan_id.required' => 'KELURAHAN harus diisi',
+            'status.required' => 'Status harus diisi',
+            'keterangan.required' => 'Keterangan harus diisi',
+            'alamat.required' => 'Alamat  harus diisi',
+            'koordinator_id.required' => 'korhan  harus diisi',
+            'tpsrw_id.required' => 'TPS  harus diisi',
         ]);
         
         $anggota = new Anggota($validatedData);
