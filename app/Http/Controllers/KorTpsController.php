@@ -170,7 +170,7 @@ class KorTpsController extends Controller
 
     public function report(Request $request){
         $query = KorTps::withCount(['anggotas' => function ($q) {
-            $q->where('status', 0);
+            $q->where('status', 1);
         }]);
 
         if ($request->has('nama')) {
@@ -212,7 +212,19 @@ class KorTpsController extends Controller
         return view('kortps.pdf', compact('anggota','kortps','jumlahAnggota'));
     }
 
-   
+    public function excel($id)
+    {
+
+        $anggota = Anggota::find($id);
+        $nama = $anggota->nama_anggota;
+        $tanggal = Carbon::today()->format('D d-M-Y');
+        $filters = $id;
+        $name    = 'kortps '. $nama . ' '. $tanggal . '.xlsx';
+        // dd($filters);
+        return Excel::download(new KortpsExport($filters), $name);
+
+    }
+
 
     public function download($id){
         $anggota = Anggota::with('kabkotas','tps')->where('koordinator_id',$id)->get();
@@ -238,17 +250,6 @@ class KorTpsController extends Controller
         $pdf->setPaper('letter', 'landscape');
         
         return $pdf->download($pdfFileName);
-
-    }
-
-    public function excel($id)
-    {
-
-        $tanggal = Carbon::today()->format('D d-M-Y');
-        $filters = $id;
-        $name    = 'kortps '. $tanggal . '.xlsx';
-        // dd($filters);
-        return Excel::download(new KortpsExport($filters), $name);
 
     }
     

@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\KorhanExport;
 use App\Models\Kabkota;
 use App\Models\Kelurahan;
 use App\Models\Korcam;
 use App\Models\Korhan;
 use App\Models\KorTps;
 use App\Models\Tpsrw;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use PDF;
+use Excel;
+
 
 
 class KorhanController extends Controller
@@ -111,6 +115,18 @@ class KorhanController extends Controller
         $jumlahKortps = $korhan->count();
 
         return view('korhan.pdf', compact('korhan', 'data', 'jumlahKonstituante', 'jumlahKortps'));
+    }
+
+    public function excel($id)
+    {
+        $korhan = Korhan::find($id);
+
+        $nama = $korhan->nama_koordinator;
+        $tanggal = Carbon::today()->format('D d-M-Y');
+        $filters = $id;
+        $name    = 'Korhan '. $nama . ' '. $tanggal . '.xlsx';
+
+        return Excel::download(new KorhanExport($filters), $name);
     }
 
     public function download($id){

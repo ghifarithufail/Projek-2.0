@@ -13,37 +13,24 @@
     <div class="data">
         <div class="content-data">
             {{-- <div class="head"> --}}
-				<div class="menu d-flex justify-content-end">
-					<div class="row">
-						<div class="col">
-							<div class="text-right">
-                                <a href="{{ route('kortps/download', ['id' => $kortps->id]) }}">
-								    <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">DOWNLOAD</button>
-                                </a>
-							</div>
-                            <div class="text-right">
+                <div class="menu d-flex justify-content-end">
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-center">
                                 <a href="{{ route('kortps/excel', ['id' => $kortps->id]) }}">
-								    <button type="button" class="btn btn-success" style="zoom: 0.7; width: 100px">EXCEL</button>
+                                    <button type="button" class="btn btn-success" style="zoom: 0.7; width: 100px">EXCEL</button>
                                 </a>
-							</div>
-                            <div class="text-right">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="text-center">
                                 <a href="{{ route('kortps/pdf', ['id' => $kortps->id]) }}" target="_blank">
-								    <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
+                                    <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
                                 </a>
-							</div>
-						</div>
-					</div>
-					{{-- <div class="head">
-						<div class="menu">
-							<i class='bx bx-dots-horizontal-rounded icon'></i>
-							<ul class="menu-link">
-								<li><a href="#">PDF</a></li>
-								<li><a href="#">Excel</a></li>
-							</ul>
-						</div>
-					</div> --}}
-				</div>
-				
+                            </div>
+                        </div>
+                    </div>
+                </div>                
             {{-- </div> --}}
             <div>
                 {{-- <div>

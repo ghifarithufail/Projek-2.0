@@ -31,14 +31,16 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 // });
 
 
-Route::get('/',[AdminController::class, 'index'])->name('home');
-Route::get('/chart',[DashboardController::class, 'index'])->name('chart');
-Route::get('/admin',[AdminController::class, 'admin'])->name('admin');
+
 
 Route::get('/login',[LoginController::class, 'loginUser'])->name('login');
 Route::post('/login/store',[LoginController::class, 'login'])->name('login/store');
 
-Route::group(['middleware' => ['auth','hakakses:1']], function(){
+Route::group(['middleware' => ['auth','hakakses:1,2,3,4']], function(){
+
+Route::get('/',[AdminController::class, 'index'])->name('home');
+Route::get('/chart',[DashboardController::class, 'index'])->name('chart');
+Route::get('/admin',[AdminController::class, 'admin'])->name('admin');
     
 Route::get('/user/create',[LoginController::class, 'create'])->name('user/create');
 Route::get('/user/edit/{id}',[LoginController::class, 'edit'])->name('user/edit');
@@ -55,8 +57,11 @@ Route::get('korcams/{id}', [KorcamController::class, 'show'])->name('korcam/show
 Route::post('korcams/edit/{id}', [KorcamController::class, 'edit'])->name('korcam/edit');
 Route::get('korcam/detail/{id}', [KorcamController::class, 'detail'])->name('korcam/detail');
 Route::get('korcam/download/{id}', [KorcamController::class, 'download'])->name('korcam/download');
+Route::get('korcam/pdf/{id}', [KorcamController::class, 'pdf'])->name('korcam/pdf');
+Route::get('korcam/excel/{id}', [KorcamController::class, 'excel'])->name('korcam/excel');
 
-}) ;
+
+
 
 
 
@@ -107,6 +112,8 @@ Route::prefix('korhan')->group(function () {
     Route::get('pdf/{id}', [KorhanController::class, 'pdf'])->name('korhan/pdf');
     Route::get('/report', [KorhanController::class, 'report'])->name('korhan/report');
     Route::get('/download/{id}', [KorhanController::class, 'download'])->name('korhan/download');
+    Route::get('download/excel/{id}', [KorhanController::class, 'excel'])->name('korhan/excel');
+
 
 
     // Add more routes as needed
@@ -136,7 +143,7 @@ Route::prefix('kortps')->group(function () {
 Route::get('/generate-pdf-mapel/{id}', [PdfController::class, 'pdf_mapel'])->name('pdf-mapel');
 
 
-
+}) ;
 
 
 

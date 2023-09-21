@@ -5,7 +5,7 @@
 
     <div class="data">
         <div class="content-data">
-            <h3 style="text-align: center;">Koordinator Kecamatan : {{$korcam->nama_koordinator}}</h3>
+            <h3 style="text-align: center;">Koordinator Kecamatan : {{ $korcam->nama_koordinator }}</h3>
             <hr>
             <form>
                 <div class="card-body d-flex justify-content-center">
@@ -30,38 +30,35 @@
             </form>
         </div>
     </div>
-    
+
 
     <div class="data">
         <div class="content-data">
             {{-- <div class="head"> --}}
-				<div class="menu d-flex justify-content-end">
-					<div class="row">
-						<div class="col">
-							<div class="text-right">
-                                <a href="{{ route('korcam/download', ['id' => $korcam->id]) }}">
-								    <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
-                                </a>
-							</div>
-						</div>
-					</div>
-					{{-- <div class="head">
-						<div class="menu">
-							<i class='bx bx-dots-horizontal-rounded icon'></i>
-							<ul class="menu-link">
-								<li><a href="#">PDF</a></li>
-								<li><a href="#">Excel</a></li>
-							</ul>
-						</div>
-					</div> --}}
-				</div>
-				
-            {{-- </div> --}}
-            <div>
-                <div>
-                    <b>Koordinator Kelurahan : {{$jumlahKorhan}}</b>
+            <div class="menu d-flex justify-content-end">
+                <div class="row">
+                    <div class="col">
+                        <div class="text-center">
+                            <a href="{{ route('korcam/excel', ['id' => $korcam->id]) }}">
+                                <button type="button" class="btn btn-success"
+                                    style="zoom: 0.7; width: 100px">EXCEL</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="text-center">
+                            <a href="{{ route('korcam/pdf', ['id' => $korcam->id]) }}" target="_blank">
+                                <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
+            </div>
+            <div>
+                <div class="mb-3" style="display: inline-block; margin-right: 20px;">
+                    <b>Koordinator Kelurahan :{{ $jumlahKorhan }}</b>
+                </div>
+                <div style="display: inline-block;">
                     <b>Konstituante : {{$jumlahKonstituante}}</b>
                 </div>
                 <table class="table" style="zoom: 0.7">
@@ -83,54 +80,54 @@
                     </thead>
                     <tbody>
                         @foreach ($korhan as $item)
-                        <tr>
-                            <td>
-                                {{$item->nama_koordinator}}
-                                <div>
-                                    <small>{{$item->phone}}</small>
-                                </div>
-                            </td>
-                            <td>{{$item->nik}}</td>
-                            <td>
-                                {{$item->kabkotas->nama_kabkota}}
-                                <div>
-                                    <small>{{$item->tgl_lahir}}</small>
-                                </div>
-                            </td>
-                            <td>{{$item->alamat}}</td>
-                            <td>{{$item->rt}} / {{$item->rw}}</td>
-                            <td>
-                                <b>
-                                    {{$item->kelurahans->nama_kelurahan}}
-                                </b>
-                                <div>
-                                    <small>{{$item->kelurahans->kecamatan}} - {{$item->kelurahans->kabkota}}</small>
-                                </div>
-                            </td>
-                            <td>{{$item->keterangan}}</td>
-                            <td>
-                                @if ($item->status == '0')
-                                    Aktif
-                                @elseif($item->status == '1')
-                                    Tidak Aktif
-                                @elseif($item->status == '2')
-                                    Keluar
-                                @endif
-                            </td>
-                            <td>
-                                @if ($item->user_id == '1')
-                                    Ghifari
-                                @endif
-                            <td>
-                                <ul>
-                                @foreach ($item->pivot_korhans as $row)
-                                    <li>{{$row->tps}} {{$row->kelurahans->nama_kelurahan}}</li>
-                                @endforeach
-                                </ul>
-                            </td>
-                            <td>{{$item->anggota_count}}</td>
-
-                        </tr>
+                            <tr>
+                                <td>
+                                    {{ $item->nama_koordinator }}
+                                    <div>
+                                        <small>{{ $item->phone }}</small>
+                                    </div>
+                                </td>
+                                <td>{{ $item->nik }}</td>
+                                <td>
+                                    {{ $item->kabkotas->nama_kabkota }}
+                                    <div>
+                                        <small>{{ $item->tgl_lahir }}</small>
+                                    </div>
+                                </td>
+                                <td>{{ $item->alamat }}</td>
+                                <td>{{ $item->rt }} / {{ $item->rw }}</td>
+                                <td>
+                                    <b>
+                                        {{ $item->kelurahans->nama_kelurahan }}
+                                    </b>
+                                    <div>
+                                        <small>{{ $item->kelurahans->kecamatan }} -
+                                            {{ $item->kelurahans->kabkota }}</small>
+                                    </div>
+                                </td>
+                                <td>{{ $item->keterangan }}</td>
+                                <td>
+                                    @if ($item->status == '0')
+                                        Aktif
+                                    @elseif($item->status == '1')
+                                        Tidak Aktif
+                                    @elseif($item->status == '2')
+                                        Keluar
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($item->user_id == '1')
+                                        Ghifari
+                                    @endif
+                                <td>
+                                    <ul>
+                                        @foreach ($item->pivot_korhans as $row)
+                                            <li>{{ $row->tps }} {{ $row->kelurahans->nama_kelurahan }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td>{{ $item->anggota_count }}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

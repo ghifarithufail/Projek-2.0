@@ -79,7 +79,9 @@
                             <th scope="col">Status</th>
                             <th scope="col">Dibuat</th>
                             <th scope="col">TPS</th>
+                            @if (Auth::user()->role == '1')
                             <th scope="col" class="text-center">Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -128,6 +130,7 @@
                                 @endforeach
                             </td>
                             {{-- <td>{{$item->korhans_count}}</td> --}}
+                            @if (Auth::user()->role == '1')
                             <td class="text-center">
                                 <a href="{{ route('korcam/show', $item->id) }}"
                                     class="btn btn-warning edit m-1" style="width: 90px">Edit
@@ -135,7 +138,9 @@
                                     <a href="#"
                                     class="btn btn-danger edit m-1" style="width: 90px">Delete
                                 </a>
-                            </td>
+                            </td
+                            @endif
+
                         </tr>
                         @endforeach
                     </tbody>

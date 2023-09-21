@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\KorcamExport;
 use App\Models\Kabkota;
 use App\Models\Kelurahan;
 use App\Models\Korcam;
 use App\Models\Korhan;
 use App\Models\Tpsrw;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use PDF;
+use Excel;
 
 class KorcamController extends Controller
 {
@@ -93,6 +96,34 @@ class KorcamController extends Controller
         $jumlahKonstituante = $korhan->sum('anggota_count');
 
         return view('korcam.detail', compact('korhan', 'korcam', 'jumlahKorhan', 'jumlahKonstituante'));
+    }
+
+    public function pdf($id){
+        $query = Korhan::where('korcam_id', $id)
+        ->with('kortps')
+        ->withCount(['kortps as anggota_count' => function ($query) {
+            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id');
+        }]);
+
+        $korhan = $query->get();
+
+        $korcam = Korcam::findOrFail($id);
+        $jumlahKorhan = $korhan->count();
+        $jumlahKonstituante = $korhan->sum('anggota_count');
+
+        return view('korcam.pdf', compact('korhan', 'korcam', 'jumlahKorhan', 'jumlahKonstituante'));
+    }
+
+    public function excel($id)
+    {
+        $korcam = Korcam::findOrFail($id);
+
+        $nama = $korcam->nama_koordinator;
+        $tanggal = Carbon::today()->format('D d-M-Y');
+        $filters = $id;
+        $name    = 'Korcam '. $nama. ' '. $tanggal . '.xlsx';
+
+        return Excel::download(new KorcamExport($filters), $name);
     }
 
     public function download($id){

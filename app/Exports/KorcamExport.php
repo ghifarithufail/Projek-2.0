@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Exports;
+
+use App\Models\Anggota;
+use App\Models\Korcam;
+use App\Models\Korhan;
+use App\Models\KorTps;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use App\Models\Reservation;
+
+class KorcamExport implements FromView
+{
+    protected $filters;
+
+    public function __construct($filters)
+    {
+        $this->filters = $filters;
+    }
+
+    public function view(): View
+    {
+        $filters = $this->filters;
+
+        $query = Korhan::where('korcam_id', $filters)
+        ->with('kortps')
+        ->withCount(['kortps as anggota_count' => function ($query) {
+            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id');
+        }]);
+
+        $korhan = $query->get();
+
+        $korcam = Korcam::findOrFail($filters);
+        $jumlahKorhan = $korhan->count();
+        $jumlahKonstituante = $korhan->sum('anggota_count');
+
+
+        return view('korcam.excel', [
+            'korcam' => $korcam,
+            'korhan' => $korhan,
+            'jumlahKonstituante' => $jumlahKonstituante,
+            'jumlahKorhan' => $jumlahKorhan,
+        ]);
+    }
+}
+

@@ -72,7 +72,9 @@
                             <th scope="col">Status</th>
                             <th scope="col">Dibuat</th>
                             <th scope="col">TPS</th>
+                            @if (Auth::user()->role == '1')
                             <th scope="col" class="text-center">Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -123,6 +125,7 @@
                                 @endforeach
                                 </ul>
                             </td>
+                            @if (Auth::user()->role == '1')
                             <td class="text-center">
                                 <a href="{{ route('korhan/edit', $item->id) }}"
                                     class="btn btn-warning edit m-1" style="width: 90px">Edit
@@ -131,6 +134,7 @@
                                     class="btn btn-danger edit m-1" style="width: 90px">Delete
                                 </a>
                             </td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>
