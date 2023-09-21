@@ -215,7 +215,7 @@ class KorTpsController extends Controller
    
 
     public function download($id){
-        $anggota = Anggota::where('koordinator_id',$id)->get();
+        $anggota = Anggota::with('kabkotas','tps')->where('koordinator_id',$id)->get();
         $kortps = KorTps::find($id);
         $jumlahAnggota = $anggota->count();
 

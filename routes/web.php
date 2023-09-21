@@ -130,6 +130,7 @@ Route::prefix('kortps')->group(function () {
     Route::get('/download/{id}', [KorTpsController::class, 'download'])->name('kortps/download');
     Route::get('/pdf/{id}', [KorTpsController::class, 'pdf'])->name('kortps/pdf');
     Route::get('/download/excel/{id}', [KorTpsController::class, 'excel'])->name('kortps/excel');
+    Route::get('download-excel/{id}', [KorTpsController::class, 'downloadExcel'])->name('download-excel');
 
 });
 Route::get('/generate-pdf-mapel/{id}', [PdfController::class, 'pdf_mapel'])->name('pdf-mapel');

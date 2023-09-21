@@ -6,7 +6,8 @@
         </tr>
         <tr></tr>
         <tr>
-            <th scope="col">Nama Phone</th>
+            <th scope="col">Nama</th>
+            <th scope="col">Phone</th>
             <th scope="col">No KTP/KK</th>
             <th scope="col">Tempat/Tgl Lahir</th>
             <th scope="col">Alamat</th>
@@ -21,12 +22,8 @@
     <tbody>
         @foreach ($anggota as $data)
                             <tr>
-                                <td>
-                                    <b>{{$data->nama_anggota}}</b>
-                                    <div>
-                                        <small>{{$data->phone}}</small>
-                                    </div>
-                                </td>
+                                <td>{{$data->nama_anggota}}</td>
+                                <td>{{$data->phone}}</td>
                                 <td>
                                     {{$data->nik}}
                                 </td>

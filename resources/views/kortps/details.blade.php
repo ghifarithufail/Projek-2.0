@@ -26,11 +26,11 @@
 								    <button type="button" class="btn btn-success" style="zoom: 0.7; width: 100px">EXCEL</button>
                                 </a>
 							</div>
-                            {{-- <div class="text-right">
+                            <div class="text-right">
                                 <a href="{{ route('kortps/pdf', ['id' => $kortps->id]) }}" target="_blank">
 								    <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
                                 </a>
-							</div> --}}
+							</div>
 						</div>
 					</div>
 					{{-- <div class="head">
