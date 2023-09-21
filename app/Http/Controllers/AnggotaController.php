@@ -15,9 +15,18 @@ class AnggotaController extends Controller
      */
     public function index()
     {
-        $anggota = Anggota::all();
+        $anggota = Anggota::orderBy('created_at', 'desc')->paginate(15);
 
         return view('anggota.index', compact('anggota'));
+    }
+
+    public function download(Request $request)
+    {
+        $tanggal = Carbon::today()->format('D d-M-Y');
+        $filters = $request->all();
+        $name    = 'Reservation '. $tanggal . '.xlsx';
+        // dd($filters);
+        return Excel::download(new ReservationExport($filters), $name);
     }
 
     /**

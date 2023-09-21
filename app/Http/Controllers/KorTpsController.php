@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\KortpsExport;
 use App\Models\Anggota;
 use App\Models\Kabkota;
 use App\Models\Kelurahan;
 use App\Models\Korhan;
 use App\Models\KorTps;
 use App\Models\Tpsrw;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use PDF;
-
+use Excel;
 
 class KorTpsController extends Controller
 {
@@ -175,13 +177,23 @@ class KorTpsController extends Controller
         return view('kortps.report', compact('kortps'));
     }
     public function details($id){
+        $anggota = Anggota::where('koordinator_id', $id)->paginate(15);
+        $kortps = KorTps::find($id);
+        $jumlahAnggota = $anggota->total(); // Use the total method to get the total count
+    
+        return view('kortps.details', compact('anggota', 'kortps', 'jumlahAnggota'));
+    }
+
+    public function pdf($id){
         $anggota = Anggota::where('koordinator_id',$id)->get();
         $kortps = KorTps::find($id);
         $jumlahAnggota = $anggota->count();
 
         // dd($korhan);
-        return view('kortps.details', compact('anggota','kortps','jumlahAnggota'));
+        return view('kortps.pdf', compact('anggota','kortps','jumlahAnggota'));
     }
+
+   
 
     public function download($id){
         $anggota = Anggota::where('koordinator_id',$id)->get();
@@ -194,15 +206,33 @@ class KorTpsController extends Controller
             'jumlahAnggota' => $jumlahAnggota,
         ];
 
+
+        $currentDate = now()->format('Y-m-d');
+
+
+        $coordinatorName = $kortps->nama_koordinator;
+
+        $pdfFileName = 'KORTPS_' . $coordinatorName . '_' . $currentDate  . '.pdf';
+
         $pdf = PDF::loadView('kortps.download', $data);
     
         $pdf->setPaper('letter', 'landscape');
-        return $pdf->download('anggota.pdf');
+        
+        return $pdf->download($pdfFileName);
 
-
-        // return view('kortps.download', compact('data'));
     }
 
+    public function excel($id)
+    {
+
+        $tanggal = Carbon::today()->format('D d-M-Y');
+        $filters = $id;
+        $name    = 'kortps '. $tanggal . '.xlsx';
+        // dd($filters);
+        return Excel::download(new KortpsExport($filters), $name);
+
+    }
+    
 
     /**
      * Remove the specified resource from storage.

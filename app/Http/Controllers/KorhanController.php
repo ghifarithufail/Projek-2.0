@@ -10,6 +10,8 @@ use App\Models\KorTps;
 use App\Models\Tpsrw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use PDF;
+
 
 class KorhanController extends Controller
 {
@@ -93,8 +95,56 @@ class KorhanController extends Controller
         $jumlahKonstituante = $korhan->sum('anggotas_count');
         $jumlahKortps = $korhan->count();
 
-
         return view('korhan.details', compact('korhan', 'data', 'jumlahKonstituante', 'jumlahKortps'));
+    }
+
+    public function pdf(Request $request, $id){
+        $query = KorTps::withCount('anggotas')
+        ->where('korhan_id', $id)
+        ->orderBy('created_at', 'asc');
+
+        $korhan = $query->get();
+
+        $data = Korhan::findOrFail($id);
+        $jumlahKonstituante = $korhan->sum('anggotas_count');
+        $jumlahKortps = $korhan->count();
+
+        return view('korhan.pdf', compact('korhan', 'data', 'jumlahKonstituante', 'jumlahKortps'));
+    }
+
+    public function download($id){
+        $query = KorTps::withCount('anggotas')
+        ->where('korhan_id', $id)
+        ->orderBy('created_at', 'asc');
+
+        $korhan = $query->get();
+
+        $item = Korhan::findOrFail($id);
+        $jumlahKonstituante = $korhan->sum('anggotas_count');
+        $jumlahKortps = $korhan->count();
+
+
+        $data = [
+            'korhan' => $korhan,
+            'jumlahKonstituante' => $jumlahKonstituante,
+            'jumlahKortps' => $jumlahKortps,
+            'item' => $item,
+        ];
+
+
+        $currentDate = now()->format('Y-m-d');
+
+
+        $coordinatorName = $item->nama_koordinator;
+
+        $pdfFileName = 'KORHAN_' . $coordinatorName . '_' . $currentDate  . '.pdf';
+
+        $pdf = PDF::loadView('korhan.download', $data);
+    
+        $pdf->setPaper('letter', 'landscape');
+        
+        return $pdf->download($pdfFileName);
+
     }
 
     

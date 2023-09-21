@@ -35,10 +35,16 @@
 					<div class="row">
 						<div class="col">
 							{{-- <div class="text-right">
-                                <a href="{{ route('kortps/create') }}">
-								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
+                                <a href="{{ route('korhan/download', ['id' => $data->id]) }}">
+								    <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
                                 </a>
 							</div> --}}
+                            <div class="text-right">
+                                <a href="{{ route('korhan/pdf', ['id' => $data->id]) }}" target="_blank">
+								    <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
+                                </a>
+							</div>
+                            
 						</div>
 					</div>
 					{{-- <div class="head">

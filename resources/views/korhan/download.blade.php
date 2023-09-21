@@ -1,36 +1,34 @@
-@extends('layout.index')
-@section('content')
-    {{-- <h1 class="title text-center">Koordinator Kecamatan</h1> --}}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <div class="data">
+    <title>Ghifari</title>
+  </head>
+  <body>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        th, td {
+            border: 1px solid #000; /* Add a border style here */
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+
+    <div class="data mb-5">
         <div class="content-data">
-            <h3 style="text-align: center;">Koordinator Kecamatan : {{$korcam->nama_koordinator}}</h3>
-            <hr>
-            <form>
-                <div class="card-body d-flex justify-content-center">
-                    <div class="form-group row">
-                        <div class="col-sm-5 mt-2">
-                            {{-- <label for="date1">Kelurahan:</label> --}}
-                            <input type="text" style="height: 40px" class="form-control" placeholder="Nama" name="nama"
-                                id="search_kelurahan">
-                        </div>
-                        <div class="col-sm-5 mt-2">
-                            {{-- <label for="date1">Kecamatan:</label> --}}
-                            <input type="text" style="height: 40px" class="form-control"
-                                placeholder="kelurahan atau kecamatan" name="kelurahan" id="search_kecamatan">
-                        </div>
-                    </div>
-                    <div class="col d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary rounded text-white mt-2 mr-2" style="height: 40px"
-                            id="search_btn">Search</button>
-                        {{-- <button type="button" class="btn btn-warning rounded text-white" id="reset_btn" style="background-color: #d9d682; margin-left: 20px">Reset</button> --}}
-                    </div>
-                </div>
-            </form>
+            <h1 style="text-align: center; text-transform: uppercase;">KOORDINATOR KELURAHAN : {{$item->nama_koordinator}}</h1>
         </div>
     </div>
-    
 
     <div class="data">
         <div class="content-data">
@@ -38,11 +36,13 @@
 				<div class="menu d-flex justify-content-end">
 					<div class="row">
 						<div class="col">
-							<div class="text-right">
-                                <a href="{{ route('korcam/download', ['id' => $korcam->id]) }}">
-								    <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
+							{{-- <div class="text-right">
+                                <a href="{{ route('anggota/create') }}">
+								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
+                                </a> <a href="{{ route('anggota/create') }}">
+								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
                                 </a>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 					{{-- <div class="head">
@@ -59,12 +59,17 @@
             {{-- </div> --}}
             <div>
                 <div>
-                    <b>Koordinator Kelurahan : {{$jumlahKorhan}}</b>
+                    <div class="mb-3" style="display: inline-block; margin-right: 20px;">
+                        <b>Korcam : {{$item->koordinators->nama_koordinator}}</b>
+                    </div>
+                    <div class="mb-3" style="display: inline-block;">
+                        <b>Jumlah Kor-tps : {{$jumlahKortps}}</b>
+                    </div>
+                    <div class="mb-3" style="display: inline-block;">
+                        <b>Konstituante : {{$jumlahKonstituante}}</b>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <b>Konstituante : {{$jumlahKonstituante}}</b>
-                </div>
-                <table class="table" style="zoom: 0.7">
+                <table class="table" style="zoom: 0.6">
                     <thead>
                         <tr>
                             <th scope="col">Nama & Phone</th>
@@ -75,10 +80,9 @@
                             <th scope="col">Kelurahan / Kecamatan</th>
                             <th scope="col">Keterangan</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Dibuat</th>
                             <th scope="col" class="text-center">TPS</th>
-                            <th scope="col" class="text-center">Kostituante</th>
-                            {{-- <th scope="col" class="text-center">Action</th> --}}
+                            <th scope="col">Konstituante</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -118,18 +122,13 @@
                                 @endif
                             </td>
                             <td>
-                                @if ($item->user_id == '1')
-                                    Ghifari
-                                @endif
-                            <td>
                                 <ul>
-                                @foreach ($item->pivot_korhans as $row)
+                                @foreach ($item->tps_pivot as $row)
                                     <li>{{$row->tps}} {{$row->kelurahans->nama_kelurahan}}</li>
                                 @endforeach
                                 </ul>
                             </td>
-                            <td>{{$item->anggota_count}}</td>
-
+                            <td class="text-center">{{$item->anggotas_count}}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -137,4 +136,8 @@
             </div>
         </div>
     </div>
-@endsection
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>
+    

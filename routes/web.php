@@ -41,6 +41,9 @@ Route::post('korcam/store', [KorcamController::class, 'store'])->name('korcam/st
 Route::get('korcams/{id}', [KorcamController::class, 'show'])->name('korcam/show');
 Route::post('korcams/edit/{id}', [KorcamController::class, 'edit'])->name('korcam/edit');
 Route::get('korcam/detail/{id}', [KorcamController::class, 'detail'])->name('korcam/detail');
+Route::get('korcam/download/{id}', [KorcamController::class, 'download'])->name('korcam/download');
+
+
 
 
 Route::post('/kelurahans', [KorcamController::class, 'getKelurahan'])->name('get-kelurahan');
@@ -87,7 +90,10 @@ Route::prefix('korhan')->group(function () {
     Route::post('/update/{id}', [KorhanController::class, 'update'])->name('korhan/update');
     Route::get('detail/{id}', [KorhanController::class, 'detail'])->name('korhan/detail');
     Route::get('details/{id}', [KorhanController::class, 'details'])->name('korhan/details');
+    Route::get('pdf/{id}', [KorhanController::class, 'pdf'])->name('korhan/pdf');
     Route::get('/report', [KorhanController::class, 'report'])->name('korhan/report');
+    Route::get('/download/{id}', [KorhanController::class, 'download'])->name('korhan/download');
+
 
     // Add more routes as needed
 });
@@ -108,8 +114,9 @@ Route::prefix('kortps')->group(function () {
     Route::get('/details/{id}', [KorTpsController::class, 'details'])->name('kortps/details');
     Route::get('/report', [KorTpsController::class, 'report'])->name('kortps/report');
     Route::get('/download/{id}', [KorTpsController::class, 'download'])->name('kortps/download');
+    Route::get('/pdf/{id}', [KorTpsController::class, 'pdf'])->name('kortps/pdf');
+    Route::get('/download/excel/{id}', [KorTpsController::class, 'excel'])->name('kortps/excel');
 
-    // Add more routes as needed
 });
 Route::get('/generate-pdf-mapel/{id}', [PdfController::class, 'pdf_mapel'])->name('pdf-mapel');
 

@@ -99,6 +99,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$anggota->links()}}
+
             </div>
         </div>
     </div>

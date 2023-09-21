@@ -10,6 +10,7 @@ use App\Models\Tpsrw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class KorcamController extends Controller
 {
@@ -91,6 +92,44 @@ class KorcamController extends Controller
         $jumlahKonstituante = $korhan->sum('anggota_count');
 
         return view('korcam.detail', compact('korhan', 'korcam', 'jumlahKorhan', 'jumlahKonstituante'));
+    }
+
+    public function download($id){
+        
+        $query = Korhan::where('korcam_id', $id)
+        ->with('kortps')
+        ->withCount(['kortps as anggota_count' => function ($query) {
+            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id');
+        }]);
+
+        $korhan = $query->get();
+
+        $korcam = Korcam::findOrFail($id);
+        $jumlahKorhan = $korhan->count();
+        $jumlahKonstituante = $korhan->sum('anggota_count');
+
+
+        $data = [
+            'korhan' => $korhan,
+            'jumlahKonstituante' => $jumlahKonstituante,
+            'jumlahKorhan' => $jumlahKorhan,
+            'korcam' => $korcam,
+        ];
+
+
+        $currentDate = now()->format('Y-m-d');
+
+
+        $coordinatorName = $korcam->nama_koordinator;
+
+        $pdfFileName = 'KORCAM_' . $coordinatorName . '_' . $currentDate  . '.pdf';
+
+        $pdf = PDF::loadView('korcam.download', $data);
+    
+        $pdf->setPaper('letter', 'landscape');
+        
+        return $pdf->download($pdfFileName);
+
     }
 
     /**
