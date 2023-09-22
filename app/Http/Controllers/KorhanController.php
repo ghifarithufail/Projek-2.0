@@ -25,7 +25,11 @@ class KorhanController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Korhan::orderBy('created_at', 'desc');
+        $query = Korhan::where('deleted','0')
+        ->whereHas('koordinators', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->orderBy('created_at', 'desc');
 
         if ($request->has('nama')) {
             $nama = $request->input('nama');
@@ -51,7 +55,14 @@ class KorhanController extends Controller
     }
 
     public function report(Request $request){
-        $query = Korhan::withCount('kortps')->orderBy('created_at', 'desc');
+        $query = Korhan::where('deleted','0')
+        ->whereHas('koordinators', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->withCount('kortpsWithDeleted')->orderBy('created_at', 'desc');
+        // $query = Korcam::where('deleted','0')->withCount('korhansWithDeletedCount');
+
+        // dd($query);
 
         if ($request->has('nama')) {
             $nama = $request->input('nama');
@@ -78,9 +89,13 @@ class KorhanController extends Controller
     }
 
     public function details(Request $request, $id){
-        $query = KorTps::withCount('anggotas')
+        $query = KorTps::withCount(['anggotas as anggota_count' => function ($query) {
+            $query->where('deleted', '0');
+        }])
+        ->where('deleted', '0')
         ->where('korhan_id', $id)
         ->orderBy('created_at', 'asc');
+        
 
         if ($request->has('nama')) {
             $nama = $request->input('nama');
@@ -97,21 +112,24 @@ class KorhanController extends Controller
         $korhan = $query->get();
 
         $data = Korhan::findOrFail($id);
-        $jumlahKonstituante = $korhan->sum('anggotas_count');
+        $jumlahKonstituante = $korhan->sum('anggota_count');
         $jumlahKortps = $korhan->count();
 
         return view('korhan.details', compact('korhan', 'data', 'jumlahKonstituante', 'jumlahKortps'));
     }
 
     public function pdf(Request $request, $id){
-        $query = KorTps::withCount('anggotas')
+        $query = KorTps::withCount(['anggotas as anggota_count' => function ($query) {
+            $query->where('deleted', '0');
+        }])
+        ->where('deleted', '0')
         ->where('korhan_id', $id)
         ->orderBy('created_at', 'asc');
 
         $korhan = $query->get();
 
         $data = Korhan::findOrFail($id);
-        $jumlahKonstituante = $korhan->sum('anggotas_count');
+        $jumlahKonstituante = $korhan->sum('anggota_count');
         $jumlahKortps = $korhan->count();
 
         return view('korhan.pdf', compact('korhan', 'data', 'jumlahKonstituante', 'jumlahKortps'));
@@ -196,7 +214,6 @@ class KorhanController extends Controller
             'keterangan' => 'required',
             // 'user_id' => 'required',
             'korcam_id' => 'required',
-            'tpshan_id' => 'required',
         ],
         [
             'nama_koordinator.required' => 'nama harus diisi',
@@ -213,7 +230,6 @@ class KorhanController extends Controller
             'keterangan.required' => 'Keterangan harus diisi',
             'alamat.required' => 'Alamat  harus diisi',
             'korcam_id.required' => 'Korcam  harus diisi',
-            'tpshan_id.required' => 'TPS  harus diisi',
         ]);
 
         $korhan = new Korhan($validatedData);
@@ -293,8 +309,13 @@ class KorhanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Korhan $korhan)
+    public function destroy($id)
     {
-        //
+        $korhan = Korhan::find($id);
+        
+        $korhan->deleted = 1;
+        $korhan->save();
+
+        return redirect()->route('korhan');
     }
 }

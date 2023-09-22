@@ -132,15 +132,15 @@
                             {{-- <td>{{$item->korhans_count}}</td> --}}
                             @if (Auth::user()->role == '1')
                             <td class="text-center">
-                                <a href="{{ route('korcam/show', $item->id) }}"
-                                    class="btn btn-warning edit m-1" style="width: 90px">Edit
-                                </a>
-                                    <a href="#"
-                                    class="btn btn-danger edit m-1" style="width: 90px">Delete
-                                </a>
-                            </td
+                                <a href="{{ route('korcam/show', $item->id) }}" class="btn btn-warning edit m-1" style="width: 90px">Edit</a>
+                                
+                                <form method="POST" action="{{ route('korcam/destroy', $item->id) }}" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger edit m-1" style="width: 90px">Delete</button>
+                                </form>
+                            </td>
+                            
                             @endif
-
                         </tr>
                         @endforeach
                     </tbody>

@@ -1,6 +1,6 @@
 	<!-- SIDEBAR -->
 	@if (Auth::user()->role == '1')
-		<a href="#" class="brand"><i class='bx bxs-smile icon'></i> GERINDRA</a>
+		<a href="#" class="brand"><i class='bx bxs-smile icon'></i> ADMIN</a>
 		<ul class="side-menu">
 				
 			<li><a href="" class="active"><i class='bx bxs-dashboard icon' ></i> Dashboard</a></li>

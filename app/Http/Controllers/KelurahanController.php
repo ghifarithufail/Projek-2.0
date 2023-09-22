@@ -17,10 +17,14 @@ class KelurahanController extends Controller
         $query = DB::table('kelurahans')
             ->select('kelurahans.nama_kelurahan as kelurahan', 'kelurahans.id', 
             'kecamatan', 'dapil', 'kabkota', 'provinsi', 'kode_kel', 
-            DB::raw('COUNT(anggotas.id) as anggota_count'))
+            DB::raw('COUNT(CASE WHEN anggotas.deleted = 0 THEN anggotas.id END) as anggota_count'))
             ->leftJoin('tpsrws', 'kelurahans.id', '=', 'tpsrws.kelurahan_id')
-            ->leftJoin('anggotas', 'tpsrws.id', '=', 'anggotas.tpsrw_id')
+            ->leftJoin('anggotas', function ($join) {
+                $join->on('tpsrws.id', '=', 'anggotas.tpsrw_id')
+                    ->where('anggotas.deleted', '=', '0');
+            })
             ->groupBy('kelurahans.id', 'kelurahans.nama_kelurahan');
+
     
         if ($request->has('kelurahan')) {
             $search = $request->input('kelurahan');
@@ -38,7 +42,15 @@ class KelurahanController extends Controller
     }
     
     public function detail($id){
-        $korhan = Korhan::where('kelurahan_id',$id)->get();
+        
+        $korhan = Korhan::where('korcam_id', $id)
+        ->where('deleted', '0')
+        ->with('kortps')
+        ->withCount(['kortps as anggota_count' => function ($query) {
+            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id')
+                ->where('anggotas.deleted', '0'); // Change 'deleted' to 'anggotas.deleted'
+        }])->get();
+
         $kelurahan = Kelurahan::find($id);
         $jumlahKorhan = $korhan->count();
 

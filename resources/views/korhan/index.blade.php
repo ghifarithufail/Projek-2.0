@@ -130,9 +130,10 @@
                                 <a href="{{ route('korhan/edit', $item->id) }}"
                                     class="btn btn-warning edit m-1" style="width: 90px">Edit
                                 </a>
-                                    <a href="#"
-                                    class="btn btn-danger edit m-1" style="width: 90px">Delete
-                                </a>
+                                <form method="POST" action="{{ route('korhan/destroy', $item->id) }}" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger edit m-1" style="width: 90px">Delete</button>
+                                </form>
                             </td>
                             @endif
                         </tr>

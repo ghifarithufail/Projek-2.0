@@ -7,6 +7,7 @@ use App\Models\Kabkota;
 use App\Models\Kelurahan;
 use App\Models\Korcam;
 use App\Models\Korhan;
+use App\Models\KorTps;
 use App\Models\Tpsrw;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class KorcamController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Korcam::orderBy('created_at', 'desc');
+        $query = Korcam::where('deleted', '0')->orderBy('created_at', 'desc');
 
         if ($request->has('nama')) {
             $nama = $request->input('nama');
@@ -44,7 +45,12 @@ class KorcamController extends Controller
 
     public function report(Request $request)
     {
-        $query = Korcam::withCount('korhans')->orderBy('created_at', 'desc');
+        $query = Korcam::where('deleted','0')->withCount('korhansWithDeletedCount');
+
+        // dd($query);
+        // ->whereHas('korhans', function ($query) {
+        //     $query->where('deleted', 0);
+        // })->orderBy('created_at', 'desc');
 
         if ($request->has('nama')) {
             $nama = $request->input('nama');
@@ -65,10 +71,14 @@ class KorcamController extends Controller
     public function detail(Request $request, $id)
     {
         $query = Korhan::where('korcam_id', $id)
+        ->where('deleted', '0')
         ->with('kortps')
         ->withCount(['kortps as anggota_count' => function ($query) {
-            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id');
+            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id')
+                ->where('anggotas.deleted', '0'); // Change 'deleted' to 'anggotas.deleted'
         }]);
+
+
         $korcam = Korcam::find($id);
 
         if ($request->has('nama')) {
@@ -100,9 +110,11 @@ class KorcamController extends Controller
 
     public function pdf($id){
         $query = Korhan::where('korcam_id', $id)
+        ->where('deleted', '0')
         ->with('kortps')
         ->withCount(['kortps as anggota_count' => function ($query) {
-            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id');
+            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id')
+                ->where('anggotas.deleted', '0'); // Change 'deleted' to 'anggotas.deleted'
         }]);
 
         $korhan = $query->get();
@@ -188,7 +200,8 @@ class KorcamController extends Controller
     {
         $korcam = [];
         if ($search = $request->name) {
-            $korcam = Korcam::where('nama_koordinator', 'LIKE', "%$search%")->get();
+            $korcam = Korcam::where('nama_koordinator', 'LIKE', "%$search%")
+            ->where('deleted','0')->get();
         }
         return response()->json($korcam);
     }
@@ -197,7 +210,8 @@ class KorcamController extends Controller
     {
         $korhan = [];
         if ($search = $request->name) {
-            $korhan = Korhan::where('nama_koordinator', 'LIKE', "%$search%")->get();
+            $korhan = Korhan::where('nama_koordinator', 'LIKE', "%$search%")
+            ->where('deleted','0')->get();
         }
         return response()->json($korhan);
     }
@@ -214,6 +228,16 @@ class KorcamController extends Controller
 
 
         return response()->json($tps);
+    }
+
+    public function getKorTps(Request $request)
+    {
+        $kortps = [];
+        if ($search = $request->name) {
+            $kortps = KorTps::where('nama_koordinator', 'LIKE', "%$search%")
+            ->where('deleted','0')->get();
+        }
+        return response()->json($kortps);
     }
 
     public function create()
@@ -320,8 +344,13 @@ class KorcamController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Korcam $korcam)
+    public function destroy(Request $request, $id)
     {
-        //
+        $data = Korcam::find($id);
+        
+        $data->deleted = 1;
+        $data->save();
+
+        return redirect()->route('korcam');
     }
 }

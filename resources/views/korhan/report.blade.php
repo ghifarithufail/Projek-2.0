@@ -125,7 +125,7 @@
                                         @endforeach
                                     </ul>
                                 </td>
-                                <td class="text-center">{{ $item->kortps_count }}</td>
+                                <td class="text-center">{{ $item->kortps_with_deleted_count }}</td>
                             </tr>
                         @endforeach
                     </tbody>

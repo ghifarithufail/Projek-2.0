@@ -22,9 +22,12 @@ class KorhanExport implements FromView
     {
         $filters = $this->filters;
 
-        $query = KorTps::withCount('anggotas')
+        $query = KorTps::withCount(['anggotas as anggotas_count' => function ($query) {
+            $query->where('deleted', '0');
+        }])
+        ->where('deleted', '0')
         ->where('korhan_id', $filters)
-        ->orderBy('created_at', 'desc');
+        ->orderBy('created_at', 'asc');
 
 
 

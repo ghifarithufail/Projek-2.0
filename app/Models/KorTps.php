@@ -53,4 +53,10 @@ class KorTps extends Model
     {
         return $this->belongsToMany(Tpsrw::class, 'pivot_tps', 'kortps_id', 'tps_id');
     }
+    public function anggotasWithDeleted()
+    {
+        return $this->hasMany(Anggota::class)
+            ->where('deleted', 0)
+            ->selectRaw('count(*) as aggregate');
+    }
 }

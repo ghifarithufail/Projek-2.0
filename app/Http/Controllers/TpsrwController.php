@@ -12,12 +12,15 @@ class TpsrwController extends Controller
      */
     public function index()
     {
-        // $tps = Tpsrw::orderBy('kelurahan_id', 'desc')->paginate(15);
-        // $tps = Tpsrw::orderBy('kelurahan_id', 'desc')->paginate(15);
-        $tps = Tpsrw::withCount('anggotas')->with('kelurahans')->whereHas('kelurahans', function ($query) {
+        $tps = Tpsrw::withCount(['anggotas as anggotas_count' => function ($query) {
+            $query->where('deleted', '=', 0);
+        }])
+        ->with('kelurahans')
+        ->whereHas('kelurahans', function ($query) {
             $query->orderBy('nama_kelurahan', 'asc');
-        })->paginate(15);
-
+        })
+        ->paginate(15);
+    
 
         // dd($tps);
         return view('tps.index', compact('tps'));

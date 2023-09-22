@@ -49,4 +49,11 @@ class Korcam extends Model
     {
         return $this->belongsToMany(Tpsrw::class, 'koordinator_tpsrws', 'koordinator_id', 'tpsrw_id');
     }
+
+    public function korhansWithDeletedCount()
+    {
+        return $this->hasMany(Korhan::class)
+            ->where('deleted', 0)
+            ->selectRaw('count(*) as aggregate');
+    }
 }

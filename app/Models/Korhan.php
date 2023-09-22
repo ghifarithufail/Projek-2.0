@@ -52,4 +52,11 @@ class Korhan extends Model
     {
         return $this->belongsToMany(Tpsrw::class, 'korhan_tps', 'korhan_id', 'tps_id');
     }
+
+    public function kortpsWithDeleted()
+    {
+        return $this->hasMany(kortps::class)
+            ->where('deleted', 0)
+            ->selectRaw('count(*) as aggregate');
+    }
 }

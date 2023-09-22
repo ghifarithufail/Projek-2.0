@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use PDF;
 use Excel;
+use Illuminate\Support\Facades\Auth;
 
 class KorTpsController extends Controller
 {
@@ -23,7 +24,14 @@ class KorTpsController extends Controller
      */
     public function index(Request $request)
     {
-        $query = KorTps::orderBy('created_at', 'desc');
+        $query = KorTps::where('deleted', '0')
+        ->whereHas('korhans', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->whereHas('korhans.koordinators', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->orderBy('created_at', 'desc');
 
         if ($request->has('nama')) {
             $nama = $request->input('nama');
@@ -80,7 +88,7 @@ class KorTpsController extends Controller
             // 'user_id' => 'required',
             'kelurahan_id' => 'required',
             'korhan_id' => 'required',
-            'tps_id' => 'required',
+            // 'tps_id' => 'required',
         ], [
             'nama_koordinator.required' => 'nama harus diisi',
             'phone.required' => 'No Telpon harus diisi',
@@ -96,7 +104,7 @@ class KorTpsController extends Controller
             'keterangan.required' => 'Keterangan harus diisi',
             'alamat.required' => 'Alamat  harus diisi',
             'korhan_id.required' => 'korhan  harus diisi',
-            'tps_id.required' => 'TPS  harus diisi',
+            // 'tps_id.required' => 'TPS  harus diisi',
         ]);
 
         $kortps = new KorTps($validatedData);
@@ -162,15 +170,25 @@ class KorTpsController extends Controller
         return redirect()->route('kortps');
     }
 
-    public function detail($id){
-        $tpsrw = Tpsrw::withCount('kortps')->findOrFail($id);
-
+    public function detail($id)
+    {
+        $tpsrw = Tpsrw::withCount(['kortps as kortps_count' => function ($query) {
+            $query->where('deleted', '=', 0);
+        }])
+        ->findOrFail($id);
+    
         return view('kortps.detail', compact('tpsrw'));
     }
-
     public function report(Request $request){
-        $query = KorTps::withCount(['anggotas' => function ($q) {
-            $q->where('status', 1);
+        $query = KorTps::where('deleted','0')
+        ->whereHas('korhans', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->whereHas('korhans.koordinators', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->withCount(['anggotas' => function ($q) {
+            $q->where('deleted', 0);
         }]);
 
         if ($request->has('nama')) {
@@ -196,7 +214,10 @@ class KorTpsController extends Controller
     }
 
     public function details($id){
-        $anggota = Anggota::where('koordinator_id', $id)->paginate(15);
+        $anggota = Anggota::where('koordinator_id', $id)
+        ->with('kabkotas','tps','koordinators')
+        ->where('deleted', '0')->paginate(15);
+
         $kortps = KorTps::find($id);
         $jumlahAnggota = $anggota->total(); 
     
@@ -204,7 +225,11 @@ class KorTpsController extends Controller
     }
 
     public function pdf($id){
-        $anggota = Anggota::where('koordinator_id',$id)->get();
+        $anggota = Anggota::where('koordinator_id',$id)
+        ->with('kabkotas','tps','koordinators')
+        ->where('deleted', '0')
+        ->get();
+
         $kortps = KorTps::find($id);
         $jumlahAnggota = $anggota->count();
 
@@ -250,15 +275,19 @@ class KorTpsController extends Controller
         $pdf->setPaper('letter', 'landscape');
         
         return $pdf->download($pdfFileName);
-
     }
     
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(KorTps $korTps)
+    public function destroy($id)
     {
-        //
+        $kortps = KorTps::find($id);
+        
+        $kortps->deleted = 1;
+        $kortps->save();
+
+        return redirect()->route('kortps');
     }
 }

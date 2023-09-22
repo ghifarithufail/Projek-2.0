@@ -42,4 +42,10 @@ class Tpsrw extends Model
         return $this->belongsTo(Anggota::class, 'id', 'tpsrw_id');
 
     }
+    
+    public function konstituante()
+    {
+        return $this->hasMany(Anggota::class, 'tpsrw_id', 'id')->where('deleted', 0);
+    }
+
 }

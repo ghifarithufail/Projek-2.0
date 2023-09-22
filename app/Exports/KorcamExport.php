@@ -24,9 +24,11 @@ class KorcamExport implements FromView
         $filters = $this->filters;
 
         $query = Korhan::where('korcam_id', $filters)
+        ->where('deleted', '0')
         ->with('kortps')
         ->withCount(['kortps as anggota_count' => function ($query) {
-            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id');
+            $query->leftJoin('anggotas', 'kor_tps.id', '=', 'anggotas.koordinator_id')
+                ->where('anggotas.deleted', '0'); // Change 'deleted' to 'anggotas.deleted'
         }]);
 
         $korhan = $query->get();

@@ -203,7 +203,7 @@
                 placeholder: 'Select',
                 allowClear: true,
                 ajax: {
-                    url: "{{ route('getKorcam') }}",
+                    url: "{{ route('getKortps') }}",
                     type: "post",
                     delay: 250,
                     dataType: 'json',

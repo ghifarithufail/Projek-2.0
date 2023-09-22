@@ -96,7 +96,7 @@
                                 @endforeach
                                 </ul>
                             </td>
-                            <td class="text-center">{{$item->anggotas_count}}</td>
+                            <td class="text-center">{{$item->anggota_count}}</td>
                         </tr>
                         @endforeach
                     </tbody>

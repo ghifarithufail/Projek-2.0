@@ -59,6 +59,8 @@ Route::get('korcam/detail/{id}', [KorcamController::class, 'detail'])->name('kor
 Route::get('korcam/download/{id}', [KorcamController::class, 'download'])->name('korcam/download');
 Route::get('korcam/pdf/{id}', [KorcamController::class, 'pdf'])->name('korcam/pdf');
 Route::get('korcam/excel/{id}', [KorcamController::class, 'excel'])->name('korcam/excel');
+Route::post('korcams/destroy/{id}', [KorcamController::class, 'destroy'])->name('korcam/destroy');
+
 
 
 
@@ -69,6 +71,7 @@ Route::post('/kelurahans', [KorcamController::class, 'getKelurahan'])->name('get
 Route::post('/tps', [KorcamController::class, 'getTps'])->name('get-tps');
 Route::post('/get-korcam', [KorcamController::class, 'getKorcam'])->name('getKorcam');
 Route::post('/get-korhan', [KorcamController::class, 'getKorhan'])->name('getKorhan');
+Route::post('/get-kortps', [KorcamController::class, 'getKorTps'])->name('getKortps');
 Route::post('/get-kabkota', [KorcamController::class, 'getKabkota'])->name('getKabkota');
 
 Route::get('anggota', [AnggotaController::class, 'index'])->name('anggota');
@@ -76,6 +79,8 @@ Route::get('anggota/create', [AnggotaController::class, 'create'])->name('anggot
 Route::post('anggota/store', [AnggotaController::class, 'store'])->name('anggota/store');
 Route::get('anggota/edit/{id}', [AnggotaController::class, 'edit'])->name('anggota/edit');
 Route::post('anggota/update/{id}', [AnggotaController::class, 'update'])->name('anggota/update');
+Route::post('anggota/destroy/{id}', [AnggotaController::class, 'destroy'])->name('anggota/destroy');
+
 
 Route::get('dapil', [DapilController::class, 'index'])->name('dapil');
 Route::get('dapil/create', [DapilController::class, 'create'])->name('dapil/create');
@@ -113,6 +118,8 @@ Route::prefix('korhan')->group(function () {
     Route::get('/report', [KorhanController::class, 'report'])->name('korhan/report');
     Route::get('/download/{id}', [KorhanController::class, 'download'])->name('korhan/download');
     Route::get('download/excel/{id}', [KorhanController::class, 'excel'])->name('korhan/excel');
+    Route::post('/destroy/{id}', [KorhanController::class, 'destroy'])->name('korhan/destroy');
+
 
 
 
@@ -138,6 +145,8 @@ Route::prefix('kortps')->group(function () {
     Route::get('/pdf/{id}', [KorTpsController::class, 'pdf'])->name('kortps/pdf');
     Route::get('/download/excel/{id}', [KorTpsController::class, 'excel'])->name('kortps/excel');
     Route::get('download-excel/{id}', [KorTpsController::class, 'downloadExcel'])->name('download-excel');
+    Route::post('/destroy/{id}', [KorTpsController::class, 'destroy'])->name('kortps/destroy');
+
 
 });
 Route::get('/generate-pdf-mapel/{id}', [PdfController::class, 'pdf_mapel'])->name('pdf-mapel');

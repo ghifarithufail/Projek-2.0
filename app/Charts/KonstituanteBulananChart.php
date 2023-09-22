@@ -18,38 +18,44 @@ class KonstituanteBulananChart
 
     public function build(): \ArielMejiaDev\LarapexCharts\LineChart
     {
-    $tahunAwal = 2023;    // Tahun awal adalah 2023
-    $tahunAkhir = 2024;   // Tahun akhir adalah 2024
-    $bulanAwal = 9;       // Bulan awal adalah September (bulan ke-9)
-    $bulanAkhir = 3;      // Bulan akhir adalah Juli (bulan ke-7)
+        $tahunAwal = 2023;    // Tahun awal adalah 2023
+        $tahunAkhir = 2024;   // Tahun akhir adalah 2024
+        $bulanAwal = 9;       // Bulan awal adalah September (bulan ke-9)
+        $bulanAkhir = 3;      // Bulan akhir adalah Juli (bulan ke-7)
 
-    $namaBulan = [
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    ];
+        $namaBulan = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
 
-    $dataBulan = [];
-    $dataTotalAnggota = [];
-    // $dataTotalKorcam = [];
+        $dataBulan = [];
+        $dataTotalAnggota = [];
+        // $dataTotalKorcam = [];
 
-    for ($tahun = $tahunAwal; $tahun <= $tahunAkhir; $tahun++) {
-        $bulanMulai = ($tahun == $tahunAwal) ? $bulanAwal : 1;
-        $bulanSelesai = ($tahun == $tahunAkhir) ? $bulanAkhir : 12;
+        for ($tahun = $tahunAwal; $tahun <= $tahunAkhir; $tahun++) {
+            $bulanMulai = ($tahun == $tahunAwal) ? $bulanAwal : 1;
+            $bulanSelesai = ($tahun == $tahunAkhir) ? $bulanAkhir : 12;
 
-        for ($i = $bulanMulai; $i <= $bulanSelesai; $i++) {
-            $totalAnggota = Anggota::whereYear('created_at', $tahun)
-                ->whereMonth('created_at', $i)
-                ->count('id');
-            // $totalKorcam = Korcam::whereYear('created_at', $tahun)
-            //     ->whereMonth('created_at', $i)
-            //     ->count('id');
+            for ($i = $bulanMulai; $i <= $bulanSelesai; $i++) {
+                $totalAnggota = Anggota::where('deleted', '0')->whereYear('created_at', $tahun)
+                    ->whereMonth('created_at', $i)
+                    ->whereHas('koordinators', function ($q) {
+                        $q->where('deleted', '0')
+                            ->whereHas('korhans', function ($q) {
+                                $q->where('deleted', '0')
+                                    ->whereHas('koordinators', function ($q) {
+                                        $q->where('deleted', '0');
+                                    });
+                            });
+                    })
+                    ->count();
 
 
-            $dataBulan[] = $namaBulan[$i - 1] . ' ' . $tahun;
-            $dataTotalAnggota[] = $totalAnggota;
-            // $dataTotalKorcam[] = $totalKorcam;
+                $dataBulan[] = $namaBulan[$i - 1] . ' ' . $tahun;
+                $dataTotalAnggota[] = $totalAnggota;
+                // $dataTotalKorcam[] = $totalKorcam;
+            }
         }
-    }
         return $this->chart->lineChart()
             ->setTitle('Data Konstituante')
             ->setSubtitle('Total Konstituante 2023 - 2024.')

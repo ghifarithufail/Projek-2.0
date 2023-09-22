@@ -59,7 +59,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($tpsrw->kortps as $item)
+                        @foreach ($tpsrw->kortps->where('deleted', 0) as $item)
                         <tr>
                             <td>
                                 {{$item->nama_koordinator}}
@@ -88,35 +88,6 @@
                                 {{$item->korhans->nama_koordinator}}
                             </td>
                             <td>{{$item->korhans->koordinators->nama_koordinator}}</td>
-                            {{-- <td>{{$item->keterangan}}</td>
-                            <td>
-                                @if ($item->status == '0')
-                                    Aktif
-                                @elseif($item->status == '1')
-                                    Tidak Aktif
-                                @elseif($item->status == '2')
-                                    Keluar
-                                @endif
-                            </td>
-                            <td>
-                                @if ($item->user_id == '1')
-                                    Ghifari
-                                @endif
-                            <td>
-                                <ul>
-                                @foreach ($item->tps_pivot as $row)
-                                    <li>{{$row->tps}} {{$row->kelurahans->nama_kelurahan}}</li>
-                                @endforeach
-                                </ul>
-                            </td> --}}
-                            {{-- <td class="text-center">
-                                <a href="{{ route('korhan/edit', $item->id) }}"
-                                    class="btn btn-warning edit m-1" style="width: 90px">Edit
-                                </a>
-                                    <a href="#"
-                                    class="btn btn-danger edit m-1" style="width: 90px">Delete
-                                </a>
-                            </td> --}}
                         </tr>
                         @endforeach
                     </tbody>

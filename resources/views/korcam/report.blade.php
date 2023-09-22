@@ -123,7 +123,7 @@
                                         {{ $row->tps }} {{ $row->kelurahans->nama_kelurahan }}
                                     @endforeach
                                 </td>
-                                <td class="text-center">{{ $item->korhans_count }}</td>
+                                <td class="text-center">{{ $item->korhans_with_deleted_count_count }}</td>
                             </tr>
                         @endforeach
                     </tbody>

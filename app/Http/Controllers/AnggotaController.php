@@ -15,7 +15,17 @@ class AnggotaController extends Controller
      */
     public function index()
     {
-        $anggota = Anggota::orderBy('created_at', 'desc')->paginate(15);
+        $anggota = Anggota::where('deleted','0')
+        ->whereHas('koordinators', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->whereHas('koordinators.korhans', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->whereHas('koordinators.korhans.koordinators', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->orderBy('created_at', 'desc')->paginate(15);
 
         return view('anggota.index', compact('anggota'));
     }
@@ -133,8 +143,13 @@ class AnggotaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Anggota $anggota)
+    public function destroy($id)
     {
-        //
+        $anggota = Anggota::find($id);
+        
+        $anggota->deleted = 1;
+        $anggota->save();
+
+        return redirect()->route('anggota');
     }
 }
