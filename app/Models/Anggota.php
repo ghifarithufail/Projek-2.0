@@ -24,6 +24,7 @@ class Anggota extends Model
         'status',
         'keterangan',
         'koordinator_id',
+        'verified',
     ];
 
     public function kabkotas()

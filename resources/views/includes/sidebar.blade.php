@@ -26,6 +26,9 @@
 				<a href="{{ route('anggota') }}"><i class='bx bxs-user icon' ></i> Anggota</a>
 			</li>
 			<li>
+				<a href="{{ route('anggota/verifikasi') }}"><i class='bx bxs-user icon' ></i>Verifikasi Anggota</a>
+			</li>
+			<li>
 				<a href="{{ route('dapil') }}"><i class='bx bxs-building icon' ></i> Dapil</a>
 			</li>
 			<li>

@@ -76,6 +76,9 @@ Route::post('anggota/store', [AnggotaController::class, 'store'])->name('anggota
 Route::get('anggota/edit/{id}', [AnggotaController::class, 'edit'])->name('anggota/edit');
 Route::post('anggota/update/{id}', [AnggotaController::class, 'update'])->name('anggota/update');
 Route::post('anggota/destroy/{id}', [AnggotaController::class, 'destroy'])->name('anggota/destroy');
+Route::get('anggota/verifikasi', [AnggotaController::class, 'verifikasi'])->name('anggota/verifikasi');
+Route::post('anggota/verifTrue/{id}', [AnggotaController::class, 'verifTrue'])->name('anggota/verifTrue');
+Route::post('anggota/verifFalse/{id}', [AnggotaController::class, 'verifFalse'])->name('anggota/verifFalse');
 
 
 Route::get('dapil', [DapilController::class, 'index'])->name('dapil');

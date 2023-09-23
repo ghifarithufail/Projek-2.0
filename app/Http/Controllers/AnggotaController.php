@@ -152,4 +152,41 @@ class AnggotaController extends Controller
 
         return redirect()->route('anggota');
     }
+
+    public function verifikasi()
+    {
+        $anggota = Anggota::where('deleted','0')
+        ->whereHas('koordinators', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->whereHas('koordinators.korhans', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->whereHas('koordinators.korhans.koordinators', function ($q){
+            $q->where('deleted', '0');
+        })
+        ->orderBy('created_at', 'desc')->paginate(15);
+
+        return view('anggota.verifikasi', compact('anggota'));
+    }
+
+    public function verifTrue($id)
+    {
+        $anggota = Anggota::find($id);
+        
+        $anggota->verified = 1;
+        $anggota->save();
+
+        return redirect()->route('anggota/verifikasi');
+    }
+
+    public function verifFalse($id)
+    {
+        $anggota = Anggota::find($id);
+        
+        $anggota->verified = 2;
+        $anggota->save();
+
+        return redirect()->route('anggota/verifikasi');
+    }
 }
