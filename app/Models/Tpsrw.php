@@ -13,7 +13,9 @@ class Tpsrw extends Model
         'tps',
         'totdpt',
         'dptl',
-        'dptp'
+        'dptp',
+        'lokasi',
+        'target'
     ];
 
     protected $dates = ['created_at'];

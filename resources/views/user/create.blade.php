@@ -13,27 +13,6 @@
 
     <div class="data">
         <div class="content-data">
-            {{-- <div class="head"> --}}
-            {{-- <div class="menu d-flex justify-content-end">
-					<div class="row">
-						<div class="col">
-							<div class="text-right">
-								<button type="button" class="btn btn-success">Tambah +</button>
-							</div>
-						</div>
-					</div>
-					<div class="head">
-						<div class="menu">
-							<i class='bx bx-dots-horizontal-rounded icon'></i>
-							<ul class="menu-link">
-								<li><a href="#">PDF</a></li>
-								<li><a href="#">Excel</a></li>
-							</ul>
-						</div>
-					</div>
-				</div> --}}
-
-            {{-- </div> --}}
             <form action="{{ route('user/store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -64,13 +43,25 @@
                     <div class="col-sm-12 mt-3">
                         <label for="status">status</label>
                         <div class="form-group">
-                            <input id="status" name="status" type="text" value="{{ old('status') }}" class="form-control">
+                            <select class="form-select" name="status" aria-label="Default select example" required>
+                                <option selected>Pilih Status</option>
+                                <option value="0">Aktif</option>
+                                <option value="1">Non Aktif</option>
+                                <option value="2">Keluar</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-sm-12 mt-3">
                         <label for="role">role</label>
                         <div class="form-group">
-                            <input id="role" name="role" type="text" value="{{ old('role') }}" class="form-control">
+                            <select class="form-select" name="role" aria-label="Default select example" required>
+                                <option value="" selected>Pilih Status</option>
+                                <option value="1">Admin</option>
+                                <option value="2">Korcam</option>
+                                <option value="3">Korhan</option>
+                                <option value="4">Kortps</option>
+                            </select>
+                            {{-- <input id="role" name="role" type="text" value="{{ old('role') }}" class="form-control"> --}}
                         </div>
                     </div>
 

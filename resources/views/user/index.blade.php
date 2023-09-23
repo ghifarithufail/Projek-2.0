@@ -25,18 +25,7 @@
 							</div>
 						</div>
 					</div>
-					{{-- <div class="head">
-						<div class="menu">
-							<i class='bx bx-dots-horizontal-rounded icon'></i>
-							<ul class="menu-link">
-								<li><a href="#">PDF</a></li>
-								<li><a href="#">Excel</a></li>
-							</ul>
-						</div>
-					</div> --}}
 				</div>
-				
-            {{-- </div> --}}
             <div>
                 <table class="table" style="zoom: 0.9">
                     <thead>
@@ -56,7 +45,17 @@
                                 <td>{{$data->email}}</td>
                                 <td>{{$data->username}}</td>
                                 <td>{{$data->status}}</td>
-                                <td>{{$data->role}}</td>
+                                <td>
+                                    @if ($data->role == '1')
+                                        Admin
+                                    @elseif($data->role == '2')
+                                        Korcam
+                                    @elseif($data->role == '3')
+                                        Korhan
+                                    @elseif($data->role == '4')
+                                        Kortps
+                                    @endif
+                                </td>
                                 <td class="text-center">
                                     <a href="{{ route('user/edit', $data->id) }}"
                                         class="btn btn-warning edit m-1" style="width: 90px">Edit

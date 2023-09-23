@@ -155,7 +155,7 @@
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label class="form-label">Kota Lahir</label>
-                        <select class="form-select" name="kabkota_id" aria-label="Default select example">
+                        <select class="form-select" name="kabkota_id" id="kabkota_id" aria-label="Default select example">
                             <option selected>Pilih Kota</option>
                             @foreach ($kota as $data)
                                 <option value="{{ $data->id }}">{{ $data->nama_kabkota }} - {{ $data->prov }}
@@ -198,6 +198,34 @@
         </div>
     </div>
     <script>
+                $(document).ready(function () {
+            $('#kabkota_id').select2({
+                placeholder: 'Select',
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('getKabkota') }}",
+                    type: "post",
+                    delay: 250,
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            name: params.term,
+                            "_token": "{{ csrf_token() }}",
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    id: item.id,
+                                    text: item.nama_kabkota + ' - ' + item.prov 
+                                }
+                            })
+                        };
+                    },
+                },
+            });
+        });
         $(document).ready(function() {
             $('#korhan_id').select2({
                 placeholder: 'Select',

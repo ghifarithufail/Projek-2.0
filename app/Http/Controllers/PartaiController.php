@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Partai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PartaiController extends Controller
 {
@@ -12,7 +13,7 @@ class PartaiController extends Controller
      */
     public function index()
     {
-        $partai = Partai::all();
+        $partai = Partai::where('deleted', '0')->orderBy('created_at', 'DESC')->get();
 
         return view('partai.index', compact('partai'));
     }
@@ -37,9 +38,10 @@ class PartaiController extends Controller
         ]);
 
         $partai = new Partai($validatedData);
+        $partai->foto = $request->file('foto')->store('partais');
         $partai->save();
 
-        return redirect()->route('partai');
+        return redirect()->route('partai')->with('success','Partai Berhasil Dibuat!!');
     }
 
     /**
@@ -65,14 +67,28 @@ class PartaiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'foto' => 'required',
-            'nama' => 'required',
-            'partai' => 'required'
-        ]);
-        
-        $partai = Partai::find($id);
-        $partai->update($validatedData);
+        if(empty($request->file('foto'))){
+            $partai = Partai::find($id);
+
+            $partai->update([
+                'nama' => $request->nama,
+                'partai' => $request->partai,
+            ]);
+
+            return redirect()->route('partai');
+        }
+        else{
+            $partai = Partai::find($id);
+            Storage::delete($partai->foto);
+            $partai->update([
+                'nama' => $request->nama,
+                'partai' => $request->partai,
+                'partai' => $request->partai,
+                'foto' => $request->file('foto')->store('partais'),
+            ]);
+
+        return redirect()->route('partai');
+        }
 
         return redirect()->route('partai');
     }
@@ -80,8 +96,13 @@ class PartaiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Partai $partai)
+    public function destroy($id)
     {
-        //
+        $partai = Partai::find($id);
+        
+        $partai->deleted = 1;
+        $partai->save();
+
+        return redirect()->route('partai');
     }
 }

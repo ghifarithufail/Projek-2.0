@@ -37,12 +37,6 @@
             <form action="{{ route('partai/store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col-sm-12">
-                        <label for="nama_koordinator">Nama</label>
-                        <div class="form-group">
-                            <input id="nama_koordinator" name="namacaleg" type="text" value="{{ old('foto') }}" class="form-control">
-                        </div>
-                    </div>
                     <div class="col-sm-12 mt-3">
                         <label for="nama_koordinator">Nama</label>
                         <div class="form-group">
@@ -53,6 +47,12 @@
                         <label for="nama_koordinator">Partai</label>
                         <div class="form-group">
                             <input id="nik" name="partai" type="text" value="{{ old('partai') }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="nama_koordinator">Foto</label>
+                        <div class="form-group">
+                            <input id="nama_koordinator" name="foto" type="file" value="{{ old('foto') }}" class="form-control">
                         </div>
                     </div>
 

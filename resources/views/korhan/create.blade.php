@@ -129,10 +129,6 @@
                         <label for="tpshan_id">Di tugaskan di TPS</label>
                         <div class="form-group">
                             <select class="tpsrw_id form-select" name="tpshan_id[]" id="tps_id" aria-label="Default select example" multiple="multiple">
-                                {{-- <option selected>Pilih TPS</option> --}}
-                                {{-- @foreach ($tps as $data)
-                                    <option value="{{ $data->id }}">{{$data->tps}} {{ $data->kelurahans->nama_kelurahan }} - {{ $data->kelurahans->kecamatan }} - {{ $data->kelurahans->kabkota }}</option>
-                                @endforeach --}}
                             </select>
                         </div>
                         @error('tpshan_id')
@@ -155,11 +151,8 @@
                     </div>
                     <div class="col-sm-6 mt-3">
                         <label class="form-label">Kota Lahir</label>
-                        <select class="form-select" name="kabkota_id" aria-label="Default select example">
+                        <select class="form-select" name="kabkota_id" id="kabkota_id" aria-label="Default select example">
                             <option selected>Pilih Kota</option>
-                                @foreach ($kota as $data)
-                                    <option value="{{ $data->id }}">{{ $data->nama_kabkota }} - {{ $data->prov }}</option>
-                                @endforeach
                         </select>
                         @error('kabkota_id')
                         <div class="text-danger">{{ $message }}</div>
@@ -218,6 +211,34 @@
                                 return {
                                     id: item.id,
                                     text: item.nama_koordinator
+                                }
+                            })
+                        };
+                    },
+                },
+            });
+        });
+        $(document).ready(function () {
+            $('#kabkota_id').select2({
+                placeholder: 'Select',
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('getKabkota') }}",
+                    type: "post",
+                    delay: 250,
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            name: params.term,
+                            "_token": "{{ csrf_token() }}",
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    id: item.id,
+                                    text: item.nama_kabkota + ' - ' + item.prov 
                                 }
                             })
                         };

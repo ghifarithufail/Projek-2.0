@@ -13,36 +13,9 @@
 
     <div class="data">
         <div class="content-data">
-            {{-- <div class="head"> --}}
-            {{-- <div class="menu d-flex justify-content-end">
-					<div class="row">
-						<div class="col">
-							<div class="text-right">
-								<button type="button" class="btn btn-success">Tambah +</button>
-							</div>
-						</div>
-					</div>
-					<div class="head">
-						<div class="menu">
-							<i class='bx bx-dots-horizontal-rounded icon'></i>
-							<ul class="menu-link">
-								<li><a href="#">PDF</a></li>
-								<li><a href="#">Excel</a></li>
-							</ul>
-						</div>
-					</div>
-				</div> --}}
-
-            {{-- </div> --}}
             <form action="{{ route('partai/update', $partai->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col-sm-12">
-                        <label for="nama_koordinator">Foto</label>
-                        <div class="form-group">
-                            <input id="nama_koordinator" name="foto" type="text" value="{{ $partai->foto }}" class="form-control">
-                        </div>
-                    </div>
                     <div class="col-sm-12 mt-3">
                         <label for="nama_koordinator">Nama</label>
                         <div class="form-group">
@@ -54,6 +27,17 @@
                         <div class="form-group">
                             <input id="nik" name="partai" type="text" value="{{ $partai->partai }}" class="form-control">
                         </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="nama_koordinator">Foto</label>
+                        <div class="form-group">
+                            <input id="nama_koordinator" name="foto" type="file"  class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 mt-3">
+                        <label for="nama_koordinator">Foto Saat ini</label>
+                        <br>
+                        <img src="{{asset('uploads/' . $partai->foto)}}" width="100">
                     </div>
 
                     <div class="mt-4">

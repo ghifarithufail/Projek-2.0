@@ -191,10 +191,7 @@
                         <div class="form-group">
                             <select class="tpsrw_id form-select" name="tpsrw_id[]" id="tpsrw_id"
                                 aria-label="Default select example" multiple="multiple" required>
-                                {{-- <option selected>Pilih TPS</option> --}}
-                                {{-- @foreach ($tps as $data)
-                                    <option value="{{ $data->id }}">{{$data->tps}} {{ $data->kelurahans->nama_kelurahan }} - {{ $data->kelurahans->kecamatan }} - {{ $data->kelurahans->kabkota }}</option>
-                                @endforeach --}}
+
                             </select>
                         </div>
                     </div>

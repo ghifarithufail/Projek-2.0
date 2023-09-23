@@ -97,12 +97,9 @@
                         </div>
                         <div class="col-sm-6 mt-3">
                             <label class="form-label">Kota Lahir</label>
-                            <select class="form-select" name="kabkota_id">
+                            <select class="form-select" name="kabkota_id" id="kabkota_id">
                                 <option selected>Pilih Kota</option>
                                     <option value="{{ $data->kabkota_id }}" selected > -- {{ $data->kabkotas->prov }} --</option>
-                                @foreach ($kota as $kotaData)
-                                    <option value="{{ $kotaData->id }}">{{ $kotaData->nama_kabkota }} - {{ $kotaData->prov }}</option>
-                                @endforeach
                             </select>
                         </div>
 
@@ -138,6 +135,9 @@
                                             Tidak Aktif
                                         @endif
                                     </option>
+                                    <option value="0">Aktif</option>
+                                    <option value="1">Tidak Aktif</option>
+                                    <option value="2">Keluar</option>
                                 </select>
                             </div>
                         </div>
@@ -153,8 +153,6 @@
             </div>
         </div>
     </div>
-
-
 
     <script>
         $(document).ready(function () {
@@ -185,6 +183,35 @@
                 },
             });
         });
+        $(document).ready(function () {
+            $('#kabkota_id').select2({
+                placeholder: 'Select',
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('getKabkota') }}",
+                    type: "post",
+                    delay: 250,
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            name: params.term,
+                            "_token": "{{ csrf_token() }}",
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    id: item.id,
+                                    text: item.nama_kabkota + ' - ' + item.prov 
+                                }
+                            })
+                        };
+                    },
+                },
+            });
+        });
+
         $(document).ready(function () {
             $('#korhan_id').select2({
                 placeholder: 'Select',

@@ -20,6 +20,9 @@
 			
 			<li class="divider" data-text="Data">Data</li>
 			<li>
+				<a href="{{ route('suara') }}"><i class='bx bxs-user icon' ></i> Suara Caleg</a>
+			</li>
+			<li>
 				<a href="{{ route('anggota') }}"><i class='bx bxs-user icon' ></i> Anggota</a>
 			</li>
 			<li>

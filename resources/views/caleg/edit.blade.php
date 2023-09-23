@@ -13,27 +13,6 @@
 
     <div class="data">
         <div class="content-data">
-            {{-- <div class="head"> --}}
-            {{-- <div class="menu d-flex justify-content-end">
-					<div class="row">
-						<div class="col">
-							<div class="text-right">
-								<button type="button" class="btn btn-success">Tambah +</button>
-							</div>
-						</div>
-					</div>
-					<div class="head">
-						<div class="menu">
-							<i class='bx bx-dots-horizontal-rounded icon'></i>
-							<ul class="menu-link">
-								<li><a href="#">PDF</a></li>
-								<li><a href="#">Excel</a></li>
-							</ul>
-						</div>
-					</div>
-				</div> --}}
-
-            {{-- </div> --}}
             <form action="{{ route('caleg/update', $caleg->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -68,12 +47,6 @@
                         </div>
                     </div>
                     <div class="col-sm-6 mt-3">
-                        <label for="nama_koordinator">Photo</label>
-                        <div class="form-group">
-                            <input id="nik" name="photo" type="text" value="{{ $caleg->photo }}" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mt-3">
                         <label class="form-label">Partai</label>
                         <select class="form-select" name="partai_id" aria-label="Default select example">
                             <option value="{{$caleg->partai_id}}">{{$caleg->partais->partai}}</option>
@@ -83,6 +56,12 @@
                         </select>
                     </div>
                     <div class="col-sm-6 mt-3">
+                        <label for="nama_koordinator">Photo</label>
+                        <div class="form-group">
+                            <input id="nik" name="photo" type="file" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 mt-3">
                         <label class="form-label">Dapil</label>
                         <select class="form-select" name="dapil_id" aria-label="Default select example">
                             <option value="{{$caleg->dapil_id}}">{{$caleg->dapils->wilayah}}</option>
@@ -90,6 +69,11 @@
                                     <option value="{{ $data->id }}">{{ $data->wilayah }}</option>
                                 @endforeach
                         </select>
+                    </div>
+                    <div class="col-sm-12 mt-3">
+                        <label for="nama_koordinator">Foto Saat ini</label>
+                        <br>
+                        <img src="{{asset('uploads/' . $caleg->photo)}}" width="100">
                     </div>
 
                     <div class="mt-4">

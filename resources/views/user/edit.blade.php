@@ -31,7 +31,7 @@
                     <div class="col-sm-12 mt-3">
                         <label for="username">password</label>
                         <div class="form-group">
-                            <input id="password" name="password" type="text" value="{{ $user->password }}" class="form-control" required>
+                            <input id="password" name="password" type="password"  class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-12 mt-3">
@@ -43,13 +43,44 @@
                     <div class="col-sm-12 mt-3">
                         <label for="status">status</label>
                         <div class="form-group">
-                            <input id="status" name="status" type="text" value="{{ $user->status }}" class="form-control">
+                            <select class="form-select" name="status" aria-label="Default select example" required>
+                            <option value="{{$user->status}}">
+                                @if ($user->status == 0)
+                                    Aktif
+                                @elseif ($user->status == 1)
+                                    Tidak Aktif
+                                @elseif ($user->status == 2)
+                                    Keluar
+                                @endif
+                            </option>
+                            <option value="0">Aktif</option>
+                            <option value="1">Non Aktif</option>
+                            <option value="2">Keluar</option>
+                        </select>
+
                         </div>
                     </div>
                     <div class="col-sm-12 mt-3">
                         <label for="role">role</label>
                         <div class="form-group">
-                            <input id="role" name="role" type="text" value="{{ $user->role }}" class="form-control">
+                            <select class="form-select" name="role" aria-label="Default select example" required>
+                                <option value="{{$user->role}}">
+                                    @if ($user->role == 1)
+                                        Admin
+                                    @elseif ($user->role == 2)
+                                        Korcam
+                                    @elseif ($user->role == 3)
+                                        Korhan
+                                    @elseif ($user->role == 4)
+                                        Kortps
+                                    @endif
+                                </option>
+                                <option value="2">Korcam</option>
+                                <option value="1">Admin</option>
+                                <option value="3">Korhan</option>
+                                <option value="4">Kortps</option>
+                            </select>
+                            {{-- <input id="role" name="role" type="text" value="{{ $user->role }}" class="form-control"> --}}
                         </div>
                     </div>
 

@@ -36,7 +36,7 @@
 					<div class="row">
 						<div class="col">
 							<div class="text-right">
-                                <a href="{{ route('anggota/create') }}">
+                                <a href="{{ route('kelurahan/create') }}">
 								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
                                 </a>
                                 {{-- </a> <a href="{{ route('anggota/create') }}">
@@ -86,12 +86,13 @@
                                 <td>{{$data->kode_kel}}</td>
                                 <td>{{$data->anggota_count}}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('dapil/edit', $data->id) }}"
+                                    <a href="{{ route('kelurahan/edit', $data->id) }}"
                                         class="btn btn-warning edit m-1" style="width: 90px">Edit
                                     </a>
-                                        <a href="#"
-                                        class="btn btn-danger edit m-1" style="width: 90px">Delete
-                                    </a>
+                                    <form method="POST" action="{{ route('kelurahan/destroy', $data->id) }}" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger edit m-1" style="width: 90px">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

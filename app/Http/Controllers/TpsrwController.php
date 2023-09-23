@@ -14,11 +14,11 @@ class TpsrwController extends Controller
     {
         $tps = Tpsrw::withCount(['anggotas as anggotas_count' => function ($query) {
             $query->where('deleted', '=', 0);
-        }])
+        }])->where('deleted', '=', 0)
         ->with('kelurahans')
         ->whereHas('kelurahans', function ($query) {
             $query->orderBy('nama_kelurahan', 'asc');
-        })
+        })->orderBy('created_at', 'desc')
         ->paginate(15);
     
 
@@ -31,7 +31,7 @@ class TpsrwController extends Controller
      */
     public function create()
     {
-        //
+        return view('tps.create');
     }
 
     /**
@@ -39,38 +39,92 @@ class TpsrwController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'tps' => 'required',
+            'totdpt' => 'required',
+            'dptl' => 'required',
+            'dptp' => 'required',
+            'lokasi' => 'required',
+            'kelurahan_id' => 'required',
+            'target' => 'required',
+
+        ], [
+            'kelurahan_id'=> 'Kelurahan harus diisi',
+            'tps'=> 'TPS harus diisi',
+            'totdpt'=> 'Total DPT harus diisi',
+            'dptl'=> 'DPTL harus diisi',
+            'dptp'=> 'DPTP harus diisi',
+            'lokasi'=>'Lokasi harus diisi',
+            'target'=>'Lokasi harus diisi',
+        ]);
+
+        // dd($request);
+        $tps = new Tpsrw($validatedData);
+        $tps->save();
+
+        return redirect()->route('tps');
+    
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Tpsrw $tpsrw)
+    public function show( $id)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tpsrw $tpsrw)
+    public function edit($id)
     {
-        //
+        $tps = Tpsrw::find($id);
+
+        return view('tps.edit', compact('tps'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tpsrw $tpsrw)
+    public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'tps' => 'required',
+            'totdpt' => 'required',
+            'dptl' => 'required',
+            'dptp' => 'required',
+            'lokasi' => 'required',
+            'kelurahan_id' => 'required',
+            'target' => 'required',
+
+        ], [
+            'kelurahan_id'=> 'Kelurahan harus diisi',
+            'tps'=> 'TPS harus diisi',
+            'totdpt'=> 'Total DPT harus diisi',
+            'dptl'=> 'DPTL harus diisi',
+            'dptp'=> 'DPTP harus diisi',
+            'lokasi'=>'Lokasi harus diisi',
+            'target'=>'Lokasi harus diisi',
+        ]);
+
+        // dd($request);
+        $tps = Tpsrw::find($id);
+        $tps->update($validatedData);
+
+        return redirect()->route('tps');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tpsrw $tpsrw)
+    public function destroy($id)
     {
-        //
+        $tps = Tpsrw::find($id);
+
+        $tps->deleted = 1;
+        $tps->save();
+
+        return redirect()->route('tps');
     }
 }

@@ -40,7 +40,7 @@ class LoginController extends Controller
     }
 
     public function login(Request $request){
-        if(Auth::attempt($request->only('email','password','username'))){
+        if(Auth::attempt($request->only('password','username'))){
             return redirect('/chart');
         }
 
@@ -59,23 +59,51 @@ class LoginController extends Controller
         return view('user.edit', compact('user'));
     }
 
-    public function update(Request $request, $id){
-        $validatedData = $request->validate([
-            'name' => 'required' ,
-            'email' => 'required' ,
-            'password' => 'required' ,
-            'username' => 'required' ,
-            'status' => 'required' ,
-            'role' => 'required' ,
-        ]);
-
+    public function update(Request $request, $id)
+    {
         $user = User::find($id);
-        if ($request->has('password')) {
-            $validatedData['password'] = bcrypt($validatedData['password']);
+        
+        // Validasi input sesuai kebutuhan
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required',
+            'username' => 'required',
+            'status' => 'required',
+            'role' => 'required',
+        ]);
+    
+        // Perbarui data pengguna yang tidak termasuk kata sandi
+        $user->update($validatedData);
+    
+        // Periksa apakah kata sandi diisi atau tidak
+        if (!empty($request->password)) {
+            $user->update([
+                'password' => bcrypt($request->password)
+            ]);
         }
     
-        $user->update($validatedData);
-
         return redirect()->route('user');
     }
+    
+
+
+    // public function update(Request $request, $id){
+    //     $validatedData = $request->validate([
+    //         'name' => 'required' ,
+    //         'email' => 'required' ,
+    //         'password' => 'required' ,
+    //         'username' => 'required' ,
+    //         'status' => 'required' ,
+    //         'role' => 'required' ,
+    //     ]);
+
+    //     $user = User::find($id);
+    //     if ($request->has('password')) {
+    //         $validatedData['password'] = bcrypt($validatedData['password']);
+    //     }
+    
+    //     $user->update($validatedData);
+
+    //     return redirect()->route('user');
+    // }
 }

@@ -6,6 +6,8 @@ use App\Models\Caleg;
 use App\Models\Dapil;
 use App\Models\Partai;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class CalegController extends Controller
 {
@@ -14,7 +16,8 @@ class CalegController extends Controller
      */
     public function index()
     {
-        $caleg = Caleg::all();
+        $caleg = Caleg::where('deleted','0')->orderBy('created_at', 'DESC')->get();
+        
         return view('caleg.index', compact('caleg'));
     }
 
@@ -46,6 +49,7 @@ class CalegController extends Controller
         ]);
 
         $caleg = new Caleg($validatedData);
+        $caleg->photo = $request->file('photo')->store('calegs');
         $caleg->save();
 
         return redirect()->route('caleg');
@@ -76,19 +80,38 @@ class CalegController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'partai_id' => 'required',
-            'namacaleg'=> 'required',
-            'no_urut'=> 'required',
-            'jk'=> 'required',
-            'kandidat'=> 'required',
-            'dapil_id'=> 'required',
-            'status'=> 'required',
-            'photo'=> 'required',
-        ]);
+        // dd($request);
 
-        $caleg = Caleg::find($id);
-        $caleg->update($validatedData);
+        if(empty($request->file('photo'))){
+            $caleg = Caleg::find($id);
+
+            $caleg->update([
+                'namacaleg' => $request->namacaleg,
+                'partai_id' => $request->partai_id,
+                'no_urut' => $request->no_urut,
+                'jk' => $request->jk,
+                'kandidat' => $request->kandidat,
+                'dapil_id' => $request->dapil_id,
+                'status' => $request->status,
+            ]);
+                return redirect()->route('caleg');
+        }
+        else{
+            $caleg = Caleg::find($id);
+            Storage::delete($caleg->photo);
+            // dd($request);
+            $caleg->update([
+                'namacaleg' => $request->namacaleg,
+                'partai_id' => $request->partai_id,
+                'no_urut' => $request->no_urut,
+                'jk' => $request->jk,
+                'kandidat' => $request->kandidat,
+                'dapil_id' => $request->dapil_id,
+                'status' => $request->status,
+                'photo' => $request->file('photo')->store('calegs'),
+            ]);
+                return redirect()->route('caleg');
+        }
 
         return redirect()->route('caleg');
     }
@@ -96,8 +119,13 @@ class CalegController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Caleg $caleg)
+    public function destroy($id)
     {
-        //
+        $caleg = Caleg::find($id);
+        
+        $caleg->deleted = 1;
+        $caleg->save();
+
+        return redirect()->route('caleg');
     }
 }
