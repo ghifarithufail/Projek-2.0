@@ -174,8 +174,15 @@ class KorTpsController extends Controller
     {
         $tpsrw = Tpsrw::withCount(['kortps as kortps_count' => function ($query) {
             $query->where('deleted', '=', 0);
+        },
+        'anggotas as anggotas_count' => function ($query) {
+            $query->where('deleted', '=', 0);
+        },'anggotas as anggotas_verified' => function ($query) {
+            $query->where('verified', '=', 1);
         }])
         ->findOrFail($id);
+
+        // dd($tpsrw);
     
         return view('kortps.detail', compact('tpsrw'));
     }
@@ -209,29 +216,55 @@ class KorTpsController extends Controller
             });
         }
 
-        $kortps = $query->get();
+        $kortps = $query->paginate(15);
         return view('kortps.report', compact('kortps'));
     }
 
-    public function details($id){
-        $anggota = Anggota::where('koordinator_id', $id)
+    public function details(Request $request,$id){
+
+        
+        $query = Anggota::where('koordinator_id', $id)
         ->with('kabkotas','tps','koordinators')
-        ->where('deleted', '0')->paginate(15);
+        ->where('deleted', '0');
+        if ($request->has('nama')) {
+            $nama = $request->input('nama');
+            $query->where('nama_anggota', 'like', '%' . $nama . '%');
+        }
+        if ($request->has('nik')) {
+            $nik = $request->input('nik');
+            $query->where('nik', 'like', '%' . $nik . '%');
+        }
+        if ($request->has('verifikasi')) {
+            $status = $request->input('verifikasi');
+            $query->where('verified','like', '%' . $status . '%');
+        }
+
+
+        $anggota = $query->paginate(15);
+
 
         $kortps = KorTps::find($id);
         $jumlahAnggota = $anggota->total(); 
+
+        $verifiedCount = Anggota::where('koordinator_id', $id)
+        ->where('deleted', '0')
+        ->where('verified', '1')
+        ->count();
     
-        return view('kortps.details', compact('anggota', 'kortps', 'jumlahAnggota'));
+        $anggota->appends($request->all());
+        return view('kortps.details', compact('anggota', 'kortps', 'jumlahAnggota', 'verifiedCount'));
     }
 
     public function pdf($id){
         $anggota = Anggota::where('koordinator_id',$id)
         ->with('kabkotas','tps','koordinators')
         ->where('deleted', '0')
+        ->where('verified','1')
         ->get();
 
         $kortps = KorTps::find($id);
         $jumlahAnggota = $anggota->count();
+        
 
         // dd($korhan);
         return view('kortps.pdf', compact('anggota','kortps','jumlahAnggota'));

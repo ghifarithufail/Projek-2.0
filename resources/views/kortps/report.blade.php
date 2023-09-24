@@ -16,12 +16,10 @@
                                 id="search_kelurahan">
                         </div>
                         <div class="col-sm-4 mt-2">
-                            {{-- <label for="date1">Kecamatan:</label> --}}
                             <input type="text" style="height: 40px" class="form-control" placeholder="korhan"
                                 name="korhan" id="search_kecamatan">
                         </div>
                         <div class="col-sm-4 mt-2">
-                            {{-- <label for="date1">Kecamatan:</label> --}}
                             <input type="text" style="height: 40px" class="form-control"
                                 placeholder="kelurahan atau kecamatan" name="kelurahan" id="search_kecamatan">
                         </div>
@@ -29,7 +27,6 @@
                     <div class="col d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary rounded text-white mt-2 mr-2" style="height: 40px"
                             id="search_btn">Search</button>
-                        {{-- <button type="button" class="btn btn-warning rounded text-white" id="reset_btn" style="background-color: #d9d682; margin-left: 20px">Reset</button> --}}
                     </div>
                 </div>
             </form>
@@ -126,7 +123,9 @@
                                 <td>
                                     <ul>
                                         @foreach ($item->tps_pivot as $row)
+                                        <a href="{{ route('kortps/detail', $row->id) }}" target="_blank">
                                             <li>{{ $row->tps }} {{ $row->kelurahans->nama_kelurahan }}</li>
+                                        </a>
                                         @endforeach
                                     </ul>
                                 </td>
@@ -135,6 +134,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $kortps->links() }}
             </div>
         </div>
     </div>

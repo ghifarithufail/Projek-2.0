@@ -30,6 +30,7 @@ class KonstituanteBulananChart
 
         $dataBulan = [];
         $dataTotalAnggota = [];
+        $dataTotalVerifikasi = [];
         // $dataTotalKorcam = [];
 
         for ($tahun = $tahunAwal; $tahun <= $tahunAkhir; $tahun++) {
@@ -50,9 +51,23 @@ class KonstituanteBulananChart
                     })
                     ->count();
 
+                    $verifikasi = Anggota::where('deleted', '0')->where('verified', '1')->whereYear('created_at', $tahun)
+                    ->whereMonth('created_at', $i)
+                    ->whereHas('koordinators', function ($q) {
+                        $q->where('deleted', '0')
+                            ->whereHas('korhans', function ($q) {
+                                $q->where('deleted', '0')
+                                    ->whereHas('koordinators', function ($q) {
+                                        $q->where('deleted', '0');
+                                    });
+                            });
+                    })
+                    ->count();
+
 
                 $dataBulan[] = $namaBulan[$i - 1] . ' ' . $tahun;
                 $dataTotalAnggota[] = $totalAnggota;
+                $dataTotalVerifikasi[] = $verifikasi;
                 // $dataTotalKorcam[] = $totalKorcam;
             }
         }
@@ -60,6 +75,7 @@ class KonstituanteBulananChart
             ->setTitle('Data Konstituante')
             ->setSubtitle('Total Konstituante 2023 - 2024.')
             ->addData('Konstituante', $dataTotalAnggota)
+            ->addData('Verifikasi', $dataTotalVerifikasi)
             // ->addData('Korcam', $dataTotalKorcam)
             ->setHeight(250)
             ->setXAxis($dataBulan)

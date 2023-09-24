@@ -37,8 +37,11 @@
 				
             {{-- </div> --}}
             <div>
-                <div class="mb-3">
+                <div class="mb-3" style="display: inline-block; margin-right: 20px;">
                     <b>Total Penanggung Jawab : {{$tpsrw->kortps_count}}</b>
+                </div>
+                <div class="mb-3" style="display: inline-block; margin-right: 20px;">
+                    <b>Target : {{$tpsrw->target}}</b>
                 </div>
                 <table class="table" style="zoom: 0.7">
                     <thead>
@@ -51,21 +54,20 @@
                             <th scope="col">Kelurahan / Kecamatan</th>
                             <th scope="col">Korhan</th> 
                             <th scope="col">Korcam</th> 
-                            {{-- <th scope="col">Keterangan</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Dibuat</th>
-                            <th scope="col">TPS</th> --}}
-                            {{-- <th scope="col" class="text-center">Action</th> --}}
+                            <th scope="col">Anggota</th> 
+                            <th scope="col">Terverifikasi</th> 
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($tpsrw->kortps->where('deleted', 0) as $item)
                         <tr>
                             <td>
+                                <a href="{{ route('kortps/details', $item->id) }}" target="_blank">
                                 {{$item->nama_koordinator}}
                                 <div>
                                     <small>{{$item->phone}}</small>
                                 </div>
+                                </a>
                             </td>
                             <td>{{$item->nik}}</td>
                             <td>
@@ -88,6 +90,8 @@
                                 {{$item->korhans->nama_koordinator}}
                             </td>
                             <td>{{$item->korhans->koordinators->nama_koordinator}}</td>
+                            <td>{{$tpsrw->anggotas_count}}</td>
+                            <td>{{$tpsrw->anggotas_verified}}</td>
                         </tr>
                         @endforeach
                     </tbody>

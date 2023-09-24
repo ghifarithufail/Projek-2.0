@@ -13,9 +13,11 @@ class AnggotaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $anggota = Anggota::where('deleted','0')
+
+        
+        $query = Anggota::where('deleted','0')
         ->whereHas('koordinators', function ($q){
             $q->where('deleted', '0');
         })
@@ -25,7 +27,29 @@ class AnggotaController extends Controller
         ->whereHas('koordinators.korhans.koordinators', function ($q){
             $q->where('deleted', '0');
         })
-        ->orderBy('created_at', 'desc')->paginate(15);
+        ->orderBy('created_at', 'desc');
+
+        if ($request->has('nama')) {
+            $nama = $request->input('nama');
+            $query->where('nama_anggota', 'like', '%' . $nama . '%');
+        }
+        if ($request->has('kelurahan')) {
+            $nama = $request->input('kelurahan');
+            $query->whereHas('tps.kelurahans', function ($q) use ($nama) {
+                    $q->where('nama_kelurahan', 'like', '%' . $nama . '%')
+                    ->orWhere('kecamatan', 'like', '%' . $nama . '%');
+                });
+        }
+        if ($request->has('kortps')) {
+            $nama = $request->input('kortps');
+            $query->whereHas('koordinators', function ($q) use ($nama) {
+                    $q->where('nama_koordinator', 'like', '%' . $nama . '%');
+                });
+        }
+
+        $anggota = $query->paginate(15);
+
+        $anggota->appends($request->all());
 
         return view('anggota.index', compact('anggota'));
     }

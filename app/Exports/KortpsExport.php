@@ -23,6 +23,7 @@ class KortpsExport implements FromView
 
         $anggota = Anggota::with('kabkotas','tps','koordinators')
         ->where('deleted', '0')
+        ->where('verified','1')
         ->where('koordinator_id', $filters);
         $kortps = KorTps::find($filters);
         $jumlahAnggota = $anggota->count();

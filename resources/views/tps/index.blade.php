@@ -37,6 +37,7 @@
                             <th scope="col">Lokasi</th>
                             <th scope="col">Target</th>
                             <th scope="col">Anggota</th>
+                            <th scope="col">Verifikasi Sukses</th>
                             <th scope="col" class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -55,6 +56,7 @@
                                 <td>{{$data->lokasi}}</td>
                                 <td>{{$data->target}}</td>
                                 <td class="text-center">{{$data->anggotas_count}}</td>
+                                <td>{{$data->verified_anggotas_count}}</td>
                                 <td class="text-center">
                                     <a href="{{ route('tps/edit', $data->id) }}"
                                         class="btn btn-warning edit m-1" style="width: 90px">Edit

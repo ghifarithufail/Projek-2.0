@@ -14,11 +14,12 @@ class TpsrwController extends Controller
     {
         $tps = Tpsrw::withCount(['anggotas as anggotas_count' => function ($query) {
             $query->where('deleted', '=', 0);
+        },
+        'anggotas as verified_anggotas_count' => function ($query) {
+            $query->where('verified', '=', 1);
         }])->where('deleted', '=', 0)
         ->with('kelurahans')
-        ->whereHas('kelurahans', function ($query) {
-            $query->orderBy('nama_kelurahan', 'asc');
-        })->orderBy('created_at', 'desc')
+        ->orderBy('created_at', 'desc')
         ->paginate(15);
     
 

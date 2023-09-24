@@ -5,8 +5,32 @@
 
     <div class="data">
         <div class="content-data">
-
             <h3 style="text-align: center;">Koordinator {{ $kortps->nama_koordinator }}</h3>
+            <hr>
+            <form>
+                <div class="card-body d-flex justify-content-center">
+                    <div class="form-group row">
+                        <div class="col-sm-4 mt-2">
+                            <input type="text" style="height: 40px" class="form-control" placeholder="Nama" name="nama" id="search_kelurahan">
+                        </div>
+                        <div class="col-sm-4 mt-2">
+                            <input type="text" style="height: 40px" class="form-control" placeholder="NIK" name="nik" id="search_kecamatan">
+                        </div>
+                        <div class="col-sm-3 mt-2">
+                            <select class="form-select" name="verifikasi" aria-label="Default select example">
+                                <option selected value="">Status Verifikasi</option>
+                                <option value="0">Belum</option>
+                                <option value="1">Berhasil</option>
+                                <option value="2">Gagal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary rounded text-white mt-2 mr-2" style="height: 40px" id="search_btn" >Search</button>
+                        {{-- <button type="button" class="btn btn-warning rounded text-white" id="reset_btn" style="background-color: #d9d682; margin-left: 20px">Reset</button> --}}
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -48,8 +72,11 @@
                     <div class="mb-3" style="display: inline-block; margin-right: 20px;">
                         <b>Korhan : {{ $kortps->korhans->nama_koordinator }}</b>
                     </div>
-                    <div style="display: inline-block;">
+                    <div style="display: inline-block; margin-right: 20px;">
                         <b>Konstituante : {{ $jumlahAnggota }}</b>
+                    </div>
+                    <div style="display: inline-block;">
+                        <b>Terverifikasi : {{ $verifiedCount }}</b>
                     </div>
                 </div>
 
@@ -65,6 +92,7 @@
                             {{-- <th scope="col">Bertugas</th>  --}}
                             <th scope="col">Status</th>
                             <th scope="col">Keterangan</th>
+                            <th scope="col">Verifikasi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,6 +125,15 @@
                                 </td>
                                 <td>{{ $data->status }}</td>
                                 <td>{{ $data->keterangan }}</td>
+                                <td>
+                                    @if ($data->verified == 0) 
+                                        Belum Diverifikasi
+                                    @elseif($data->verified == 1)
+                                        Berhasil Verifikasi
+                                    @elseif($data->verified == 2)
+                                        Gagal Verifikasi
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
