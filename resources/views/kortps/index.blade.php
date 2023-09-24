@@ -1,7 +1,15 @@
 @extends('layout.index')
 @section('content')
-    {{-- <h1 class="title text-center">Koordinator Kecamatan</h1> --}}
 
+    <style>
+
+        @media screen and (max-width: 768px) {
+        .data {
+            width: 100%; /* Adjust the width as needed for smaller screens */
+            overflow-x: scroll; /* Allow scrolling on smaller screens */
+        }
+    }
+        </style>
 
     <div class="data">
         <div class="content-data">

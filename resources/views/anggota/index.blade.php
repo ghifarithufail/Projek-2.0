@@ -2,6 +2,15 @@
 @section('content')
     {{-- <h1 class="title text-center">Koordinator Kecamatan</h1> --}}
 
+    <style>
+
+        @media screen and (max-width: 768px) {
+        .data {
+            width: 100%; /* Adjust the width as needed for smaller screens */
+            overflow-x: scroll; /* Allow scrolling on smaller screens */
+        }
+    }
+        </style>
 
     <div class="data">
         <div class="content-data">
@@ -61,7 +70,9 @@
                             <th scope="col">Status</th>
                             <th scope="col">Keterangan</th>
                             <th scope="col">Kor-Tps</th>
+                            @if (Auth::user()->role == '1')
                             <th scope="col" class="text-center">Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -96,6 +107,7 @@
                                 <td>{{$data->status}}</td>
                                 <td>{{$data->keterangan}}</td>
                                 <td>{{$data->koordinators->nama_koordinator}}</td>
+                                @if (Auth::user()->role == '1')
                                 <td class="text-center">
                                     <a href="{{ route('anggota/edit', $data->id) }}"
                                         class="btn btn-warning edit m-1" style="width: 90px">Edit
@@ -105,6 +117,7 @@
                                         <button type="submit" class="btn btn-danger edit m-1" style="width: 90px">Delete</button>
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

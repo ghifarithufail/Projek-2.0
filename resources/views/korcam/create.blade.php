@@ -23,6 +23,8 @@
             integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
+
+    
     {{-- <h1 class="title text-center">Koordinator Kecamatan</h1> --}}
 
 
@@ -33,60 +35,10 @@
         </div>
     </div>
 
+    <div class="scrollable-content">
+
     <div class="data">
         <div class="content-data">
-            {{-- <div class="head"> --}}
-            {{-- <div class="menu d-flex justify-content-end">
-					<div class="row">
-						<div class="col">
-							<div class="text-right">
-								<button type="button" class="btn btn-success">Tambah +</button>
-							</div>
-						</div>
-					</div>
-					<div class="head">
-						<div class="menu">
-							<i class='bx bx-dots-horizontal-rounded icon'></i>
-							<ul class="menu-link">
-								<li><a href="#">PDF</a></li>
-								<li><a href="#">Excel</a></li>
-							</ul>
-						</div>
-					</div>
-				</div> --}}
-
-            {{-- </div> --}}
-            {{-- <div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div> --}}
             <form action="{{ route('korcam/store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -239,6 +191,8 @@
             </form>
         </div>
     </div>
+            
+</div>
     <script>
         $(document).ready(function() {
             $('#kelurahan_id').select2({

@@ -3,7 +3,6 @@
     {{-- <h1 class="title text-center">Koordinator Kecamatan</h1> --}}
 
     <style>
- 
 
     @media screen and (max-width: 768px) {
     .data {

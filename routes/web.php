@@ -73,12 +73,12 @@ Route::post('/get-kabkota', [KorcamController::class, 'getKabkota'])->name('getK
 Route::get('anggota', [AnggotaController::class, 'index'])->name('anggota');
 Route::get('anggota/create', [AnggotaController::class, 'create'])->name('anggota/create');
 Route::post('anggota/store', [AnggotaController::class, 'store'])->name('anggota/store');
-Route::get('anggota/edit/{id}', [AnggotaController::class, 'edit'])->name('anggota/edit');
-Route::post('anggota/update/{id}', [AnggotaController::class, 'update'])->name('anggota/update');
-Route::post('anggota/destroy/{id}', [AnggotaController::class, 'destroy'])->name('anggota/destroy');
-Route::get('anggota/verifikasi', [AnggotaController::class, 'verifikasi'])->name('anggota/verifikasi');
-Route::post('anggota/verifTrue/{id}', [AnggotaController::class, 'verifTrue'])->name('anggota/verifTrue');
-Route::post('anggota/verifFalse/{id}', [AnggotaController::class, 'verifFalse'])->name('anggota/verifFalse');
+Route::get('anggota/edit/{id}', [AnggotaController::class, 'edit'])->name('anggota/edit')->middleware('hakakses:1');
+Route::post('anggota/update/{id}', [AnggotaController::class, 'update'])->name('anggota/update')->middleware('hakakses:1');
+Route::post('anggota/destroy/{id}', [AnggotaController::class, 'destroy'])->name('anggota/destroy')->middleware('hakakses:1');
+Route::get('anggota/verifikasi', [AnggotaController::class, 'verifikasi'])->name('anggota/verifikasi')->middleware('hakakses:1');
+Route::post('anggota/verifTrue/{id}', [AnggotaController::class, 'verifTrue'])->name('anggota/verifTrue')->middleware('hakakses:1');
+Route::post('anggota/verifFalse/{id}', [AnggotaController::class, 'verifFalse'])->name('anggota/verifFalse')->middleware('hakakses:1');
 
 
 Route::get('dapil', [DapilController::class, 'index'])->name('dapil');

@@ -70,6 +70,9 @@
 				<li><a href="{{ route('kortps') }}"><i class='bx bxs-home icon' ></i> Kortps</a></li>
 			</ul>
 		</li>
+		<li>
+			<a href="{{ route('anggota') }}"><i class='bx bxs-user icon' ></i> Anggota</a>
+		</li>
 	</ul>
 	@endif
 	@if (Auth::user()->role == '3')
@@ -84,6 +87,9 @@
 				<li><a href="{{ route('kortps') }}"><i class='bx bxs-home icon' ></i> Kortps</a></li>
 			</ul>
 		</li>
+		<li>
+			<a href="{{ route('anggota') }}"><i class='bx bxs-user icon' ></i> Anggota</a>
+		</li>
 	</ul>
 	@endif
 	@if (Auth::user()->role == '4')
@@ -96,6 +102,9 @@
 			<ul class="side-dropdown">
 				<li><a href="{{ route('kortps') }}"><i class='bx bxs-home icon' ></i> Kortps</a></li>
 			</ul>
+		</li>
+		<li>
+			<a href="{{ route('anggota') }}"><i class='bx bxs-user icon' ></i> Anggota</a>
 		</li>
 	</ul>
 	@endif
