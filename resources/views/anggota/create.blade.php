@@ -29,7 +29,7 @@
     <div class="data">
         <div class="content-data">
 
-            <h3 style="text-align: center;">Tambah Anggota</h3>
+            <h3 style="text-align: center;">Tambah Relawan</h3>
         </div>
     </div>
 

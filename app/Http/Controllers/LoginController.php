@@ -16,8 +16,24 @@ class LoginController extends Controller
         return view('user.login');
     }
 
-    public function index(){
-        $user = User::orderBy('created_at', 'desc')->get();
+    public function index(Request $request){
+        $query = User::orderBy('created_at', 'desc');
+
+        if ($request->has('nama')) {
+            $nama = $request->input('nama');
+            $query->where('name', 'like', '%' . $nama . '%');
+        }
+        if ($request->has('username')) {
+            $nama = $request->input('username');
+            $query->where('username', 'like', '%' . $nama . '%');
+        }
+        if ($request->has('role')) {
+            $nama = $request->input('role');
+            $query->where('role', 'like', '%' . $nama . '%');
+        }
+        $user = $query->paginate(15);
+        
+        $user->appends($request->all());
 
         return view('user.index', compact('user'));
     }
@@ -36,12 +52,12 @@ class LoginController extends Controller
             'role' => $request->role,
         ]);
 
-        return redirect()->route('user/create');
+        return redirect()->route('user');
     }
 
     public function login(Request $request){
         if(Auth::attempt($request->only('password','username'))){
-            return redirect('/chart');
+            return redirect('/');
         }
 
         return redirect('/login');

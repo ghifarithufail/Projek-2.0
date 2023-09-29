@@ -18,25 +18,24 @@
             <hr>
             <form>
                 <div class="card-body d-flex justify-content-center">
-                    <div class="form-group row">
-                        <div class="col-sm-3 mt-2">
-                            {{-- <label for="date1">Kelurahan:</label> --}}
-                            <input type="text" style="height: 40px" class="form-control" placeholder="Nama" name="nama"
-                                id="search_kelurahan">
-                        </div>
-                        <div class="col-sm-4 mt-2">
-                            <input type="text" style="height: 40px" class="form-control" placeholder="kortps"
-                                name="kortps" id="search_kecamatan">
-                        </div>
-                        <div class="col-sm-4 mt-2">
-                            <input type="text" style="height: 40px" class="form-control"
-                                placeholder="kelurahan atau kecamatan" name="kelurahan" id="search_kecamatan">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-3 mt-2">
+                                <input type="text" style="height: 40px" class="form-control" placeholder="Nama" name="nama" id="search_kelurahan">
+                            </div>
+                            <div class="col-sm-3 mt-2">
+                                <input type="text" style="height: 40px" class="form-control" placeholder="kortps" name="kortps" id="search_kecamatan">
+                            </div>
+                            <div class="col-sm-4 mt-2">
+                                <input type="text" style="height: 40px" class="form-control" placeholder="kelurahan atau kecamatan" name="kelurahan" id="search_kecamatan">
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-primary rounded text-white mt-2 mr-2" style="height: 40px" id="search_btn">Search</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary rounded text-white mt-2 mr-2" style="height: 40px"
-                            id="search_btn">Search</button>
-                    </div>
+                    
+                    
                 </div>
             </form>
         </div>
@@ -85,9 +84,9 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="https://cekdptonline.kpu.go.id/{{$data->nik}}" target="_blank">
+                                    {{-- <a href="https://cekdptonline.kpu.go.id/{{$data->nik}}" target="_blank"> --}}
                                     {{$data->nik}}
-                                    </a>
+                                    {{-- </a> --}}
                                 </td>
                                 <td>
                                     <b>{{$data->kabkotas->nama_kabkota}}</b>

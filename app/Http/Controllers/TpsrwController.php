@@ -10,17 +10,34 @@ class TpsrwController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tps = Tpsrw::withCount(['anggotas as anggotas_count' => function ($query) {
-            $query->where('deleted', '=', 0);
+        $query = Tpsrw::withCount(['anggotas as anggotas_count' => function ($q) {
+            $q->where('deleted', '=', 0);
         },
         'anggotas as verified_anggotas_count' => function ($query) {
             $query->where('verified', '=', 1);
         }])->where('deleted', '=', 0)
         ->with('kelurahans')
-        ->orderBy('created_at', 'desc')
-        ->paginate(15);
+        ->orderBy('created_at', 'desc');
+        // ->paginate(15);
+
+        if ($request->has('kelurahan')) {
+            $nama = $request->input('kelurahan');
+            $query->whereHas('kelurahans', function ($q) use ($nama) {
+                $q->where('nama_kelurahan', 'like', '%' . $nama . '%');
+            });
+        }
+        if ($request->has('kecamatan')) {
+            $nama = $request->input('kecamatan');
+            $query->whereHas('kelurahans', function ($q) use ($nama) {
+                $q->where('kecamatan', 'like', '%' . $nama . '%');
+            });
+        }
+        $tps = $query->paginate(15);
+
+
+        $tps->appends($request->all());
     
 
         // dd($tps);

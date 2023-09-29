@@ -1,27 +1,52 @@
 <table class="table" id="data-table" style="zoom: 0.85;">
     <thead>
         <tr>
-            <th>koordinator : {{$kortps->nama_koordinator}}</th>
+            <td>
+                <B>RAIHAN TARGET KONSTITUEN PER TPS JEJARING KARYAWAN</B>
+            </td>
+        </tr>
+        <tr>
+            <th>koord.Kecamatan : {{$kortps->korhans->koordinators->nama_koordinator}}</th>
+        </tr>
+        <tr>
+            <th>koord.Kelurahan : {{$kortps->korhans->nama_koordinator}}</th>
+        </tr>
+        <tr>
+            <th>koord.TPS : {{$kortps->nama_koordinator}}</th>
+        </tr>
+        <tr>
+            @php
+            $item = $anggota->first();
+            @endphp
+        
+            @if ($item)
+            <th>TPS : {{$item->tps->tps}} - {{$item->tps->kelurahans->nama_kelurahan}} - {{$item->tps->kelurahans->kecamatan}}</th>
+
+            @else
+            <th>TPS : </th>
+            @endif
+        </tr>
+        <tr>
             <th>Konstituante : {{$jumlahAnggota}}</th>
         </tr>
         <tr></tr>
         <tr>
+            <th>No</th>
             <th scope="col">Nama</th>
             <th scope="col">Phone</th>
-            <th scope="col">No KTP/KK</th>
+            <th scope="col">No KTP</th>
             <th scope="col">Tempat/Tgl Lahir</th>
             <th scope="col">Alamat</th>
-            <th scope="col">RT/RW</th>
-            <th scope="col" class="text-center">Tps</th>
-            {{-- <th scope="col">Bertugas</th>  --}}
-            <th scope="col">Phone</th>
-            <th scope="col">Status</th>
-            <th scope="col">Keterangan</th>
+            <th scope="col">RT/RW</th>  
         </tr>
     </thead>
     <tbody>
-        @foreach ($anggota as $data)
+        @php
+            $row = 1;
+        @endphp
+            @foreach ($anggota as $data)
                             <tr>
+                                <td>{{$row++}}</td>
                                 <td>{{$data->nama_anggota}}</td>
                                 <td>{{$data->phone}}</td>
                                 <td>
@@ -35,15 +60,6 @@
                                 </td>
                                 <td>{{$data->alamat}}</td>
                                 <td>{{$data->rt}} / {{$data->rw}}</td>
-                                <td>
-                                    <b>{{$data->tps->tps}} {{$data->tps->kelurahans->nama_kelurahan}}</b>
-                                    <div>
-                                        <small>{{$data->tps->kelurahans->kecamatan}}</small>
-                                    </div>
-                                </td>
-                                <td>{{$data->phone}}</td>
-                                <td>{{$data->status}}</td>
-                                <td>{{$data->keterangan}}</td>
                             </tr>
                         @endforeach
     </tbody>

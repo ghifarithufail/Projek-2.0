@@ -25,12 +25,14 @@ class AnggotaFactory extends Factory
             'alamat' => $this->faker->address(),
             'rt'=> $this->faker->randomDigitNotNull(),
             'rw'=> $this->faker->randomDigitNotNull(),
-            'tpsrw_id'=> 1,
+            'tpsrw_id'=> 50,
             'phone' => $this->faker->unique->randomNumber(9, true),
             'status'=> '1',
             'keterangan'=>'test',
             'koordinator_id'=> 1,
-            'created_at'     => '2023-09-21 12:16:40'
+            'deleted'=> 0,
+            'verified'=> 1,
+            'created_at' => '2024-2-21 12:16:40'
         ];
     }
 }

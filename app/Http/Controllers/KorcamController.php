@@ -38,7 +38,7 @@ class KorcamController extends Controller
             });
         }
 
-        $data = $query->get();
+        $data = $query->paginate(15);
 
         return view('korcam.index', compact('data'));
     }
@@ -63,7 +63,7 @@ class KorcamController extends Controller
                     ->orWhere('kecamatan', 'like', '%' . $nama . '%');
             });
         }
-        $data = $query->get();
+        $data = $query->paginate(15);
 
         return view('korcam.report', compact('data'));
     }

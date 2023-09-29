@@ -71,21 +71,21 @@
                             <th scope="col">Korhan</th>
                             <th scope="col">Keterangan</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Dibuat</th>
                             <th scope="col">TPS</th>
-                            <th scope="col">Anggota</th>
+                            {{-- <th scope="col">Relawan</th> --}}
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($kortps as $item)
+                        @foreach ($item->tps_pivot as $row)
                             <tr>
                                 <td>
-                                    <a href="{{ route('kortps/details', $item->id) }}">
+                                    <a href="{{ route('kortps/details', ['id' => $item->id, 'tps' => $row->id]) }}">
                                         {{ $item->nama_koordinator }}
                                         <div>
                                             <small>{{ $item->phone }}</small>
                                         </div>
-                                    </a>
+                                    </a>                                    
                                 </td>
                                 <td>{{ $item->nik }}</td>
                                 <td>
@@ -117,20 +117,15 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($item->user_id == '1')
-                                        Ghifari
-                                    @endif
-                                <td>
                                     <ul>
-                                        @foreach ($item->tps_pivot as $row)
                                         <a href="{{ route('kortps/detail', $row->id) }}" target="_blank">
                                             <li>{{ $row->tps }} {{ $row->kelurahans->nama_kelurahan }}</li>
                                         </a>
-                                        @endforeach
                                     </ul>
                                 </td>
-                                <td>{{$item->anggotas_count}}</td>
+                                {{-- <td>{{$item->anggotas_count}}</td> --}}
                             </tr>
+                            @endforeach
                         @endforeach
                     </tbody>
                 </table>

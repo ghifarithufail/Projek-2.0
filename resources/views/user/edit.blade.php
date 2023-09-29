@@ -73,14 +73,16 @@
                                         Korhan
                                     @elseif ($user->role == 4)
                                         Kortps
+                                    @elseif ($user->role == 5)
+                                        Owner
                                     @endif
                                 </option>
                                 <option value="2">Korcam</option>
                                 <option value="1">Admin</option>
                                 <option value="3">Korhan</option>
                                 <option value="4">Kortps</option>
+                                <option value="5">Owner</option>
                             </select>
-                            {{-- <input id="role" name="role" type="text" value="{{ $user->role }}" class="form-control"> --}}
                         </div>
                     </div>
 

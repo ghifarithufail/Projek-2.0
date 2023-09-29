@@ -41,27 +41,27 @@ Route::post('/login/store',[LoginController::class, 'login'])->name('login/store
 Route::group(['middleware' => ['auth']], function(){
 
 Route::get('/',[AdminController::class, 'index'])->name('home');
-Route::get('/chart',[DashboardController::class, 'index'])->name('chart');
+Route::get('/chart',[DashboardController::class, 'index'])->name('chart')->middleware('hakakses:1,5');
 Route::get('/admin',[AdminController::class, 'admin'])->name('admin');
 Route::get('/logout',[LoginController::class, 'logout'])->name('logout');
     
-Route::get('/user/create',[LoginController::class, 'create'])->name('user/create')->middleware('hakakses:1');
-Route::get('/user/edit/{id}',[LoginController::class, 'edit'])->name('user/edit')->middleware('hakakses:1');
-Route::get('/user',[LoginController::class, 'index'])->name('user')->middleware('hakakses:1');
-Route::post('/user/store',[LoginController::class, 'store'])->name('user/store')->middleware('hakakses:1');
-Route::post('/user/update/{id}',[LoginController::class, 'update'])->name('user/update')->middleware('hakakses:1');
+Route::get('/user/create',[LoginController::class, 'create'])->name('user/create')->middleware('hakakses:1,5');
+Route::get('/user/edit/{id}',[LoginController::class, 'edit'])->name('user/edit')->middleware('hakakses:1,5');
+Route::get('/user',[LoginController::class, 'index'])->name('user')->middleware('hakakses:1,5');
+Route::post('/user/store',[LoginController::class, 'store'])->name('user/store')->middleware('hakakses:1,5');
+Route::post('/user/update/{id}',[LoginController::class, 'update'])->name('user/update')->middleware('hakakses:1,5');
 
-Route::get('/korcam', [KorcamController::class, 'index'])->name('korcam')->middleware('hakakses:1,2');
-Route::get('korcam/create', [KorcamController::class, 'create'])->name('korcam/create')->middleware('hakakses:1,2');
-Route::post('korcam/store', [KorcamController::class, 'store'])->name('korcam/store')->middleware('hakakses:1,2');
-Route::get('/korcam-report', [KorcamController::class, 'report'])->name('korcam/report')->middleware('hakakses:1');
-Route::get('korcams/{id}', [KorcamController::class, 'show'])->name('korcam/show')->middleware('hakakses:1');
-Route::post('korcams/edit/{id}', [KorcamController::class, 'edit'])->name('korcam/edit')->middleware('hakakses:1');
-Route::get('korcam/detail/{id}', [KorcamController::class, 'detail'])->name('korcam/detail')->middleware('hakakses:1');
-Route::get('korcam/download/{id}', [KorcamController::class, 'download'])->name('korcam/download')->middleware('hakakses:1');
-Route::get('korcam/pdf/{id}', [KorcamController::class, 'pdf'])->name('korcam/pdf')->middleware('hakakses:1');
-Route::get('korcam/excel/{id}', [KorcamController::class, 'excel'])->name('korcam/excel')->middleware('hakakses:1');
-Route::post('korcams/destroy/{id}', [KorcamController::class, 'destroy'])->name('korcam/destroy')->middleware('hakakses:1');
+Route::get('/korcam', [KorcamController::class, 'index'])->name('korcam')->middleware('hakakses:1,2,5');
+Route::get('korcam/create', [KorcamController::class, 'create'])->name('korcam/create')->middleware('hakakses:1,2,5');
+Route::post('korcam/store', [KorcamController::class, 'store'])->name('korcam/store')->middleware('hakakses:1,2,5');
+Route::get('/korcam-report', [KorcamController::class, 'report'])->name('korcam/report')->middleware('hakakses:1,5');
+Route::get('korcams/{id}', [KorcamController::class, 'show'])->name('korcam/show')->middleware('hakakses:1,5');
+Route::post('korcams/edit/{id}', [KorcamController::class, 'edit'])->name('korcam/edit')->middleware('hakakses:1,5');
+Route::get('korcam/detail/{id}', [KorcamController::class, 'detail'])->name('korcam/detail')->middleware('hakakses:1,5');
+Route::get('korcam/download/{id}', [KorcamController::class, 'download'])->name('korcam/download')->middleware('hakakses:1,5');
+Route::get('korcam/pdf/{id}', [KorcamController::class, 'pdf'])->name('korcam/pdf')->middleware('hakakses:1,5');
+Route::get('korcam/excel/{id}', [KorcamController::class, 'excel'])->name('korcam/excel')->middleware('hakakses:1,5');
+Route::post('korcams/destroy/{id}', [KorcamController::class, 'destroy'])->name('korcam/destroy')->middleware('hakakses:1,5');
 
 Route::post('/kelurahans', [KorcamController::class, 'getKelurahan'])->name('get-kelurahan');
 Route::post('/tps', [KorcamController::class, 'getTps'])->name('get-tps');
@@ -73,12 +73,12 @@ Route::post('/get-kabkota', [KorcamController::class, 'getKabkota'])->name('getK
 Route::get('anggota', [AnggotaController::class, 'index'])->name('anggota');
 Route::get('anggota/create', [AnggotaController::class, 'create'])->name('anggota/create');
 Route::post('anggota/store', [AnggotaController::class, 'store'])->name('anggota/store');
-Route::get('anggota/edit/{id}', [AnggotaController::class, 'edit'])->name('anggota/edit')->middleware('hakakses:1');
-Route::post('anggota/update/{id}', [AnggotaController::class, 'update'])->name('anggota/update')->middleware('hakakses:1');
-Route::post('anggota/destroy/{id}', [AnggotaController::class, 'destroy'])->name('anggota/destroy')->middleware('hakakses:1');
-Route::get('anggota/verifikasi', [AnggotaController::class, 'verifikasi'])->name('anggota/verifikasi')->middleware('hakakses:1');
-Route::post('anggota/verifTrue/{id}', [AnggotaController::class, 'verifTrue'])->name('anggota/verifTrue')->middleware('hakakses:1');
-Route::post('anggota/verifFalse/{id}', [AnggotaController::class, 'verifFalse'])->name('anggota/verifFalse')->middleware('hakakses:1');
+Route::get('anggota/edit/{id}', [AnggotaController::class, 'edit'])->name('anggota/edit')->middleware('hakakses:1,5');
+Route::post('anggota/update/{id}', [AnggotaController::class, 'update'])->name('anggota/update')->middleware('hakakses:1,5');
+Route::post('anggota/destroy/{id}', [AnggotaController::class, 'destroy'])->name('anggota/destroy')->middleware('hakakses:1,5');
+Route::get('anggota/verifikasi', [AnggotaController::class, 'verifikasi'])->name('anggota/verifikasi')->middleware('hakakses:1,5');
+Route::post('anggota/verifTrue/{id}', [AnggotaController::class, 'verifTrue'])->name('anggota/verifTrue')->middleware('hakakses:1,5');
+Route::post('anggota/verifFalse/{id}', [AnggotaController::class, 'verifFalse'])->name('anggota/verifFalse')->middleware('hakakses:1,5');
 
 
 Route::get('dapil', [DapilController::class, 'index'])->name('dapil');
@@ -126,29 +126,29 @@ Route::post('tps/destroy/{id}', [TpsrwController::class, 'destroy'])->name('tps/
 
 Route::prefix('korhan')->group(function () {
     // Define your routes here
-    Route::get('/', [KorhanController::class, 'index'])->name('korhan')->middleware('hakakses:1,2,3');
-    Route::get('/create', [KorhanController::class, 'create'])->name('korhan/create')->middleware('hakakses:1,2,3');
-    Route::post('/store', [KorhanController::class, 'store'])->name('korhan/store')->middleware('hakakses:1,2,3')->middleware('hakakses:1');
-    Route::post('/update/{id}', [KorhanController::class, 'update'])->name('korhan/update')->middleware('hakakses:1');
-    Route::get('detail/{id}', [KorhanController::class, 'detail'])->name('korhan/detail')->middleware('hakakses:1');
-    Route::get('details/{id}', [KorhanController::class, 'details'])->name('korhan/details')->middleware('hakakses:1');
-    Route::get('pdf/{id}', [KorhanController::class, 'pdf'])->name('korhan/pdf')->middleware('hakakses:1');
-    Route::get('/report', [KorhanController::class, 'report'])->name('korhan/report')->middleware('hakakses:1');
-    Route::get('/download/{id}', [KorhanController::class, 'download'])->name('korhan/download')->middleware('hakakses:1');
-    Route::get('download/excel/{id}', [KorhanController::class, 'excel'])->name('korhan/excel')->middleware('hakakses:1');
-    Route::post('/destroy/{id}', [KorhanController::class, 'destroy'])->name('korhan/destroy')->middleware('hakakses:1');
+    Route::get('/', [KorhanController::class, 'index'])->name('korhan')->middleware('hakakses:1,2,3,5');
+    Route::get('/create', [KorhanController::class, 'create'])->name('korhan/create')->middleware('hakakses:1,2,3,5');
+    Route::post('/store', [KorhanController::class, 'store'])->name('korhan/store')->middleware('hakakses:1,2,3,5')->middleware('hakakses:1,5');
+    Route::post('/update/{id}', [KorhanController::class, 'update'])->name('korhan/update')->middleware('hakakses:1,5');
+    Route::get('detail/{id}', [KorhanController::class, 'detail'])->name('korhan/detail')->middleware('hakakses:1,5');
+    Route::get('details/{id}', [KorhanController::class, 'details'])->name('korhan/details')->middleware('hakakses:1,5');
+    Route::get('pdf/{id}', [KorhanController::class, 'pdf'])->name('korhan/pdf')->middleware('hakakses:1,5');
+    Route::get('/report', [KorhanController::class, 'report'])->name('korhan/report')->middleware('hakakses:1,5');
+    Route::get('/download/{id}', [KorhanController::class, 'download'])->name('korhan/download')->middleware('hakakses:1,5');
+    Route::get('download/excel/{id}', [KorhanController::class, 'excel'])->name('korhan/excel')->middleware('hakakses:1,5');
+    Route::post('/destroy/{id}', [KorhanController::class, 'destroy'])->name('korhan/destroy')->middleware('hakakses:1,5');
 
 });
 Route::get('korhan/edit/{id}', [KorhanController::class, 'edit'])->name('korhan/edit');
 
 Route::prefix('suara')->group(function () {
 
-    Route::get('/', [SuaraCalegController::class, 'index'])->name('suara')->middleware('hakakses:1');
-    Route::get('/create', [SuaraCalegController::class, 'create'])->name('suara/create')->middleware('hakakses:1');
-    Route::post('/store', [SuaraCalegController::class, 'store'])->name('suara/store')->middleware('hakakses:1');
-    Route::get('/edit/{id}', [SuaraCalegController::class, 'edit'])->name('suara/edit')->middleware('hakakses:1');
-    Route::post('/update/{id}', [SuaraCalegController::class, 'update'])->name('suara/update')->middleware('hakakses:1');
-    Route::post('/destroy/{id}', [SuaraCalegController::class, 'destroy'])->name('suara/destroy')->middleware('hakakses:1');
+    Route::get('/', [SuaraCalegController::class, 'index'])->name('suara')->middleware('hakakses:1,5');
+    Route::get('/create', [SuaraCalegController::class, 'create'])->name('suara/create')->middleware('hakakses:1,5');
+    Route::post('/store', [SuaraCalegController::class, 'store'])->name('suara/store')->middleware('hakakses:1,5');
+    Route::get('/edit/{id}', [SuaraCalegController::class, 'edit'])->name('suara/edit')->middleware('hakakses:1,5');
+    Route::post('/update/{id}', [SuaraCalegController::class, 'update'])->name('suara/update')->middleware('hakakses:1,5');
+    Route::post('/destroy/{id}', [SuaraCalegController::class, 'destroy'])->name('suara/destroy')->middleware('hakakses:1,5');
 
 
 });
@@ -159,19 +159,19 @@ Route::prefix('suara')->group(function () {
 
 Route::prefix('kortps')->group(function () {
     // Define your routes here
-    Route::get('/', [KorTpsController::class, 'index'])->name('kortps')->middleware('hakakses:1,2,3,4');
-    Route::get('/create', [KorTpsController::class, 'create'])->name('kortps/create')->middleware('hakakses:1,2,3,4');
-    Route::post('/store', [KorTpsController::class, 'store'])->name('kortps/store')->middleware('hakakses:1,2,3,4');
-    Route::get('/edit/{id}', [KorTpsController::class, 'edit'])->name('kortps/edit')->middleware('hakakses:1');
-    Route::post('/update/{id}', [KorTpsController::class, 'update'])->name('kortps/update')->middleware('hakakses:1');
-    Route::get('/detail/{id}', [KorTpsController::class, 'detail'])->name('kortps/detail')->middleware('hakakses:1');
-    Route::get('/details/{id}', [KorTpsController::class, 'details'])->name('kortps/details')->middleware('hakakses:1');
-    Route::get('/report', [KorTpsController::class, 'report'])->name('kortps/report')->middleware('hakakses:1');
-    Route::get('/download/{id}', [KorTpsController::class, 'download'])->name('kortps/download')->middleware('hakakses:1');
-    Route::get('/pdf/{id}', [KorTpsController::class, 'pdf'])->name('kortps/pdf')->middleware('hakakses:1');
-    Route::get('/download/excel/{id}', [KorTpsController::class, 'excel'])->name('kortps/excel')->middleware('hakakses:1');
-    Route::get('download-excel/{id}', [KorTpsController::class, 'downloadExcel'])->name('download-excel')->middleware('hakakses:1');
-    Route::post('/destroy/{id}', [KorTpsController::class, 'destroy'])->name('kortps/destroy')->middleware('hakakses:1');
+    Route::get('/', [KorTpsController::class, 'index'])->name('kortps')->middleware('hakakses:1,2,3,4,5');
+    Route::get('/create', [KorTpsController::class, 'create'])->name('kortps/create')->middleware('hakakses:1,2,3,4,5');
+    Route::post('/store', [KorTpsController::class, 'store'])->name('kortps/store')->middleware('hakakses:1,2,3,4,5');
+    Route::get('/edit/{id}', [KorTpsController::class, 'edit'])->name('kortps/edit')->middleware('hakakses:1,5');
+    Route::post('/update/{id}', [KorTpsController::class, 'update'])->name('kortps/update')->middleware('hakakses:1,5');
+    Route::get('/detail/{id}', [KorTpsController::class, 'detail'])->name('kortps/detail')->middleware('hakakses:1,5');
+    Route::get('/details/{id}/{tps}', [KorTpsController::class, 'details'])->name('kortps/details')->middleware('hakakses:1,5');
+    Route::get('/report', [KorTpsController::class, 'report'])->name('kortps/report')->middleware('hakakses:1,5');
+    Route::get('/download/{id}', [KorTpsController::class, 'download'])->name('kortps/download')->middleware('hakakses:1,5');
+    Route::get('/pdf/{id}/{tps}', [KorTpsController::class, 'pdf'])->name('kortps/pdf')->middleware('hakakses:1,5');
+    Route::get('/download/excel/{id}/{tps}', [KorTpsController::class, 'excel'])->name('kortps/excel')->middleware('hakakses:1,5');
+    Route::get('download-excel/{id}/{tps}', [KorTpsController::class, 'downloadExcel'])->name('download-excel')->middleware('hakakses:1,5');
+    Route::post('/destroy/{id}', [KorTpsController::class, 'destroy'])->name('kortps/destroy')->middleware('hakakses:1,5');
 
 
 });

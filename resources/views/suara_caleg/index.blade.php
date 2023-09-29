@@ -35,6 +35,7 @@
                             <th scope="col">DPR RI</th>
                             <th scope="col">DPR PROV</th>
                             <th scope="col">DPRD</th>
+                            <th scope="col">Target</th>
                             <th scope="col">Photo</th>
                             <th scope="col" class="text-center">Action</th>
                         </tr>
@@ -49,6 +50,7 @@
                                 <td>{{$data->dpr_ri}}</td>
                                 <td>{{$data->dpr_prov}}</td>
                                 <td>{{$data->dprd}}</td>
+                                <td>{{$data->tpsrws->target}}</td>
                                 <td>
                                     <img src="{{asset('uploads/' . $data->photo)}}" width="100" style="border-radius: 20%;">
                                 </td>

@@ -377,7 +377,7 @@ main .card .head p {
 }
 main .card .head .icon {
 	font-size: 20px;
-	color: var(--green);
+	color: var(--dark);
 }
 main .card .head .icon.down {
 	color: var(--red);

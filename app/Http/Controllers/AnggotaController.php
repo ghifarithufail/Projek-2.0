@@ -189,7 +189,7 @@ class AnggotaController extends Controller
         ->whereHas('koordinators.korhans.koordinators', function ($q){
             $q->where('deleted', '0');
         })
-        ->orderBy('created_at', 'desc')->paginate(15);
+        ->orderBy('verified', 'asc')->paginate(15);
 
         return view('anggota.verifikasi', compact('anggota'));
     }

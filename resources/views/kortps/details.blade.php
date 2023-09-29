@@ -5,16 +5,24 @@
 
     <div class="data">
         <div class="content-data">
-            <h3 style="text-align: center;">Koordinator {{ $kortps->nama_koordinator }}</h3>
+            @if ($anggota->isNotEmpty())
+                <h3 style="text-align: center;">KOORDINATOR TPS {{ $anggota->first()->tps->tps }}
+                    {{ $anggota->first()->tps->kelurahans->nama_kelurahan }} : {{ strtoupper($kortps->nama_koordinator) }} 
+                </h3>
+            @else
+                <h3 style="text-align: center;">Koordinator {{ strtoupper($kortps->nama_koordinator) }} </h3>
+            @endif
             <hr>
             <form>
                 <div class="card-body d-flex justify-content-center">
                     <div class="form-group row">
                         <div class="col-sm-4 mt-2">
-                            <input type="text" style="height: 40px" class="form-control" placeholder="Nama" name="nama" id="search_kelurahan">
+                            <input type="text" style="height: 40px" class="form-control" placeholder="Nama" name="nama"
+                                id="search_kelurahan">
                         </div>
                         <div class="col-sm-4 mt-2">
-                            <input type="text" style="height: 40px" class="form-control" placeholder="NIK" name="nik" id="search_kecamatan">
+                            <input type="text" style="height: 40px" class="form-control" placeholder="NIK" name="nik"
+                                id="search_kecamatan">
                         </div>
                         <div class="col-sm-3 mt-2">
                             <select class="form-select" name="verifikasi" aria-label="Default select example">
@@ -26,7 +34,8 @@
                         </div>
                     </div>
                     <div class="col d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary rounded text-white mt-2 mr-2" style="height: 40px" id="search_btn" >Search</button>
+                        <button type="submit" class="btn btn-primary rounded text-white mt-2 mr-2" style="height: 40px"
+                            id="search_btn">Search</button>
                         {{-- <button type="button" class="btn btn-warning rounded text-white" id="reset_btn" style="background-color: #d9d682; margin-left: 20px">Reset</button> --}}
                     </div>
                 </div>
@@ -41,17 +50,23 @@
                 <div class="row">
                     <div class="col">
                         <div class="text-center">
-                            <a href="{{ route('kortps/excel', ['id' => $kortps->id]) }}">
+                            @if ($anggota->isNotEmpty() && $anggota->first()->tps)
+                            <a href="{{ route('kortps/excel', ['id' => $kortps->id, 'tps' => $anggota->first()->tps->id]) }}">
                                 <button type="button" class="btn btn-success"
                                     style="zoom: 0.7; width: 100px">EXCEL</button>
                             </a>
+                            @endif
                         </div>
                     </div>
                     <div class="col">
                         <div class="text-center">
-                            <a href="{{ route('kortps/pdf', ['id' => $kortps->id]) }}" target="_blank">
-                                <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
-                            </a>
+                            @if ($anggota->isNotEmpty() && $anggota->first()->tps)
+                                <a href="{{ route('kortps/pdf', ['id' => $kortps->id, 'tps' => $anggota->first()->tps->id]) }}"
+                                    target="_blank" id="pdfLink">
+                                    <button type="button" class="btn btn-danger"
+                                        style="zoom: 0.7; width: 100px">PDF</button>
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -75,8 +90,15 @@
                     <div style="display: inline-block; margin-right: 20px;">
                         <b>Konstituante : {{ $jumlahAnggota }}</b>
                     </div>
-                    <div style="display: inline-block;">
+                    <div style="display: inline-block;  margin-right: 20px;">
                         <b>Terverifikasi : {{ $verifiedCount }}</b>
+                    </div>
+                    <div style="display: inline-block;">
+                        @if ($anggota->isNotEmpty())
+                            <b>Target : {{ $anggota->first()->tps->target }}</b>
+                        @else
+                            <b>Target : </b>
+                        @endif
                     </div>
                 </div>
 
@@ -92,7 +114,7 @@
                             {{-- <th scope="col">Bertugas</th>  --}}
                             <th scope="col">Status</th>
                             <th scope="col">Keterangan</th>
-                            <th scope="col">Verifikasi</th>
+                            <th scope="col">Relawan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,10 +145,18 @@
                                         <small>{{ $data->tps->kelurahans->kecamatan }}</small>
                                     </div>
                                 </td>
-                                <td>{{ $data->status }}</td>
+                                <td>
+                                    @if ($data->status == '0')
+                                        Aktif
+                                    @elseif($data->status == '1')
+                                        Tidak Aktif
+                                    @elseif($data->status == '2')
+                                        Keluar
+                                    @endif
+                                </td>
                                 <td>{{ $data->keterangan }}</td>
                                 <td>
-                                    @if ($data->verified == 0) 
+                                    @if ($data->verified == 0)
                                         Belum Diverifikasi
                                     @elseif($data->verified == 1)
                                         Berhasil Verifikasi
@@ -142,4 +172,16 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('pdfLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            const pdfUrl = this.getAttribute('href');
+
+            const newWindow = window.open(pdfUrl, '_blank');
+
+            newWindow.addEventListener('load', function() {
+                newWindow.print();
+            });
+        });
+    </script>
 @endsection

@@ -5,8 +5,25 @@
 
     <div class="data">
         <div class="content-data">
-
             <h3 style="text-align: center;">Data TPS</h3>
+            <hr>
+            <form>
+                <div class="card-body d-flex justify-content-center">
+                    <div class="form-group row">
+                        <div class="col-sm-6 mt-2">
+                            <input type="text" style="height: 40px" class="form-control" placeholder="kelurahan" name="kelurahan" id="search_kecamatan">
+                        </div>
+                        <div class="col-sm-5 mt-2">
+                            <input type="text" style="height: 40px" class="form-control" placeholder="kecamatan" name="kecamatan" id="search_kecamatan">
+                        </div>
+                        
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary rounded text-white mt-2 mr-2" style="height: 40px" id="search_btn" >Search</button>
+                        {{-- <button type="button" class="btn btn-warning rounded text-white" id="reset_btn" style="background-color: #d9d682; margin-left: 20px">Reset</button> --}}
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

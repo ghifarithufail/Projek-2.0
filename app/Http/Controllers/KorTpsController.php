@@ -187,6 +187,7 @@ class KorTpsController extends Controller
         return view('kortps.detail', compact('tpsrw'));
     }
     public function report(Request $request){
+        
         $query = KorTps::where('deleted','0')
         ->whereHas('korhans', function ($q){
             $q->where('deleted', '0');
@@ -220,12 +221,16 @@ class KorTpsController extends Controller
         return view('kortps.report', compact('kortps'));
     }
 
-    public function details(Request $request,$id){
+    public function details(Request $request,$id,$tps){
 
         
         $query = Anggota::where('koordinator_id', $id)
+        ->where('tpsrw_id', $tps)
         ->with('kabkotas','tps','koordinators')
-        ->where('deleted', '0');
+        ->where('deleted', '0')
+        ->where('tpsrw_id', $tps);
+
+
         if ($request->has('nama')) {
             $nama = $request->input('nama');
             $query->where('nama_anggota', 'like', '%' . $nama . '%');
@@ -239,14 +244,13 @@ class KorTpsController extends Controller
             $query->where('verified','like', '%' . $status . '%');
         }
 
-
         $anggota = $query->paginate(15);
-
 
         $kortps = KorTps::find($id);
         $jumlahAnggota = $anggota->total(); 
 
         $verifiedCount = Anggota::where('koordinator_id', $id)
+        ->where('tpsrw_id', $tps)
         ->where('deleted', '0')
         ->where('verified', '1')
         ->count();
@@ -255,11 +259,12 @@ class KorTpsController extends Controller
         return view('kortps.details', compact('anggota', 'kortps', 'jumlahAnggota', 'verifiedCount'));
     }
 
-    public function pdf($id){
+    public function pdf($id,$tps){
         $anggota = Anggota::where('koordinator_id',$id)
         ->with('kabkotas','tps','koordinators')
         ->where('deleted', '0')
         ->where('verified','1')
+        ->where('tpsrw_id',$tps)
         ->get();
 
         $kortps = KorTps::find($id);
@@ -270,16 +275,17 @@ class KorTpsController extends Controller
         return view('kortps.pdf', compact('anggota','kortps','jumlahAnggota'));
     }
 
-    public function excel($id)
+    public function excel($id,$tps)
     {
 
         $anggota = Anggota::find($id);
         $nama = $anggota->nama_anggota;
         $tanggal = Carbon::today()->format('D d-M-Y');
         $filters = $id;
+        $request = $tps;
         $name    = 'kortps '. $nama . ' '. $tanggal . '.xlsx';
-        // dd($filters);
-        return Excel::download(new KortpsExport($filters), $name);
+ 
+        return Excel::download(new KortpsExport($filters,$request), $name);
 
     }
 

@@ -58,6 +58,7 @@
                 <div style="display: inline-block;">
                     <b>Konstituante : {{$jumlahKonstituante}}</b>
                 </div>
+                
                 <table class="table" style="zoom: 0.7">
                     <thead>
                         <tr>

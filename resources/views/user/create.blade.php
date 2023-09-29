@@ -60,6 +60,7 @@
                                 <option value="2">Korcam</option>
                                 <option value="3">Korhan</option>
                                 <option value="4">Kortps</option>
+                                <option value="5">Owner</option>
                             </select>
                             {{-- <input id="role" name="role" type="text" value="{{ old('role') }}" class="form-control"> --}}
                         </div>

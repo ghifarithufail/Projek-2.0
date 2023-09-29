@@ -43,6 +43,9 @@
                 <div class="mb-3" style="display: inline-block; margin-right: 20px;">
                     <b>Target : {{$tpsrw->target}}</b>
                 </div>
+                <div class="mb-3" style="display: inline-block; margin-right: 20px;">
+                    <b>Konstituante : {{$tpsrw->anggotas_count}}</b>
+                </div>
                 <table class="table" style="zoom: 0.7">
                     <thead>
                         <tr>
@@ -54,15 +57,15 @@
                             <th scope="col">Kelurahan / Kecamatan</th>
                             <th scope="col">Korhan</th> 
                             <th scope="col">Korcam</th> 
-                            <th scope="col">Anggota</th> 
-                            <th scope="col">Terverifikasi</th> 
+                            {{-- <th scope="col">Relawan</th>  --}}
+                            {{-- <th scope="col">Terverifikasi</th>  --}}
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($tpsrw->kortps->where('deleted', 0) as $item)
                         <tr>
                             <td>
-                                <a href="{{ route('kortps/details', $item->id) }}" target="_blank">
+                                <a href="{{ route('kortps/details', ['id' => $item->id, 'tps' => $tpsrw->id] ) }}" target="_blank">
                                 {{$item->nama_koordinator}}
                                 <div>
                                     <small>{{$item->phone}}</small>
@@ -90,8 +93,8 @@
                                 {{$item->korhans->nama_koordinator}}
                             </td>
                             <td>{{$item->korhans->koordinators->nama_koordinator}}</td>
-                            <td>{{$tpsrw->anggotas_count}}</td>
-                            <td>{{$tpsrw->anggotas_verified}}</td>
+                            {{-- <td>{{$tpsrw->anggotas_count}}</td> --}}
+                            {{-- <td>{{$tpsrw->anggotas_verified}}</td> --}}
                         </tr>
                         @endforeach
                     </tbody>
