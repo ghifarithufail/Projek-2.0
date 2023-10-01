@@ -75,7 +75,7 @@ class KonstituanteBulananChart
             ->setTitle('Data Konstituante')
             ->setSubtitle('Total Konstituante 2023 - 2024.')
             ->addData('Konstituante', $dataTotalAnggota)
-            ->addData('Verifikasi', $dataTotalVerifikasi)
+            ->addData('Berhasil Verifikasi', $dataTotalVerifikasi)
             // ->addData('Korcam', $dataTotalKorcam)
             ->setHeight(250)
             ->setXAxis($dataBulan)

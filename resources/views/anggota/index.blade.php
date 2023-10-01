@@ -34,8 +34,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
                 </div>
             </form>
         </div>
@@ -111,9 +109,9 @@
                                     <a href="{{ route('anggota/edit', $data->id) }}"
                                         class="btn btn-warning edit m-1" style="width: 90px">Edit
                                     </a>
-                                    <form method="POST" action="{{ route('anggota/destroy', $data->id) }}" style="display: inline;">
+                                    <form id="deleteForm" method="POST" action="{{ route('anggota/destroy', $data->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="btn btn-danger edit m-1" style="width: 90px">Delete</button>
+                                        <button type="button" class="btn btn-danger delete m-1" style="width: 90px" onclick="confirmDelete('{{ $data->nama_anggota }}')">Delete</button>
                                     </form>
                                 </td>
                                 @endif
@@ -122,8 +120,25 @@
                     </tbody>
                 </table>
                 {{$anggota->links()}}
-
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function confirmDelete(itemName) {
+            swal({
+                title: "Apakah anda yakin?",
+                text: "Ingin menghapus data Konstituante " + itemName,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    // If the user confirms, submit the form
+                    document.getElementById('deleteForm').submit();
+                }
+            });
+        }
+    </script>
 @endsection

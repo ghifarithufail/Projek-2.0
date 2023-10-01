@@ -27,10 +27,10 @@
              <a href="{{ route('suara') }}"><i class='bx bxs-user icon'></i> Suara Caleg</a>
          </li>
          <li>
-             <a href="{{ route('anggota') }}"><i class='bx bxs-user icon'></i> Relawan</a>
+             <a href="{{ route('anggota') }}"><i class='bx bxs-user icon'></i> Konstituante</a>
          </li>
          <li>
-             <a href="{{ route('anggota/verifikasi') }}"><i class='bx bxs-user icon'></i>Verifikasi Relawan</a>
+             <a href="{{ route('anggota/verifikasi') }}"><i class='bx bxs-user icon'></i>Verifikasi Konstituante</a>
          </li>
          {{-- <li>
              <a href="{{ route('dapil') }}"><i class='bx bxs-building icon'></i> Dapil</a>
@@ -152,10 +152,10 @@
              <a href="{{ route('suara') }}"><i class='bx bxs-user icon'></i> Suara Caleg</a>
          </li>
          <li>
-             <a href="{{ route('anggota') }}"><i class='bx bxs-user icon'></i> Relawan</a>
+             <a href="{{ route('anggota') }}"><i class='bx bxs-user icon'></i> Konstituante</a>
          </li>
          <li>
-             <a href="{{ route('anggota/verifikasi') }}"><i class='bx bxs-user icon'></i>Verifikasi Relawan</a>
+             <a href="{{ route('anggota/verifikasi') }}"><i class='bx bxs-user icon'></i>Verifikasi Konstituante</a>
          </li>
          <li class="divider" data-text="Report">Report</li>
 

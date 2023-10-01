@@ -78,7 +78,6 @@
                             <th scope="col">Korcam</th> 
                             <th scope="col">Keterangan</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Dibuat</th>
                             <th scope="col">TPS</th>
                             @if (Auth::user()->role == '1')
                             <th scope="col" class="text-center">Action</th>
@@ -123,10 +122,6 @@
                                 @endif
                             </td>
                             <td>
-                                @if ($item->user_id == '1')
-                                    Ghifari
-                                @endif
-                            <td>
                                 <ul>
                                 @foreach ($item->pivot_korhans as $row)
                                     <li>{{$row->tps}} {{$row->kelurahans->nama_kelurahan}}</li>
@@ -138,9 +133,10 @@
                                 <a href="{{ route('korhan/edit', $item->id) }}"
                                     class="btn btn-warning edit m-1" style="width: 90px">Edit
                                 </a>
-                                <form method="POST" action="{{ route('korhan/destroy', $item->id) }}" style="display: inline;">
+                                <form id="deleteForm" method="POST" action="{{ route('korhan/destroy', $item->id) }}" style="display: inline;">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger edit m-1" style="width: 90px">Delete</button>
+                                    <button type="button" class="btn btn-danger delete m-1" style="width: 90px" onclick="confirmDelete('{{ $item->nama_koordinator }}')">Delete</button>
+
                                 </form>
                             </td>
                             @endif
@@ -149,8 +145,24 @@
                     </tbody>
                 </table>
                 {{$korhan->links()}}
-
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function confirmDelete(itemName) {
+            swal({
+                title: "Apakah anda yakin?",
+                text: "Ingin menghapus data koordinator " + itemName,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    document.getElementById('deleteForm').submit();
+                }
+            });
+        }
+    </script>
 @endsection

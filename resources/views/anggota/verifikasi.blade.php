@@ -7,6 +7,27 @@
         <div class="content-data">
 
             <h3 style="text-align: center;">Verifikasi Konstituante</h3>
+            <hr>
+            <form>
+                <div class="card-body d-flex justify-content-center">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-3 mt-2">
+                                <input type="text" style="height: 40px" class="form-control" placeholder="Nama" name="nama" id="search_kelurahan">
+                            </div>
+                            <div class="col-sm-3 mt-2">
+                                <input type="text" style="height: 40px" class="form-control" placeholder="kortps" name="kortps" id="search_kecamatan">
+                            </div>
+                            <div class="col-sm-4 mt-2">
+                                <input type="text" style="height: 40px" class="form-control" placeholder="kelurahan atau kecamatan" name="kelurahan" id="search_kecamatan">
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-primary rounded text-white mt-2 mr-2" style="height: 40px" id="search_btn">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -73,20 +94,31 @@
                                 <td>{{$data->status}}</td>
                                 <td>{{$data->keterangan}}</td>
                                 <td>{{$data->koordinators->nama_koordinator}}</td>
-                                <td>
+                                <td class="text-center">
                                     @if ($data->verified == 0)
-                                        <form method="POST" action="{{ route('anggota/verifTrue', $data->id) }}"
+                                        {{-- <form id="suksesVerifikasi" method="POST" action="{{ route('anggota/verifTrue', $data->id) }}"
                                             style="display: inline;">
                                             @csrf
-                                            <button type="submit" class="btn btn-success edit m-1"
+                                            <button type="submit" onclick="suksesVerifikasi('{{ $item->nama_anggota }}')" class="btn btn-success sukses m-1"
                                                 style="width: 90px">Berhasil</button>
+                                        </form> --}}
+
+                                        <form id="deleteForm" method="POST" action="{{ route('anggota/verifTrue', $data->id) }}" style="display: inline;">
+                                            @csrf
+                                            <button type="button" class="btn btn-success delete m-1" style="width: 90px" onclick="confirmDelete('{{ $data->nama_anggota }}')">Berhasil</button>
                                         </form>
-                                        <form method="POST" action="{{ route('anggota/verifFalse', $data->id) }}"
+
+                                        <form id="failedForm" method="POST" action="{{ route('anggota/verifFalse', $data->id) }}" style="display: inline;">
+                                            @csrf
+                                            <button type="button" class="btn btn-danger failed m-1" style="width: 90px" onclick="confirmFailed('{{ $data->nama_anggota }}')">Gagal</button>
+                                        </form>
+
+                                        {{-- <form method="POST" action="{{ route('anggota/verifFalse', $data->id) }}"
                                             style="display: inline;">
                                             @csrf
                                             <button type="submit" class="btn btn-danger edit m-1"
                                                 style="width: 90px">Gagal</button>
-                                        </form>
+                                        </form> --}}
                                     @elseif($data->verified == 1)
                                         Berhasil
                                     @elseif($data->verified == 2)
@@ -99,8 +131,38 @@
                     </tbody>
                 </table>
                 {{$anggota->links()}}
-
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function confirmDelete(itemName) {
+            swal({
+                title: "Apakah anda yakin?",
+                text: "Bahwa data ini lolos verifikasi " + itemName,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    document.getElementById('deleteForm').submit();
+                }
+            });
+        }
+        function confirmFailed(itemName) {
+            swal({
+                title: "Apakah anda yakin?",
+                text: "Bahwa data ini Gagal verifikasi " + itemName,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    document.getElementById('failedForm').submit();
+                }
+            });
+        }
+    </script>
 @endsection

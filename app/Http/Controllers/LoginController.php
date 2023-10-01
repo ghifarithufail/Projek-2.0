@@ -56,10 +56,14 @@ class LoginController extends Controller
     }
 
     public function login(Request $request){
-        if(Auth::attempt($request->only('password','username'))){
+        $credentials = $request->only('password', 'username');
+    
+        // Attempt to authenticate the user
+        if(Auth::attempt($credentials) && Auth::user()->status == 0){
             return redirect('/');
         }
-
+    
+        // If authentication fails or the status is not 0, redirect back to login
         return redirect('/login');
     }
 

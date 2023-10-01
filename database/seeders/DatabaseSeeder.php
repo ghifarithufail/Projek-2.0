@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(8200)->create();
 
         // Anggota::factory(70000)->create();
-        // Korcam::factory(1000)->create();
+        Korcam::factory(25)->create();
         // Korhan::factory(3000)->create();
         // KorTps::factory(5000)->create();
         

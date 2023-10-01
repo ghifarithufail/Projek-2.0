@@ -127,9 +127,9 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="https://cekdptonline.kpu.go.id/{{ $data->nik }}" target="_blank">
+                                    {{-- <a href="https://cekdptonline.kpu.go.id/{{ $data->nik }}" target="_blank"> --}}
                                         {{ $data->nik }}
-                                    </a>
+                                    {{-- </a> --}}
                                 </td>
                                 <td>
                                     <b>{{ $data->kabkotas->nama_kabkota }}</b>

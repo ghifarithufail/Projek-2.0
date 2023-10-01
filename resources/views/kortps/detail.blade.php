@@ -44,7 +44,10 @@
                     <b>Target : {{$tpsrw->target}}</b>
                 </div>
                 <div class="mb-3" style="display: inline-block; margin-right: 20px;">
-                    <b>Konstituante : {{$tpsrw->anggotas_count}}</b>
+                    <b>Konstituante : {{number_format($tpsrw->anggotas_count)}}</b>
+                </div>
+                <div class="mb-3" style="display: inline-block; margin-right: 20px;">
+                    <b>Terverifikasi : {{number_format($tpsrw->anggotas_verified)}}</b>
                 </div>
                 <table class="table" style="zoom: 0.7">
                     <thead>

@@ -144,9 +144,9 @@
                                     <a href="{{ route('kortps/edit', $item->id) }}" class="btn btn-warning edit m-1"
                                         style="width: 90px">Edit
                                     </a>
-                                    <form method="POST" action="{{ route('kortps/destroy', $item->id) }}" style="display: inline;">
+                                    <form id="deleteForm" method="POST" action="{{ route('kortps/destroy', $item->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="btn btn-danger edit m-1" style="width: 90px">Delete</button>
+                                        <button type="button" class="btn btn-danger delete m-1" style="width: 90px" onclick="confirmDelete('{{ $item->nama_koordinator }}')">Delete</button>
                                     </form>
                                 </td>
                                 @endif
@@ -157,4 +157,21 @@
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function confirmDelete(itemName) {
+            swal({
+                title: "Apakah anda yakin?",
+                text: "Ingin menghapus data koordinator " + itemName,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    document.getElementById('deleteForm').submit();
+                }
+            });
+        }
+    </script>
 @endsection

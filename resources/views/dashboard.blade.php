@@ -60,7 +60,7 @@
             <div class="head">
                 <div>
                     <h2>{{number_format($verifikasi)}}</h2>
-                    <p>ANGGOTA VERIFIKASI</p>
+                    <p>ANGGOTA BERHASIL VERIFIKASI</p>
                 </div>
                 <i class='bx bxs-user-check icon' ></i>
             </div>
