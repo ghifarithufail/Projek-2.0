@@ -76,7 +76,7 @@ class KorTpsController extends Controller
             'nama_koordinator' => 'required',
             'phone' => 'required',
             'nik' => 'required|unique:kor_tps,nik',
-            'nokk' => 'required',
+            'nokk' => 'nullable',
             'kabkota_id' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',
@@ -84,26 +84,29 @@ class KorTpsController extends Controller
             'rw' => 'required',
             'kelurahan_id' => 'required',
             'status' => 'required',
-            'keterangan' => 'required',
+            'keterangan' => 'nullable',
             // 'user_id' => 'required',
             'kelurahan_id' => 'required',
             'korhan_id' => 'required',
+            'status_karyawan' => 'required',
+
             // 'tps_id' => 'required',
         ], [
             'nama_koordinator.required' => 'nama harus diisi',
             'phone.required' => 'No Telpon harus diisi',
             'nik.required' => 'NIK harus diisi',
             'nik.unique' => 'NIK sudah terdaftar.',
-            'nokk.required' => 'KK harus diisi',
+            // 'nokk.required' => 'KK harus diisi',
             'kabkota_id.required' => 'KABKOTA harus diisi',
             'tgl_lahir.required' => 'Tanggal Lahir harus diisi',
             'rt.required' => 'RT harus diisi',
             'rw.required' => 'RW harus diisi',
             'kelurahan_id.required' => 'KELURAHAN harus diisi',
             'status.required' => 'Status harus diisi',
-            'keterangan.required' => 'Keterangan harus diisi',
+            // 'keterangan.required' => 'Keterangan harus diisi',
             'alamat.required' => 'Alamat  harus diisi',
             'korhan_id.required' => 'korhan  harus diisi',
+            'status_karyawan.required' => 'Status karyawan harus diisi',
             // 'tps_id.required' => 'TPS  harus diisi',
         ]);
 
@@ -147,7 +150,7 @@ class KorTpsController extends Controller
             'nama_koordinator' => 'required',
             'phone' => 'required',
             'nik' => 'required',
-            'nokk' => 'required',
+            'nokk' => 'nullable',
             'kabkota_id' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',
@@ -155,10 +158,11 @@ class KorTpsController extends Controller
             'rw' => 'required',
             'kelurahan_id' => 'required',
             'status' => 'required',
-            'keterangan' => 'required',
+            'keterangan' => 'nullable',
             // 'user_id' => 'required',
             'kelurahan_id' => 'required',
             'korhan_id' => 'required',
+            'status_karyawan' => 'required',
         ]);
 
         $kortps = KorTps::find($id);
@@ -230,7 +234,6 @@ class KorTpsController extends Controller
         ->where('deleted', '0')
         ->where('tpsrw_id', $tps);
 
-
         if ($request->has('nama')) {
             $nama = $request->input('nama');
             $query->where('nama_anggota', 'like', '%' . $nama . '%');
@@ -254,7 +257,7 @@ class KorTpsController extends Controller
         ->where('deleted', '0')
         ->where('verified', '1')
         ->count();
-    
+
         $anggota->appends($request->all());
         return view('kortps.details', compact('anggota', 'kortps', 'jumlahAnggota', 'verifiedCount'));
     }
@@ -278,15 +281,14 @@ class KorTpsController extends Controller
     public function excel($id,$tps)
     {
 
-        $anggota = Anggota::find($id);
-        $nama = $anggota->nama_anggota;
+        $anggota = KorTps::find($id);
+        $nama = $anggota->nama_koordinator;
         $tanggal = Carbon::today()->format('D d-M-Y');
         $filters = $id;
         $request = $tps;
         $name    = 'kortps '. $nama . ' '. $tanggal . '.xlsx';
  
         return Excel::download(new KortpsExport($filters,$request), $name);
-
     }
 
 

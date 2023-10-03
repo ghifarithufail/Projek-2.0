@@ -62,7 +62,15 @@
                                 <option value="4">Kortps</option>
                                 <option value="5">Owner</option>
                             </select>
-                            {{-- <input id="role" name="role" type="text" value="{{ old('role') }}" class="form-control"> --}}
+                        </div>
+                    </div>
+                    <div class="col-sm-12 mt-3">
+                        <label for="role">role</label>
+                        <div class="form-group">
+                            <select class="form-select" name="role2" aria-label="Default select example">
+                                <option value="" selected>Pilih Status</option>
+                                <option value="4">Kortps</option>
+                            </select>
                         </div>
                     </div>
 

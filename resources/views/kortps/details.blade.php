@@ -85,7 +85,7 @@
                         <b>Korcam : {{ $kortps->korhans->koordinators->nama_koordinator }}</b>
                     </div>
                     <div class="mb-3" style="display: inline-block; margin-right: 20px;">
-                        <b>Korhan : {{ $kortps->korhans->nama_koordinator }}</b>
+                        <b>Korlur : {{ $kortps->korhans->nama_koordinator }}</b>
                     </div>
                     <div style="display: inline-block; margin-right: 20px;">
                         <b>Konstituante : {{ $jumlahAnggota }}</b>

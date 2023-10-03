@@ -74,17 +74,19 @@
                 <table class="table" style="zoom: 0.7">
                     <thead>
                         <tr>
+                            <th scope="col" class="text-center">No</th>
                             <th scope="col">Nama</th>
                             <th scope="col">Phone</th>
                             <th scope="col">No KTP</th>
-                            <th scope="col">Tempat/Tgl Lahir</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">RT/RW</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $no = 1;
+                        @endphp
                         @foreach ($anggota as $data)
                             <tr>
+                                <td class="text-center">{{$no++}}</td>
                                 <td>
                                     {{ $data->nama_anggota }}
                                 </td>
@@ -92,14 +94,6 @@
                                 <td>
                                     {{ $data->nik }}
                                 </td>
-                                <td>
-                                    <b>{{ $data->kabkotas->nama_kabkota }}</b>
-                                    <div>
-                                        <small>{{ $data->tgl_lahir }}</small>
-                                    </div>
-                                </td>
-                                <td>{{ $data->alamat }}</td>
-                                <td>{{ $data->rt }}/{{ $data->rw }}</td>
                             </tr>
                         @endforeach
                     </tbody>

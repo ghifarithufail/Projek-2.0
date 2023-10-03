@@ -141,6 +141,23 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-6 mt-4">
+                            <label for="status">Status Karyawan</label>
+                            <div class="form-group">
+                                <select class="form-select" name="status_karyawan" aria-label="Default select example">
+                                    {{-- <option selected>Pilih Status</option> --}}
+                                    <option value="{{$data->status_karyawan}}">
+                                        @if ($data->status_karyawan == 0)
+                                            Karyawan
+                                        @elseif ($data->status_karyawan == 1)
+                                            Non Karyawan
+                                        @endif
+                                    </option>
+                                    <option value="0">Karyawan</option>
+                                    <option value="1">Non Karyawan</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-sm-6 mt-3">
                             <label for="nama_koordinator">Keterangan</label>
                             <div class="form-group">

@@ -6,6 +6,7 @@ use App\Models\Anggota;
 use App\Models\Kabkota;
 use App\Models\Korcam;
 use App\Models\KorTps;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AnggotaController extends Controller
@@ -80,7 +81,7 @@ class AnggotaController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-        'nokk'=> 'required',
+        'nokk'=> 'nullable',
         'nik'=> 'required|unique:anggotas,nik',
         'nama_anggota'=> 'required',
         'kabkota_id'=> 'required',
@@ -91,21 +92,21 @@ class AnggotaController extends Controller
         'tpsrw_id'=> 'required',
         'phone'=> 'required',
         'status'=> 'required',
-        'keterangan'=> 'required',
+        'keterangan'=> 'nullable',
         'koordinator_id'=> 'required',
         ], [
             'nama_anggota.required' => 'nama harus diisi',
             'phone.required' => 'No Telpon harus diisi',
             'nik.required' => 'NIK harus diisi',
             'nik.unique' => 'NIK sudah terdaftar.',
-            'nokk.required' => 'KK harus diisi',
+            // 'nokk.required' => 'KK harus diisi',
             'kabkota_id.required' => 'KABKOTA harus diisi',
             'tgl_lahir.required' => 'Tanggal Lahir harus diisi',
             'rt.required' => 'RT harus diisi',
             'rw.required' => 'RW harus diisi',
             'kelurahan_id.required' => 'KELURAHAN harus diisi',
             'status.required' => 'Status harus diisi',
-            'keterangan.required' => 'Keterangan harus diisi',
+            // 'keterangan.required' => 'Keterangan harus diisi',
             'alamat.required' => 'Alamat  harus diisi',
             'koordinator_id.required' => 'korhan  harus diisi',
             'tpsrw_id.required' => 'TPS  harus diisi',
@@ -143,7 +144,7 @@ class AnggotaController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'nokk'=> 'required',
+            'nokk'=> 'nullable',
             'nik'=> 'required',
             'nama_anggota'=> 'required',
             'kabkota_id'=> 'required',
@@ -154,7 +155,7 @@ class AnggotaController extends Controller
             'tpsrw_id'=> 'required',
             'phone'=> 'required',
             'status'=> 'required',
-            'keterangan'=> 'required',
+            'keterangan'=> 'nullable',
             'koordinator_id'=> 'required',
             ]);
 

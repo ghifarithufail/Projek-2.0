@@ -25,6 +25,7 @@ class KorTps extends Model
         // 'user_id'  ,
         'kelurahan_id',
         'korhan_id',
+        'status_karyawan',
         'tps_id'
     ];
 

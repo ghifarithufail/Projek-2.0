@@ -86,6 +86,23 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-12 mt-3">
+                        <label for="role">role 2</label>
+                        <div class="form-group">
+                            <select class="form-select" name="role2" aria-label="Default select example" required>
+                                <option value="{{$user->role2}}">
+                                    @if ($user->role2 == 4)
+                                        Kortps
+                                    @elseif ($user->role2 == 5)
+                                        Owner
+                                    @endif
+                                </option>
+                                <option value="4">Kortps</option>
+                                <option value="0">Non aktif</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="mt-4">
                         <button type="submit" class="btn btn-primary btn-block form-control text-white" >Simpan</button>
                     </div>

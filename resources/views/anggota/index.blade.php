@@ -45,9 +45,15 @@
 					<div class="row">
 						<div class="col">
 							<div class="text-right">
+                                @if (Auth::user()->role == '2' && Auth::user()->role2 == '4')
                                 <a href="{{ route('anggota/create') }}">
 								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
                                 </a> 
+                                @elseif (Auth::user()->role == '4')
+                                <a href="{{ route('anggota/create') }}">
+								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
+                                </a>
+                                @endif
 							</div>
 						</div>
 					</div>

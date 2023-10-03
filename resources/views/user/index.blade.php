@@ -60,6 +60,7 @@
                             <th scope="col">Username</th>
                             <th scope="col">Status</th>   
                             <th scope="col">Role</th>
+                            <th scope="col">Role 2</th>
                             @if (Auth::user()->role == '1')
                             <th scope="col" class="text-center">Action</th>
                             @endif
@@ -92,6 +93,15 @@
                                         Kortps
                                     @elseif($data->role == '5')
                                         Owner
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($data->role == '4')
+                                        Kortps
+                                    @elseif($data->role == '0')
+                                        Non Aktif
+                                    @else
+                                        -
                                     @endif
                                 </td>
                                 @if (Auth::user()->role == '1')

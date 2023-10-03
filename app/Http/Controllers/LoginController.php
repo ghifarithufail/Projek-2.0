@@ -50,6 +50,7 @@ class LoginController extends Controller
             'email' => $request->email,
             'status' => $request->status,
             'role' => $request->role,
+            'role2' => $request->role2
         ]);
 
         return redirect()->route('user');

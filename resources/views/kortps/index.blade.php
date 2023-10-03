@@ -79,10 +79,10 @@
                             <th scope="col">Alamat</th>
                             <th scope="col">RT/RW</th>
                             <th scope="col">Kelurahan / Kecamatan</th>
-                            <th scope="col">Korhan</th>
+                            <th scope="col">Korlur</th>
                             <th scope="col">Keterangan</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Dibuat</th>
+                            <th scope="col" class="text-center">Status Karyawan</th>
                             <th scope="col">TPS</th>
                             @if (Auth::user()->role == '1')
                             <th scope="col" class="text-center">Action</th>
@@ -128,10 +128,13 @@
                                         Keluar
                                     @endif
                                 </td>
-                                <td>
-                                    @if ($item->user_id == '1')
-                                        Ghifari
+                                <td class="text-center">
+                                    @if ($item->status_karyawan == '0')
+                                        Karyawan
+                                    @elseif($item->status_karyawan == '1')
+                                        Non Karyawan
                                     @endif
+                                </td>
                                 <td>
                                     <ul>
                                         @foreach ($item->tps_pivot as $row)

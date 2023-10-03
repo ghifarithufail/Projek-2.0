@@ -17,7 +17,7 @@
                      class='bx bx-chevron-right icon-right'></i></a>
              <ul class="side-dropdown">
                  <li><a href="{{ route('korcam') }}"><i class='bx bxs-bank icon'></i> Korcam</a></li>
-                 <li><a href="{{ route('korhan') }}"><i class='bx bxs-school icon'></i> Korhan</a></li>
+                 <li><a href="{{ route('korhan') }}"><i class='bx bxs-school icon'></i> Korlur</a></li>
                  <li><a href="{{ route('kortps') }}"><i class='bx bxs-home icon'></i> Kortps</a></li>
              </ul>
          </li>
@@ -53,7 +53,7 @@
              <a href="{{ route('korcam/report') }}"><i class='bx bxs-file-doc icon'></i> Korcam</a>
          </li>
          <li>
-             <a href="{{ route('korhan/report') }}"><i class='bx bxs-news icon'></i> Korhan</a>
+             <a href="{{ route('korhan/report') }}"><i class='bx bxs-news icon'></i> Korlur</a>
          </li>
          <li>
              <a href="{{ route('kortps/report') }}"><i class='bx bxs-id-card icon'></i> Kortps</a>
@@ -74,7 +74,7 @@
                      class='bx bx-chevron-right icon-right'></i></a>
              <ul class="side-dropdown">
                  <li><a href="{{ route('korcam') }}"><i class='bx bxs-bank icon'></i> Korcam</a></li>
-                 <li><a href="{{ route('korhan') }}"><i class='bx bxs-school icon'></i> Korhan</a></li>
+                 <li><a href="{{ route('korhan') }}"><i class='bx bxs-school icon'></i> Korlur</a></li>
                  <li><a href="{{ route('kortps') }}"><i class='bx bxs-home icon'></i> Kortps</a></li>
              </ul>
          </li>
@@ -95,7 +95,7 @@
              <a href=""><i class='bx bxs-user-check icon'></i> Koordiantor <i
                      class='bx bx-chevron-right icon-right'></i></a>
              <ul class="side-dropdown">
-                 <li><a href="{{ route('korhan') }}"><i class='bx bxs-school icon'></i> Korhan</a></li>
+                 <li><a href="{{ route('korhan') }}"><i class='bx bxs-school icon'></i> Korlur</a></li>
                  <li><a href="{{ route('kortps') }}"><i class='bx bxs-home icon'></i> Kortps</a></li>
              </ul>
          </li>
@@ -142,7 +142,7 @@
                      class='bx bx-chevron-right icon-right'></i></a>
              <ul class="side-dropdown">
                  <li><a href="{{ route('korcam') }}"><i class='bx bxs-bank icon'></i> Korcam</a></li>
-                 <li><a href="{{ route('korhan') }}"><i class='bx bxs-school icon'></i> Korhan</a></li>
+                 <li><a href="{{ route('korhan') }}"><i class='bx bxs-school icon'></i> Korlur</a></li>
                  <li><a href="{{ route('kortps') }}"><i class='bx bxs-home icon'></i> Kortps</a></li>
              </ul>
          </li>
@@ -169,7 +169,7 @@
              <a href="{{ route('korcam/report') }}"><i class='bx bxs-file-doc icon'></i> Korcam</a>
          </li>
          <li>
-             <a href="{{ route('korhan/report') }}"><i class='bx bxs-news icon'></i> Korhan</a>
+             <a href="{{ route('korhan/report') }}"><i class='bx bxs-news icon'></i> Korlur</a>
          </li>
          <li>
              <a href="{{ route('kortps/report') }}"><i class='bx bxs-id-card icon'></i> Kortps</a>

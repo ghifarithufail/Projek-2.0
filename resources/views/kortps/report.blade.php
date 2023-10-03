@@ -68,7 +68,7 @@
                             <th scope="col">Alamat</th>
                             <th scope="col">RT/RW</th>
                             <th scope="col">Kelurahan / Kecamatan</th>
-                            <th scope="col">Korhan</th>
+                            <th scope="col">Korlur</th>
                             <th scope="col">Keterangan</th>
                             <th scope="col">Status</th>
                             <th scope="col">TPS</th>
