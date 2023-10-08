@@ -48,24 +48,16 @@
                 <div class="row">
                     <div class="col">
                         <div class="text-left">
+                            @if (Auth::user()->role != '5')
                             <a href="{{ route('korcam/create') }}">
                                 <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
                             </a>
+                            @endif
                         </div>
                     </div>
                 </div>
-                {{-- <div class="head">
-						<div class="menu">
-							<i class='bx bx-dots-horizontal-rounded icon'></i>
-							<ul class="menu-link">
-								<li><a href="#">PDF</a></li>
-								<li><a href="#">Excel</a></li>
-							</ul>
-						</div>
-					</div> --}}
             </div>
 
-            {{-- </div> --}}
 
             <div>
                 <table class="table" style="zoom: 0.7">
@@ -82,6 +74,9 @@
                             <th scope="col">Status</th>
                             <th scope="col">TPS</th>
                             @if (Auth::user()->role == '1')
+                                <th scope="col" class="text-center">Action</th>
+                            @endif
+                            @if (Auth::user()->role == '5')
                                 <th scope="col" class="text-center">Action</th>
                             @endif
                         </tr>
@@ -136,6 +131,16 @@
                                             <form id="deleteForm" method="POST" action="{{ route('korcam/destroy', $item->id) }}" style="display: inline;">
                                                 @csrf
                                                 <button type="button" class="btn btn-danger delete m-1" style="width: 90px" onclick="confirmDelete('{{ $item->nama_koordinator }}')">Delete</button>
+                                            </form>
+                                    </td>
+                                @endif
+                                @if (Auth::user()->role == '5')
+                                    <td class="text-center">
+                                        <a href="#" class="btn btn-warning edit m-1"
+                                            style="width: 90px">Edit</a>
+                                            <form id="deleteForm" method="POST" action="#" style="display: inline;">
+                                                @csrf
+                                                <button type="button" class="btn btn-danger delete m-1" style="width: 90px">Delete</button>
                                             </form>
                                     </td>
                                 @endif

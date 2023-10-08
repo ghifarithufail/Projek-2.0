@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(KonstituanteBulananChart $chart){
+public function index(KonstituanteBulananChart $chart){
         $user = User::count();
         $korcam = Korcam::count();
         $korhan = Korhan::count();

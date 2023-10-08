@@ -13,23 +13,26 @@ class KortpsExport implements FromView, ShouldAutoSize
 {
     protected $filters;
     protected $request;
+    protected $filterData;
 
-    public function __construct($filters,$request)
+    public function __construct($filters,$request,$filterData)
     {
         $this->filters = $filters;
         $this->request = $request;
-     
+        $this->filterData = $filterData;
+    
     }
 
     public function view(): View
     {
         $filters = $this->filters;
         $request = $this->request;
+        $filterData = $this->filters;
  
 
         $anggota = Anggota::with('kabkotas','tps','koordinators')
         ->where('deleted', '0')
-        ->where('verified','1')
+        ->where('verified',$filterData)
         ->where('koordinator_id', $filters)
         ->where('tpsrw_id', $request);
 
@@ -37,7 +40,7 @@ class KortpsExport implements FromView, ShouldAutoSize
         $kortps = KorTps::find($filters);
         $jumlahAnggota = $anggota->count();
 
-        // dd($data);
+        
         return view('kortps.excel', [
             'anggota' => $anggota->get(),
             'kortps' => $kortps,

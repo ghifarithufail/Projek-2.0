@@ -42,7 +42,7 @@
                         </div>
                         <div class="col">
                             <div class="text-center">
-                                <a href="{{ route('korhan/pdf', ['id' => $data->id]) }}" target="_blank">
+                                <a href="{{ route('korhan/pdf', ['id' => $data->id]) }}" target="_blank" id="pdfLink">
                                     <button type="button" class="btn btn-danger" style="zoom: 0.7; width: 100px">PDF</button>
                                 </a>
                             </div>
@@ -131,4 +131,16 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('pdfLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            const pdfUrl = this.getAttribute('href');
+
+            const newWindow = window.open(pdfUrl, '_blank');
+
+            newWindow.addEventListener('load', function() {
+                newWindow.print();
+            });
+        });
+    </script>
 @endsection

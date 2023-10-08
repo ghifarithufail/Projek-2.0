@@ -50,6 +50,8 @@ Route::get('/user/edit/{id}',[LoginController::class, 'edit'])->name('user/edit'
 Route::get('/user',[LoginController::class, 'index'])->name('user')->middleware('hakakses:1,5');
 Route::post('/user/store',[LoginController::class, 'store'])->name('user/store')->middleware('hakakses:1,5');
 Route::post('/user/update/{id}',[LoginController::class, 'update'])->name('user/update')->middleware('hakakses:1,5');
+Route::post('/user/destroy/{id}', [LoginController::class, 'destroy'])->name('user/destroy');
+
 
 Route::get('/korcam', [KorcamController::class, 'index'])->name('korcam')->middleware('hakakses:1,2,5');
 Route::get('korcam/create', [KorcamController::class, 'create'])->name('korcam/create')->middleware('hakakses:1,2,5');
@@ -169,7 +171,7 @@ Route::prefix('kortps')->group(function () {
     Route::get('/report', [KorTpsController::class, 'report'])->name('kortps/report')->middleware('hakakses:1,5');
     Route::get('/download/{id}', [KorTpsController::class, 'download'])->name('kortps/download')->middleware('hakakses:1,5');
     Route::get('/pdf/{id}/{tps}', [KorTpsController::class, 'pdf'])->name('kortps/pdf')->middleware('hakakses:1,5');
-    Route::get('/download/excel/{id}/{tps}', [KorTpsController::class, 'excel'])->name('kortps/excel')->middleware('hakakses:1,5');
+    Route::get('/download/excel/{id}/{tps}/{filterData}', [KorTpsController::class, 'excel'])->name('kortps/excel')->middleware('hakakses:1,5');
     Route::get('download-excel/{id}/{tps}', [KorTpsController::class, 'downloadExcel'])->name('download-excel')->middleware('hakakses:1,5');
     Route::post('/destroy/{id}', [KorTpsController::class, 'destroy'])->name('kortps/destroy')->middleware('hakakses:1,5');
 

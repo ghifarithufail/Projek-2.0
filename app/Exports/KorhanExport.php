@@ -8,8 +8,9 @@ use App\Models\KorTps;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use App\Models\Reservation;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class KorhanExport implements FromView
+class KorhanExport implements FromView, ShouldAutoSize
 {
     protected $filters;
 

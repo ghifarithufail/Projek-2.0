@@ -69,6 +69,7 @@
                         <div class="form-group">
                             <select class="form-select" name="role2" aria-label="Default select example">
                                 <option value="" selected>Pilih Status</option>
+                                <option value="5">Non Aktif</option>
                                 <option value="4">Kortps</option>
                             </select>
                         </div>

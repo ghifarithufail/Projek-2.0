@@ -96,9 +96,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($data->role == '4')
+                                    @if ($data->role2 == '4')
                                         Kortps
-                                    @elseif($data->role == '0')
+                                    @elseif($data->role2 == '5')
                                         Non Aktif
                                     @else
                                         -
@@ -109,9 +109,10 @@
                                     <a href="{{ route('user/edit', $data->id) }}"
                                         class="btn btn-warning edit m-1" style="width: 90px">Edit
                                     </a>
-                                        <a href="#"
-                                        class="btn btn-danger edit m-1" style="width: 90px">Delete
-                                    </a>
+                                    <form id="deleteForm{{ $data->id }}" method="POST" action="{{ route('user/destroy', $data->id) }}" style="display: inline;">
+                                        @csrf
+                                        <button type="button" class="btn btn-danger delete m-1" style="width: 90px" onclick="confirmDelete('{{ $data->name }}', {{ $data->id }})">Delete</button>
+                                    </form>
                                 </td>
                                 @endif
                             </tr>
@@ -122,4 +123,22 @@
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function confirmDelete(itemName, userId) {
+            swal({
+                title: "Apakah anda yakin?",
+                text: "Ingin menghapus data user " + itemName,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    document.getElementById('deleteForm' + userId).submit();
+                }
+            });
+        }
+
+    </script>
 @endsection

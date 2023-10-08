@@ -71,8 +71,9 @@
                             <th scope="col">Korlur</th>
                             <th scope="col">Keterangan</th>
                             <th scope="col">Status</th>
-                            <th scope="col">TPS</th>
-                            {{-- <th scope="col">Relawan</th> --}}
+                            <th scope="col" class="text-center">TPS</th>
+                            <th scope="col">Konstituante</th>
+                            <th scope="col">Target</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,7 +124,16 @@
                                         </a>
                                     </ul>
                                 </td>
-                                {{-- <td>{{$item->anggotas_count}}</td> --}}
+                                <td class="text-center">
+                                        @if ($item->anggotas_count < $row->target)
+                                            <span class="badge text-bg-warning" style="width: 70px; height: 30px; font-size: 16px; ">{{$item->anggotas_count}}</span>
+                                        @elseif($item->anggotas_count == $row->target)
+                                            <span class="badge text-bg-success" style="width: 70px; height: 30px; font-size: 16px; ">{{$item->anggotas_count}}</span>
+                                        @elseif($item->anggotas_count >$row->target)
+                                            <span class="badge text-bg-danger" style="width: 70px; height: 30px; font-size: 16px; ">{{$item->anggotas_count}}</span>
+                                        @endif
+                                </td>
+                                <td class="text-center">{{ $row->target }}</td>
                             </tr>
                             @endforeach
                         @endforeach

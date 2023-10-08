@@ -53,6 +53,10 @@
                                 <a href="{{ route('anggota/create') }}">
 								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
                                 </a>
+                                @elseif (Auth::user()->role == '1')
+                                <a href="{{ route('anggota/create') }}">
+								    <button type="button" class="btn btn-success" style="zoom: 0.7">Tambah +</button>
+                                </a>
                                 @endif
 							</div>
 						</div>

@@ -25,8 +25,9 @@ class KelurahanController extends Controller
                 'provinsi',
                 'kode_kel',
                 'kelurahans.deleted as kelurahan_deleted', // Specify the table alias
-                DB::raw('COUNT(CASE WHEN anggotas.deleted = 0 THEN anggotas.id END) as anggota_count')
+                // DB::raw('COUNT(CASE WHEN anggotas.deleted = 0 THEN anggotas.id END) as anggota_count')
             )
+            ->selectRaw('COUNT(CASE WHEN anggotas.deleted = 0 THEN anggotas.id END) as anggota_count')
             ->leftJoin('tpsrws', 'kelurahans.id', '=', 'tpsrws.kelurahan_id')
             ->leftJoin('anggotas', function ($join) {
                 $join->on('tpsrws.id', '=', 'anggotas.tpsrw_id')
@@ -34,9 +35,9 @@ class KelurahanController extends Controller
             })
             ->groupBy('kelurahans.id', 'kelurahans.nama_kelurahan');
 
-        // Rest of your query...
+        // $query = Kelurahan::withCount('tpsrws')
 
-
+        dd($query);
 
         if ($request->has('kelurahan')) {
             $search = $request->input('kelurahan');
@@ -48,7 +49,7 @@ class KelurahanController extends Controller
             $query->where('kelurahans.kecamatan', 'like', '%' . $search . '%');
         }
 
-        $kelurahan = $query->paginate(15);
+        $kelurahan = $query->get();
 
         return view('Kelurahan.index', compact('kelurahan'));
     }

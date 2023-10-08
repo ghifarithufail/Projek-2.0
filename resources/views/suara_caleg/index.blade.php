@@ -2,7 +2,17 @@
 @section('content')
     {{-- <h1 class="title text-center">Koordinator Kecamatan</h1> --}}
 
-
+    <style>
+        @media screen and (max-width: 768px) {
+            .data {
+                width: 100%;
+                /* Adjust the width as needed for smaller screens */
+                overflow-x: scroll;
+                /* Allow scrolling on smaller screens */
+            }
+        }
+    </style>
+    
     <div class="data">
         <div class="content-data">
 
@@ -58,9 +68,9 @@
                                     <a href="{{ route('suara/edit', $data->id) }}"
                                         class="btn btn-warning edit m-1" style="width: 90px">Edit
                                     </a>
-                                    <form method="POST" action="{{ route('suara/destroy', $data->id) }}" style="display: inline;">
+                                    <form id="deleteForm" method="POST" action="{{ route('suara/destroy', $data->id) }}" style="display: inline;">
                                         @csrf
-                                        <button type="submit" class="btn btn-danger edit m-1" style="width: 90px">Delete</button>
+                                        <button type="button" class="btn btn-danger delete m-1" style="width: 90px" onclick="confirmDelete('{{ $data->namacaleg }}')">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -70,4 +80,22 @@
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function confirmDelete(itemName) {
+            swal({
+                title: "Apakah anda yakin?",
+                text: "Ingin menghapus data ini" + itemName,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    // If the user confirms, submit the form
+                    document.getElementById('deleteForm').submit();
+                }
+            });
+        }
+    </script>
 @endsection

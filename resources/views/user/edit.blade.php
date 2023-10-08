@@ -89,7 +89,7 @@
                     <div class="col-sm-12 mt-3">
                         <label for="role">role 2</label>
                         <div class="form-group">
-                            <select class="form-select" name="role2" aria-label="Default select example" required>
+                            <select class="form-select" name="role2" aria-label="Default select example">
                                 <option value="{{$user->role2}}">
                                     @if ($user->role2 == 4)
                                         Kortps
@@ -98,7 +98,7 @@
                                     @endif
                                 </option>
                                 <option value="4">Kortps</option>
-                                <option value="0">Non aktif</option>
+                                <option value="5">Non aktif</option>
                             </select>
                         </div>
                     </div>

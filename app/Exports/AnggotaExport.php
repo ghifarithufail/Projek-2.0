@@ -7,8 +7,9 @@ use App\Models\KorTps;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use App\Models\Reservation;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class AnggotaExport implements FromView
+class AnggotaExport implements FromView, ShouldAutoSize
 {
     private $anggota;
     private $kortps;

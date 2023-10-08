@@ -17,7 +17,7 @@ class LoginController extends Controller
     }
 
     public function index(Request $request){
-        $query = User::orderBy('created_at', 'desc');
+        $query = User::orderBy('created_at', 'desc')->where('deleted','0');
 
         if ($request->has('nama')) {
             $nama = $request->input('nama');
@@ -91,6 +91,7 @@ class LoginController extends Controller
             'username' => 'required',
             'status' => 'required',
             'role' => 'required',
+            'role2' => 'nullable',
         ]);
     
         // Perbarui data pengguna yang tidak termasuk kata sandi
@@ -106,6 +107,17 @@ class LoginController extends Controller
         return redirect()->route('user');
     }
     
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
+        
+        $user->deleted = 1;
+        $user->status = 1;
+        $user->save();
+
+        return redirect()->route('user');
+    }
 
 
     // public function update(Request $request, $id){

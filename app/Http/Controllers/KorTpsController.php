@@ -245,6 +245,8 @@ class KorTpsController extends Controller
         if ($request->has('verifikasi')) {
             $status = $request->input('verifikasi');
             $query->where('verified','like', '%' . $status . '%');
+
+            // dd($status);
         }
 
         $anggota = $query->paginate(15);
@@ -278,7 +280,7 @@ class KorTpsController extends Controller
         return view('kortps.pdf', compact('anggota','kortps','jumlahAnggota'));
     }
 
-    public function excel($id,$tps)
+    public function excel($id,$tps,$filterData)
     {
 
         $anggota = KorTps::find($id);
@@ -288,7 +290,7 @@ class KorTpsController extends Controller
         $request = $tps;
         $name    = 'kortps '. $nama . ' '. $tanggal . '.xlsx';
  
-        return Excel::download(new KortpsExport($filters,$request), $name);
+        return Excel::download(new KortpsExport($filters,$request,$filterData), $name);
     }
 
 
