@@ -49,10 +49,11 @@
             <div class="menu d-flex justify-content-end">
                 <div class="row">
                     <div class="col">
+                        <input type="text" id="filterData" value="0" name="filterData"  hidden>
                         <div class="text-center">
                             @if ($anggota->isNotEmpty() && $anggota->first()->tps)
                                 <a
-                                    href="{{ route('kortps/excel', ['id' => $kortps->id, 'tps' => $anggota->first()->tps->id] ) }}">
+                                    href="{{ route('kortps/excel', ['id' => $kortps->id, 'tps' => $anggota->first()->tps->id]) }}">
                                     <button type="button" class="btn btn-success"
                                         style="zoom: 0.7; width: 100px">EXCEL</button>
                                 </a>
@@ -198,6 +199,14 @@
             });
         });
 
+        $('#verifikasi').on('change', function(){
+            var valueVerifikasi = this.value;
+            var valueFilter = document.getElementById('filterData')
+
+            valueFilter.value = valueVerifikasi
+
+            console.log(valueFilter.value);
+        })
     </script>
 
     {{-- <script>

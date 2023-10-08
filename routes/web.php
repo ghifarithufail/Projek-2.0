@@ -171,7 +171,7 @@ Route::prefix('kortps')->group(function () {
     Route::get('/report', [KorTpsController::class, 'report'])->name('kortps/report')->middleware('hakakses:1,5');
     Route::get('/download/{id}', [KorTpsController::class, 'download'])->name('kortps/download')->middleware('hakakses:1,5');
     Route::get('/pdf/{id}/{tps}', [KorTpsController::class, 'pdf'])->name('kortps/pdf')->middleware('hakakses:1,5');
-    Route::get('/download/excel/{id}/{tps}/{filterData}', [KorTpsController::class, 'excel'])->name('kortps/excel')->middleware('hakakses:1,5');
+    Route::get('/download/excel/{id}/{tps}', [KorTpsController::class, 'excel'])->name('kortps/excel')->middleware('hakakses:1,5');
     Route::get('download-excel/{id}/{tps}', [KorTpsController::class, 'downloadExcel'])->name('download-excel')->middleware('hakakses:1,5');
     Route::post('/destroy/{id}', [KorTpsController::class, 'destroy'])->name('kortps/destroy')->middleware('hakakses:1,5');
 
